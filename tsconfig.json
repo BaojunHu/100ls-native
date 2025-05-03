@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+      "types": ["@dcloudio/types", "node"],
+      "baseUrl": "./",
+      "paths": {
+        "@/*": ["./*"]
+      }
+    }
+  }

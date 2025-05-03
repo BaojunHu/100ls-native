@@ -1,0 +1,1404 @@
+{
+  "#FF6609": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "primary-7"
+      ],
+      "body": [
+          "var(--v-color-primary-7);"
+      ]
+  },
+  "#00D16E": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "green-7"
+      ],
+      "body": [
+          "var(--v-color-green-7);"
+      ]
+  },
+  "#FF4252": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "red-7"
+      ],
+      "body": [
+          "var(--v-color-red-7);"
+      ]
+  },
+  "#FFA300": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "yellow-7"
+      ],
+      "body": [
+          "var(--v-color-yellow-7);"
+      ]
+  },
+  "#0055FF": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "blue-7"
+      ],
+      "body": [
+          "var(--v-color-blue-7);"
+      ]
+  },
+  "#FFFFFF": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "blue-grey-1"
+      ],
+      "body": [
+          "var(--v-color-blue-grey-1);"
+      ]
+  },
+  "#FAFAFA": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "grey-2"
+      ],
+      "body": [
+          "var(--v-color-grey-2);"
+      ]
+  },
+  "#F5F5F5": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "grey-3"
+      ],
+      "body": [
+          "var(--v-color-grey-3);"
+      ]
+  },
+  "#EBEBEB": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "grey-4"
+      ],
+      "body": [
+          "var(--v-color-grey-4);"
+      ]
+  },
+  "#E0E0E0": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "grey-5"
+      ],
+      "body": [
+          "var(--v-color-grey-5);"
+      ]
+  },
+  "#C4C4C4": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "grey-6"
+      ],
+      "body": [
+          "var(--v-color-grey-6);"
+      ]
+  },
+  "#9E9E9E": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "grey-7"
+      ],
+      "body": [
+          "var(--v-color-grey-7);"
+      ]
+  },
+  "#757575": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "grey-8"
+      ],
+      "body": [
+          "var(--v-color-grey-8);"
+      ]
+  },
+  "#212121": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "grey-9"
+      ],
+      "body": [
+          "var(--v-color-grey-9);"
+      ]
+  },
+  "#000000": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "grey-10"
+      ],
+      "body": [
+          "var(--v-color-grey-10);"
+      ]
+  },
+  "#FAFCFF": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "blue-grey-2"
+      ],
+      "body": [
+          "var(--v-color-blue-grey-2);"
+      ]
+  },
+  "#F5F7FA": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "blue-grey-3"
+      ],
+      "body": [
+          "var(--v-color-blue-grey-3);"
+      ]
+  },
+  "#EEF0F5": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "blue-grey-4"
+      ],
+      "body": [
+          "var(--v-color-blue-grey-4);"
+      ]
+  },
+  "#E1E3E8": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "blue-grey-5"
+      ],
+      "body": [
+          "var(--v-color-blue-grey-5);"
+      ]
+  },
+  "#B2B7BF": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "blue-grey-6"
+      ],
+      "body": [
+          "var(--v-color-blue-grey-6);"
+      ]
+  },
+  "#888F99": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "blue-grey-7"
+      ],
+      "body": [
+          "var(--v-color-blue-grey-7);"
+      ]
+  },
+  "#3B3E45": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "blue-grey-8"
+      ],
+      "body": [
+          "var(--v-color-blue-grey-8);"
+      ]
+  },
+  "#1F2126": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "blue-grey-9"
+      ],
+      "body": [
+          "var(--v-color-blue-grey-9);"
+      ]
+  },
+  "#0D0E12": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "blue-grey-10"
+      ],
+      "body": [
+          "var(--v-color-blue-grey-10);"
+      ]
+  },
+  "#F7F9FC": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "blue-1"
+      ],
+      "body": [
+          "var(--v-color-blue-1);"
+      ]
+  },
+  "#E6EEFF": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "blue-2"
+      ],
+      "body": [
+          "var(--v-color-blue-2);"
+      ]
+  },
+  "#CCDEFF": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "blue-3"
+      ],
+      "body": [
+          "var(--v-color-blue-3);"
+      ]
+  },
+  "#99BDFF": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "blue-4"
+      ],
+      "body": [
+          "var(--v-color-blue-4);"
+      ]
+  },
+  "#669CFF": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "blue-5"
+      ],
+      "body": [
+          "var(--v-color-blue-5);"
+      ]
+  },
+  "#337AFF": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "blue-6"
+      ],
+      "body": [
+          "var(--v-color-blue-6);"
+      ]
+  },
+  "#0048D9": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "blue-8"
+      ],
+      "body": [
+          "var(--v-color-blue-8);"
+      ]
+  },
+  "#003399": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "blue-9"
+      ],
+      "body": [
+          "var(--v-color-blue-9);"
+      ]
+  },
+  "#002266": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "blue-10"
+      ],
+      "body": [
+          "var(--v-color-blue-10);"
+      ]
+  },
+  "#000C24": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "blue-11"
+      ],
+      "body": [
+          "var(--v-color-blue-11);"
+      ]
+  },
+  "#FFFBFB": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "red-1"
+      ],
+      "body": [
+          "var(--v-color-red-1);"
+      ]
+  },
+  "#FFECEE": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "red-2"
+      ],
+      "body": [
+          "var(--v-color-red-2);"
+      ]
+  },
+  "#FFD9DC": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "red-3"
+      ],
+      "body": [
+          "var(--v-color-red-3);"
+      ]
+  },
+  "#FFB3B9": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "red-4"
+      ],
+      "body": [
+          "var(--v-color-red-4);"
+      ]
+  },
+  "#FF8D97": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "red-5"
+      ],
+      "body": [
+          "var(--v-color-red-5);"
+      ]
+  },
+  "#FF6774": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "red-6"
+      ],
+      "body": [
+          "var(--v-color-red-6);"
+      ]
+  },
+  "#E53B49": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "red-8"
+      ],
+      "body": [
+          "var(--v-color-red-8);"
+      ]
+  },
+  "#992731": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "red-9"
+      ],
+      "body": [
+          "var(--v-color-red-9);"
+      ]
+  },
+  "#661A20": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "red-10"
+      ],
+      "body": [
+          "var(--v-color-red-10);"
+      ]
+  },
+  "#330D10": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "red-11"
+      ],
+      "body": [
+          "var(--v-color-red-11);"
+      ]
+  },
+  "#FAFEFC": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "green-1"
+      ],
+      "body": [
+          "var(--v-color-green-1);"
+      ]
+  },
+  "#E6FAF0": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "green-2"
+      ],
+      "body": [
+          "var(--v-color-green-2);"
+      ]
+  },
+  "#CCF5E2": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "green-3"
+      ],
+      "body": [
+          "var(--v-color-green-3);"
+      ]
+  },
+  "#99ECC5": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "green-4"
+      ],
+      "body": [
+          "var(--v-color-green-4);"
+      ]
+  },
+  "#66E3A8": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "green-5"
+      ],
+      "body": [
+          "var(--v-color-green-5);"
+      ]
+  },
+  "#33DA8B": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "green-6"
+      ],
+      "body": [
+          "var(--v-color-green-6);"
+      ]
+  },
+  "#00BB62": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "green-8"
+      ],
+      "body": [
+          "var(--v-color-green-8);"
+      ]
+  },
+  "#007D42": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "green-9"
+      ],
+      "body": [
+          "var(--v-color-green-9);"
+      ]
+  },
+  "#00532C": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "green-10"
+      ],
+      "body": [
+          "var(--v-color-green-10);"
+      ]
+  },
+  "#002916": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "green-11"
+      ],
+      "body": [
+          "var(--v-color-green-11);"
+      ]
+  },
+  "#FFFDFA": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "yellow-1"
+      ],
+      "body": [
+          "var(--v-color-yellow-1);"
+      ]
+  },
+  "#FFF5E6": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "yellow-2"
+      ],
+      "body": [
+          "var(--v-color-yellow-2);"
+      ]
+  },
+  "#FFECCC": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "yellow-3"
+      ],
+      "body": [
+          "var(--v-color-yellow-3);"
+      ]
+  },
+  "#FFDA99": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "yellow-4"
+      ],
+      "body": [
+          "var(--v-color-yellow-4);"
+      ]
+  },
+  "#FFC766": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "yellow-5"
+      ],
+      "body": [
+          "var(--v-color-yellow-5);"
+      ]
+  },
+  "#FFB533": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "yellow-6"
+      ],
+      "body": [
+          "var(--v-color-yellow-6);"
+      ]
+  },
+  "#E59200": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "yellow-8"
+      ],
+      "body": [
+          "var(--v-color-yellow-8);"
+      ]
+  },
+  "#996100": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "yellow-9"
+      ],
+      "body": [
+          "var(--v-color-yellow-9);"
+      ]
+  },
+  "#664100": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "yellow-10"
+      ],
+      "body": [
+          "var(--v-color-yellow-10);"
+      ]
+  },
+  "#332000": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "yellow-11"
+      ],
+      "body": [
+          "var(--v-color-yellow-11);"
+      ]
+  },
+  "#FEFAFE": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "purple-1"
+      ],
+      "body": [
+          "var(--v-color-purple-1);"
+      ]
+  },
+  "#FEE9FB": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "purple-2"
+      ],
+      "body": [
+          "var(--v-color-purple-2);"
+      ]
+  },
+  "#FED3F7": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "purple-3"
+      ],
+      "body": [
+          "var(--v-color-purple-3);"
+      ]
+  },
+  "#FDA7EF": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "purple-4"
+      ],
+      "body": [
+          "var(--v-color-purple-4);"
+      ]
+  },
+  "#FD7CE7": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "purple-5"
+      ],
+      "body": [
+          "var(--v-color-purple-5);"
+      ]
+  },
+  "#FC50DF": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "purple-6"
+      ],
+      "body": [
+          "var(--v-color-purple-6);"
+      ]
+  },
+  "#FC25D8": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "purple-7"
+      ],
+      "body": [
+          "var(--v-color-purple-7);"
+      ]
+  },
+  "#E221C1": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "purple-8"
+      ],
+      "body": [
+          "var(--v-color-purple-8);"
+      ]
+  },
+  "#971681": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "purple-9"
+      ],
+      "body": [
+          "var(--v-color-purple-9);"
+      ]
+  },
+  "#640E56": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "purple-10"
+      ],
+      "body": [
+          "var(--v-color-purple-10);"
+      ]
+  },
+  "#32072B": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "purple-11"
+      ],
+      "body": [
+          "var(--v-color-purple-11);"
+      ]
+  },
+  "#FFFCFA": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "primary-1"
+      ],
+      "body": [
+          "var(--v-color-primary-1);"
+      ]
+  },
+  "#FFF0E7": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "primary-2"
+      ],
+      "body": [
+          "var(--v-color-primary-2);"
+      ]
+  },
+  "#FFE0CE": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "primary-3"
+      ],
+      "body": [
+          "var(--v-color-primary-3);"
+      ]
+  },
+  "#FFC29D": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "primary-4"
+      ],
+      "body": [
+          "var(--v-color-primary-4);"
+      ]
+  },
+  "#FFA36B": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "primary-5"
+      ],
+      "body": [
+          "var(--v-color-primary-5);"
+      ]
+  },
+  "#FF853A": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "primary-6"
+      ],
+      "body": [
+          "var(--v-color-primary-6);"
+      ]
+  },
+  "#E65C08": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "primary-8"
+      ],
+      "body": [
+          "var(--v-color-primary-8);"
+      ]
+  },
+  "#993D05": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "primary-9"
+      ],
+      "body": [
+          "var(--v-color-primary-9);"
+      ]
+  },
+  "#662904": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "primary-10"
+      ],
+      "body": [
+          "var(--v-color-primary-10);"
+      ]
+  },
+  "#331402": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "primary-11"
+      ],
+      "body": [
+          "var(--v-color-primary-11);"
+      ]
+  },
+  "--v-color-primary": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FF6609"
+      ],
+      "body": "var(--v-color-primary);"
+  },
+  "--v-color-success": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#00D16E"
+      ],
+      "body": "var(--v-color-success);"
+  },
+  "--v-color-error": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FF4252"
+      ],
+      "body": "var(--v-color-error);"
+  },
+  "--v-color-warning": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FFA300"
+      ],
+      "body": "var(--v-color-warning);"
+  },
+  "--v-color-info": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#0055FF"
+      ],
+      "body": "var(--v-color-info);"
+  },
+  "--v-color-grey-1": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FFFFFF"
+      ],
+      "body": "var(--v-color-grey-1);"
+  },
+  "--v-color-grey-2": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FAFAFA"
+      ],
+      "body": "var(--v-color-grey-2);"
+  },
+  "--v-color-grey-3": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#F5F5F5"
+      ],
+      "body": "var(--v-color-grey-3);"
+  },
+  "--v-color-grey-4": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#EBEBEB"
+      ],
+      "body": "var(--v-color-grey-4);"
+  },
+  "--v-color-grey-5": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#E0E0E0"
+      ],
+      "body": "var(--v-color-grey-5);"
+  },
+  "--v-color-grey-6": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#C4C4C4"
+      ],
+      "body": "var(--v-color-grey-6);"
+  },
+  "--v-color-grey-7": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#9E9E9E"
+      ],
+      "body": "var(--v-color-grey-7);"
+  },
+  "--v-color-grey-8": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#757575"
+      ],
+      "body": "var(--v-color-grey-8);"
+  },
+  "--v-color-grey-9": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#212121"
+      ],
+      "body": "var(--v-color-grey-9);"
+  },
+  "--v-color-grey-10": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#000000"
+      ],
+      "body": "var(--v-color-grey-10);"
+  },
+  "--v-color-blue-grey-1": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FFFFFF"
+      ],
+      "body": "var(--v-color-blue-grey-1);"
+  },
+  "--v-color-blue-grey-2": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FAFCFF"
+      ],
+      "body": "var(--v-color-blue-grey-2);"
+  },
+  "--v-color-blue-grey-3": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#F5F7FA"
+      ],
+      "body": "var(--v-color-blue-grey-3);"
+  },
+  "--v-color-blue-grey-4": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#EEF0F5"
+      ],
+      "body": "var(--v-color-blue-grey-4);"
+  },
+  "--v-color-blue-grey-5": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#E1E3E8"
+      ],
+      "body": "var(--v-color-blue-grey-5);"
+  },
+  "--v-color-blue-grey-6": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#B2B7BF"
+      ],
+      "body": "var(--v-color-blue-grey-6);"
+  },
+  "--v-color-blue-grey-7": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#888F99"
+      ],
+      "body": "var(--v-color-blue-grey-7);"
+  },
+  "--v-color-blue-grey-8": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#3B3E45"
+      ],
+      "body": "var(--v-color-blue-grey-8);"
+  },
+  "--v-color-blue-grey-9": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#1F2126"
+      ],
+      "body": "var(--v-color-blue-grey-9);"
+  },
+  "--v-color-blue-grey-10": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#0D0E12"
+      ],
+      "body": "var(--v-color-blue-grey-10);"
+  },
+  "--v-color-blue-1": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#F7F9FC"
+      ],
+      "body": "var(--v-color-blue-1);"
+  },
+  "--v-color-blue-2": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#E6EEFF"
+      ],
+      "body": "var(--v-color-blue-2);"
+  },
+  "--v-color-blue-3": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#CCDEFF"
+      ],
+      "body": "var(--v-color-blue-3);"
+  },
+  "--v-color-blue-4": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#99BDFF"
+      ],
+      "body": "var(--v-color-blue-4);"
+  },
+  "--v-color-blue-5": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#669CFF"
+      ],
+      "body": "var(--v-color-blue-5);"
+  },
+  "--v-color-blue-6": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#337AFF"
+      ],
+      "body": "var(--v-color-blue-6);"
+  },
+  "--v-color-blue-7": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#0055FF"
+      ],
+      "body": "var(--v-color-blue-7);"
+  },
+  "--v-color-blue-8": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#0048D9"
+      ],
+      "body": "var(--v-color-blue-8);"
+  },
+  "--v-color-blue-9": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#003399"
+      ],
+      "body": "var(--v-color-blue-9);"
+  },
+  "--v-color-blue-10": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#002266"
+      ],
+      "body": "var(--v-color-blue-10);"
+  },
+  "--v-color-blue-11": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#000C24"
+      ],
+      "body": "var(--v-color-blue-11);"
+  },
+  "--v-color-red-1": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FFFBFB"
+      ],
+      "body": "var(--v-color-red-1);"
+  },
+  "--v-color-red-2": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FFECEE"
+      ],
+      "body": "var(--v-color-red-2);"
+  },
+  "--v-color-red-3": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FFD9DC"
+      ],
+      "body": "var(--v-color-red-3);"
+  },
+  "--v-color-red-4": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FFB3B9"
+      ],
+      "body": "var(--v-color-red-4);"
+  },
+  "--v-color-red-5": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FF8D97"
+      ],
+      "body": "var(--v-color-red-5);"
+  },
+  "--v-color-red-6": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FF6774"
+      ],
+      "body": "var(--v-color-red-6);"
+  },
+  "--v-color-red-7": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FF4252"
+      ],
+      "body": "var(--v-color-red-7);"
+  },
+  "--v-color-red-8": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#E53B49"
+      ],
+      "body": "var(--v-color-red-8);"
+  },
+  "--v-color-red-9": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#992731"
+      ],
+      "body": "var(--v-color-red-9);"
+  },
+  "--v-color-red-10": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#661A20"
+      ],
+      "body": "var(--v-color-red-10);"
+  },
+  "--v-color-red-11": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#330D10"
+      ],
+      "body": "var(--v-color-red-11);"
+  },
+  "--v-color-green-1": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FAFEFC"
+      ],
+      "body": "var(--v-color-green-1);"
+  },
+  "--v-color-green-2": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#E6FAF0"
+      ],
+      "body": "var(--v-color-green-2);"
+  },
+  "--v-color-green-3": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#CCF5E2"
+      ],
+      "body": "var(--v-color-green-3);"
+  },
+  "--v-color-green-4": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#99ECC5"
+      ],
+      "body": "var(--v-color-green-4);"
+  },
+  "--v-color-green-5": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#66E3A8"
+      ],
+      "body": "var(--v-color-green-5);"
+  },
+  "--v-color-green-6": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#33DA8B"
+      ],
+      "body": "var(--v-color-green-6);"
+  },
+  "--v-color-green-7": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#00D16E"
+      ],
+      "body": "var(--v-color-green-7);"
+  },
+  "--v-color-green-8": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#00BB62"
+      ],
+      "body": "var(--v-color-green-8);"
+  },
+  "--v-color-green-9": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#007D42"
+      ],
+      "body": "var(--v-color-green-9);"
+  },
+  "--v-color-green-10": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#00532C"
+      ],
+      "body": "var(--v-color-green-10);"
+  },
+  "--v-color-green-11": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#002916"
+      ],
+      "body": "var(--v-color-green-11);"
+  },
+  "--v-color-yellow-1": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FFFDFA"
+      ],
+      "body": "var(--v-color-yellow-1);"
+  },
+  "--v-color-yellow-2": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FFF5E6"
+      ],
+      "body": "var(--v-color-yellow-2);"
+  },
+  "--v-color-yellow-3": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FFECCC"
+      ],
+      "body": "var(--v-color-yellow-3);"
+  },
+  "--v-color-yellow-4": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FFDA99"
+      ],
+      "body": "var(--v-color-yellow-4);"
+  },
+  "--v-color-yellow-5": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FFC766"
+      ],
+      "body": "var(--v-color-yellow-5);"
+  },
+  "--v-color-yellow-6": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FFB533"
+      ],
+      "body": "var(--v-color-yellow-6);"
+  },
+  "--v-color-yellow-7": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FFA300"
+      ],
+      "body": "var(--v-color-yellow-7);"
+  },
+  "--v-color-yellow-8": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#E59200"
+      ],
+      "body": "var(--v-color-yellow-8);"
+  },
+  "--v-color-yellow-9": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#996100"
+      ],
+      "body": "var(--v-color-yellow-9);"
+  },
+  "--v-color-yellow-10": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#664100"
+      ],
+      "body": "var(--v-color-yellow-10);"
+  },
+  "--v-color-yellow-11": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#332000"
+      ],
+      "body": "var(--v-color-yellow-11);"
+  },
+  "--v-color-purple-1": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FEFAFE"
+      ],
+      "body": "var(--v-color-purple-1);"
+  },
+  "--v-color-purple-2": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FEE9FB"
+      ],
+      "body": "var(--v-color-purple-2);"
+  },
+  "--v-color-purple-3": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FED3F7"
+      ],
+      "body": "var(--v-color-purple-3);"
+  },
+  "--v-color-purple-4": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FDA7EF"
+      ],
+      "body": "var(--v-color-purple-4);"
+  },
+  "--v-color-purple-5": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FD7CE7"
+      ],
+      "body": "var(--v-color-purple-5);"
+  },
+  "--v-color-purple-6": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FC50DF"
+      ],
+      "body": "var(--v-color-purple-6);"
+  },
+  "--v-color-purple-7": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FC25D8"
+      ],
+      "body": "var(--v-color-purple-7);"
+  },
+  "--v-color-purple-8": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#E221C1"
+      ],
+      "body": "var(--v-color-purple-8);"
+  },
+  "--v-color-purple-9": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#971681"
+      ],
+      "body": "var(--v-color-purple-9);"
+  },
+  "--v-color-purple-10": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#640E56"
+      ],
+      "body": "var(--v-color-purple-10);"
+  },
+  "--v-color-purple-11": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#32072B"
+      ],
+      "body": "var(--v-color-purple-11);"
+  },
+  "--v-color-primary-1": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FFFCFA"
+      ],
+      "body": "var(--v-color-primary-1);"
+  },
+  "--v-color-primary-2": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FFF0E7"
+      ],
+      "body": "var(--v-color-primary-2);"
+  },
+  "--v-color-primary-3": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FFE0CE"
+      ],
+      "body": "var(--v-color-primary-3);"
+  },
+  "--v-color-primary-4": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FFC29D"
+      ],
+      "body": "var(--v-color-primary-4);"
+  },
+  "--v-color-primary-5": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FFA36B"
+      ],
+      "body": "var(--v-color-primary-5);"
+  },
+  "--v-color-primary-6": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FF853A"
+      ],
+      "body": "var(--v-color-primary-6);"
+  },
+  "--v-color-primary-7": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#FF6609"
+      ],
+      "body": "var(--v-color-primary-7);"
+  },
+  "--v-color-primary-8": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#E65C08"
+      ],
+      "body": "var(--v-color-primary-8);"
+  },
+  "--v-color-primary-9": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#993D05"
+      ],
+      "body": "var(--v-color-primary-9);"
+  },
+  "--v-color-primary-10": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#662904"
+      ],
+      "body": "var(--v-color-primary-10);"
+  },
+  "--v-color-primary-11": {
+      "scope": "javascript,typescriptreact,less,scss,typescript,vue",
+      "prefix": [
+          "#331402"
+      ],
+      "body": "var(--v-color-primary-11);"
+  }
+}

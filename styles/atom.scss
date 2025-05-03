@@ -1,0 +1,280 @@
+$max: 64;
+
+@mixin generate-class-names($attr, $cls, $base) {
+  @if $base <= $max {
+    .#{$cls}-#{$base} {
+      #{$attr}: $base + 0rpx;
+    }
+
+    @include generate-class-names($attr, $cls, $base + 2);
+  }
+}
+
+@mixin generate-margin($attr, $cls, $base) {
+  @if $base <= $max {
+    .#{$cls}-#{$base} {
+      #{$attr}: $base + 0rpx;
+    }
+
+    @include generate-margin($attr, $cls, $base + 2);
+  }
+}
+
+// Example usage
+@include generate-margin(margin-right, mr, 0);
+@include generate-margin(margin-left, ml, 0);
+@include generate-margin(margin-top, mt, 0);
+@include generate-margin(margin-bottom, mb, 0);
+@include generate-margin(margin, m, 0);
+
+@include generate-class-names(padding-right, pr, 0);
+@include generate-class-names(padding-left, pl, 0);
+@include generate-class-names(padding-top, pt, 0);
+@include generate-class-names(padding-bottom, pb, 0);
+@include generate-class-names(padding, p, 0);
+
+@mixin generate-x-class-names($attr1, $attr2, $cls, $base) {
+  @if $base <= $max {
+    .#{$cls}-#{$base} {
+      #{$attr1}: #{$base}rpx;
+      #{$attr2}: #{$base}rpx;
+    }
+
+    @include generate-x-class-names($attr1, $attr2, $cls, $base + 2);
+  }
+}
+
+// 调用 Mixin 并传递正确参数
+@include generate-x-class-names(padding-left, padding-right, px, 0);
+@include generate-x-class-names(padding-top, padding-bottom, py, 0);
+@include generate-x-class-names(margin-left, margin-right, mx, 0);
+@include generate-x-class-names(margin-top, margin-bottom, my, 0);
+
+.fs-0 {
+  font-size: 0;
+}
+
+.lh-0 {
+  line-height: 0;
+}
+.h-0 {
+  height: 0;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-start {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.flex-bottom {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.flex-1 {
+  flex: 1;
+}
+.flex-0 {
+  flex: 0 0 auto;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bg-w {
+  background-color: var(--v-color-grey-1);
+}
+.bg-fa {
+  background-color: var(--v-color-grey-2);
+}
+
+.al-c {
+  align-items: center;
+}
+
+.al-fs {
+  align-items: flex-start;
+}
+
+.al-fe {
+  align-items: flex-end;
+}
+
+.js-s {
+  justify-content: flex-start;
+}
+
+.js-c {
+  justify-content: center;
+}
+
+.js-b {
+  justify-content: space-between;
+}
+
+.js-e {
+  justify-content: flex-end;
+}
+
+.jst-c {
+  justify-items: center;
+}
+
+.jst-b {
+  justify-items: space-between;
+}
+
+.jst-e {
+  justify-items: flex-end;
+}
+
+.flex {
+  display: flex;
+}
+.flex-column {
+  flex-direction: column;
+}
+.flex-warp {
+  flex-wrap: wrap;
+}
+
+.block {
+  display: block;
+}
+
+.ta-r {
+  text-align: right;
+}
+
+.ta-c {
+  text-align: center;
+}
+.oh {
+  overflow: hidden;
+}
+
+.pos-r {
+  position: relative;
+}
+
+.pos-a {
+  position: absolute;
+}
+
+.border-1px {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2rpx;
+    background-color: var(--v-color-grey-4);
+    transform-origin: 0 0;
+    transform: scaleY(0.5);
+  }
+}
+
+// .border-all-1px {
+//   position: relative;
+
+//   &::after {
+//     content: '';
+//     position: absolute;
+//     top: 0;
+//     left: 0;
+//     width: 200%;
+//     height: 200%;
+//     border: 2rpx solid var(--v-color-grey-4);
+//     transform-origin: 0 0;
+//     transform: scale(0.5);
+//     border-radius: 32rpx;
+//   }
+// }
+
+.bra-16 {
+  border-radius: 16rpx;
+}
+
+.bra-24 {
+  border-radius: 24rpx;
+}
+
+.bra-32 {
+  border-radius: 32rpx;
+}
+
+.mr-152 {
+  margin-right: 152rpx;
+}
+
+.mb-156 {
+  margin-bottom: 152rpx;
+}
+
+.pb-64 {
+  padding-bottom: 64rpx;
+}
+
+.pe-n {
+  pointer-events: none;
+}
+
+.safe-bottom {
+  padding-bottom: constant(safe-area-inset-bottom, 24rpx);
+  padding-bottom: env(safe-area-inset-bottom, 24rpx);
+}
+
+.zb-btn {
+  height: 92rpx;
+  background: var(--v-color-zlv-7);
+  border-radius: 16rpx;
+}
+
+.text-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-ellipsts2 {
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.w-0 {
+  width: 0;
+}
+
+.layout-page {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.layout-full {
+  height: 0;
+  flex: 1 1 100%;
+  overflow: auto;
+}
+.layout-auto {
+  flex: 0 0 auto;
+}

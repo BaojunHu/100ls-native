@@ -1,0 +1,52 @@
+{
+  "hash": "c2596d14",
+  "configHash": "38a95cd5",
+  "lockfileHash": "b73c6cab",
+  "browserHash": "0091708f",
+  "optimized": {
+    "@dimjs/lang": {
+      "src": "../../../../../node_modules/@dimjs/lang/dist/index.js",
+      "file": "@dimjs_lang.js",
+      "fileHash": "0134988a",
+      "needsInterop": false
+    },
+    "@dimjs/utils": {
+      "src": "../../../../../node_modules/@dimjs/utils/dist/index.js",
+      "file": "@dimjs_utils.js",
+      "fileHash": "b536cefe",
+      "needsInterop": false
+    },
+    "vue-hooks-plus": {
+      "src": "../../../../../node_modules/vue-hooks-plus/es/index.js",
+      "file": "vue-hooks-plus.js",
+      "fileHash": "5fcfe412",
+      "needsInterop": false
+    },
+    "@flatbiz/utils": {
+      "src": "../../../../../node_modules/@flatbiz/utils/index.js",
+      "file": "@flatbiz_utils.js",
+      "fileHash": "fb75af36",
+      "needsInterop": false
+    },
+    "mockjs": {
+      "src": "../../../../../node_modules/mockjs/dist/mock.js",
+      "file": "mockjs.js",
+      "fileHash": "2ad62791",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "chunk-ETZMHKZ4": {
+      "file": "chunk-ETZMHKZ4.js"
+    },
+    "chunk-4K5QIG77": {
+      "file": "chunk-4K5QIG77.js"
+    },
+    "chunk-FAKZ4AMQ": {
+      "file": "chunk-FAKZ4AMQ.js"
+    },
+    "chunk-LQ2VYIYD": {
+      "file": "chunk-LQ2VYIYD.js"
+    }
+  }
+}
