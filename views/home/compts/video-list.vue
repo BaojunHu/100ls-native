@@ -1,10 +1,10 @@
 <template>
     <scroll-view scroll-y class="video-list-page layout-full " v-show="props.show">
-        <uni-swiper-dot class="swiper-dot-box  " @clickItem=clickItem :info="data?.banners" :current="swiperDotIndex"
-            mode="round" :dots-styles="dotsStyles" field="content">
-            <swiper class="swiper-box" @change="change" :current="swiperDotIndex">
+        <uni-swiper-dot class="swiper-dot-box  " :info="data?.banners"
+            :current="swiperDotIndex" mode="round" :dots-styles="dotsStyles" field="content">
+            <swiper class="swiper-box" :current="swiperDotIndex">
                 <swiper-item v-for="(item, index) in data?.banners" :key="item.sortNo">
-                    <view class="swiper-item" :class="'swiper-item' + index">
+                    <view class="swiper-item" :class="'swiper-item' + index" @click=clickSwiperItem(item) >
                         <image :src="item.coverImage" mode="aspectFill" class="swiper-image" />
                         <text class="swiper-text">
                             {{ item.title }}
@@ -15,7 +15,8 @@
         </uni-swiper-dot>
         <scroll-view scroll-x :scroll-with-animation="true" class="cate-list-scroll">
             <view class="cate-list">
-                <div class="cate-item" v-for="item in data?.categories" :key="item.categoryNo">
+                <div class="cate-item" v-for="item in data?.categories" :key="item.categoryNo"
+                    @click="handleCateClick(item)">
                     <image :src="item.icon" mode="aspectFill" class="cate-image
                         " />
                     <m-text bold :size="24" color="grey-9">{{ item.categoryName }}</m-text>
@@ -25,7 +26,7 @@
 
         <uni-row :gutter="22" class="history-list" :showBorder="false" :highlight="false" :borderColor="false">
             <uni-col :span="12" v-for="item in historyData?.rows">
-                <div class="history-item">
+                <div class="history-item" @click="handleHistoryClick(item)">
                     <div class="history-image-warp">
                         <image :src="item.coverImage" mode="aspectFill" class="history-image" />
                         <view class="learing-tag" v-if="item?.currLearning">你正在学习</view>
@@ -37,7 +38,7 @@
                         </view>
                     </div>
                     <m-text bold :size="26" color="grey-9" class="mt-12 mb-8 mx-20 text-ellipsis">{{ item.title
-                    }}</m-text>
+                        }}</m-text>
 
 
                     <view class="history-info" v-if="item?.currLearning">
@@ -48,7 +49,7 @@
                     <view class="history-info" v-else>
                         <m-text :size="22" color="grey-7" class="history-info__text" v-for="lang in item.languages">{{
                             lang
-                            }}</m-text>
+                        }}</m-text>
                     </view>
                 </div>
             </uni-col>
@@ -58,7 +59,8 @@
 
         <scroll-view scroll-x :scroll-with-animation="true" class="video-list-scroll">
             <view class="video-list">
-                <div class="video-item" v-for="item in videList?.rows" :key="item.resourceCode">
+                <div class="video-item" v-for="item in videList?.rows" :key="item.resourceCode"
+                    @click="handleVideoClick(item)">
                     <div class="video-image-warp">
                         <image :src="item.coverImage" mode="aspectFill" class="video-image
                         " />
@@ -69,11 +71,11 @@
                     </div>
 
                     <m-text bold :size="26" color="grey-9" class="mt-12 mb-8  text-ellipsis">{{ item.title
-                    }}</m-text>
+                        }}</m-text>
                     <view class="video-info">
                         <m-text :size="22" color="grey-7" class="history-info__text" v-for="lang in item.languages">{{
                             lang
-                            }}
+                        }}
                         </m-text>
                     </view>
                 </div>
@@ -126,6 +128,26 @@ const props = withDefaults(defineProps<TVideoListProps>(), {
     show: false,
 });
 
+const clickSwiperItem = (item: { index: number; name: string }) => {
+    console.log('clickItem', item);
+    
+    uni.navigateTo({
+        url: `/pages/component/web-view-local/web-view-local?url=${'/hybrid/h5/index.html'}`,
+    });
+};
+
+const handleCateClick = (item: { categoryNo: string }) => {
+    console.log('handleCateClick', item);
+
+};
+const handleHistoryClick = (item: { resourceCode: string }) => {
+    console.log('handleHistoryClick', item);
+};
+const handleVideoClick = (item: { resourceCode: string }) => {
+    console.log('handleVideoClick', item);
+};
+
+
 
 
 const dotsStyles = {
@@ -136,24 +158,13 @@ const dotsStyles = {
     selectedBorder: '1px rgba(255, 255, 255, .8) solid'
 }
 const swiperDotIndex = ref(0);
-const clickItem = (item: { index: number; name: string }) => {
-    console.log('clickItem', item);
-};
-const change = (e: { detail: { current: number } }) => {
-    console.log('change', e);
-    swiperDotIndex.value = e.detail.current;
-};
-const swiperDot = ref([
-    { text: '1', color: '#fff' },
-    { text: '2', color: '#fff' },
-    { text: '3', color: '#fff' },
-]);
+
 
 
 </script>
 
 <style lang="less">
-.video-list-page {}
+// .video-list-page {}
 
 
 ::v-deep .swiper-dot-box {
@@ -312,7 +323,7 @@ const swiperDot = ref([
     .video-item {
         display: flex;
         width: 228rpx;
-        flex : 0 0 228rpx;
+        flex: 0 0 228rpx;
         flex-direction: column;
         margin-right: 12rpx;
 

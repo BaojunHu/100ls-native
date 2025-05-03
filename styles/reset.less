@@ -1,279 +1,279 @@
 @font-face {
-    font-family: 'DINAlternate-Bold';
-    src        :
-      /* IE6-IE8 */
-      url('//file.40017.cn/tcsk/font/DINAlternate-Bold.ttf') format('woff2'),
-      /* chrome、firefox */
-      url('//file.40017.cn/tcsk/font/DINAlternate-Bold.ttf') format('truetype');
-    /* iOS 4.1- */
-  }
-  
-  @font-face {
-    font-family: 'WEMONum-Bold';
-    src        :
-      /* IE6-IE8 */
-      url('https://file.40017.cn/tct/font/WEMONum-Bold-v1.2.ttf') format('TrueType');
-  }
-  
-  // @font-face {
-  //   font-family: 'FangZheng';
-  //   src: url('https://file.40017.cn/jinfu/fangzheng-3500.ttf') format('TrueType');
-  // }
-  
-  page {
-    background-color: #f5f5f5;
-  }
-  
-  /** ifndef MP **/
-  * {
-    margin            : 0;
-    padding           : 0;
-    box-sizing        : border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing   : border-box;
-    list-style        : none;
-  
-  }
-  
-  /** endif **/
-  body,
-  #app {
-    position           : fixed;
-    inset              : 0;
-    overflow           : hidden;
-    overscroll-behavior: none;
-  }
-  
-  /** 隐藏滚动条 **/
-  ::-webkit-scrollbar {
-    display: none;
-  }
-  
-  
-  page,
-  view,
-  scroll-view,
-  swiper,
-  swiper-item,
-  text,
-  icon,
-  progress,
-  button,
-  picker,
-  switch,
-  radio,
-  checkbox,
-  slider,
-  form,
-  input,
-  textarea,
-  label,
-  navigator,
-  image,
-  video,
-  canvas,
-  rich-text,
-  picker-view,
-  picker-view-column {
-    box-sizing: border-box;
-    margin    : 0;
-    padding   : 0;
-  }
-  
-  root-portal,
-  body,
-  page,
-  view,
-  button,
-  text,
-  span {
-    // 粗体
-    --v-font-family-bold  : PingFangSC-Medium, PingFang SC;
-    // 数字字体
-    --v-font-family-number: WEMONum-Bold, WEMONum;
-    // 普通字体
-    --v-font-family       : FangZheng;
-  
-  
-        /* Brand Colors */
-        --v-color-primary: #FF6609;
-        --v-color-success: #00D16E;
-        --v-color-error: #FF4252;
-        --v-color-warning: #FFA300;
-        --v-color-info: #0055FF;
-      
-        /* Grey Colors */
-        --v-color-grey-1: #FFFFFF;
-        --v-color-grey-2: #FAFAFA;
-        --v-color-grey-3: #F5F5F5;
-        --v-color-grey-4: #EBEBEB;
-        --v-color-grey-5: #E0E0E0;
-        --v-color-grey-6: #C4C4C4;
-        --v-color-grey-7: #9E9E9E;
-        --v-color-grey-8: #757575;
-        --v-color-grey-9: #212121;
-        --v-color-grey-10: #000000;
-      
-        /* Blue Grey Colors */
-        --v-color-blue-grey-1: #FFFFFF;
-        --v-color-blue-grey-2: #FAFCFF;
-        --v-color-blue-grey-3: #F5F7FA;
-        --v-color-blue-grey-4: #EEF0F5;
-        --v-color-blue-grey-5: #E1E3E8;
-        --v-color-blue-grey-6: #B2B7BF;
-        --v-color-blue-grey-7: #888F99;
-        --v-color-blue-grey-8: #3B3E45;
-        --v-color-blue-grey-9: #1F2126;
-        --v-color-blue-grey-10: #0D0E12;
-      
-        /* Blue Colors */
-        --v-color-blue-1: #F7F9FC;
-        --v-color-blue-2: #E6EEFF;
-        --v-color-blue-3: #CCDEFF;
-        --v-color-blue-4: #99BDFF;
-        --v-color-blue-5: #669CFF;
-        --v-color-blue-6: #337AFF;
-        --v-color-blue-7: #0055FF;
-        --v-color-blue-8: #0048D9;
-        --v-color-blue-9: #003399;
-        --v-color-blue-10: #002266;
-        --v-color-blue-11: #000C24;
-      
-        /* Red Colors */
-        --v-color-red-1: #FFFBFB;
-        --v-color-red-2: #FFECEE;
-        --v-color-red-3: #FFD9DC;
-        --v-color-red-4: #FFB3B9;
-        --v-color-red-5: #FF8D97;
-        --v-color-red-6: #FF6774;
-        --v-color-red-7: #FF4252;
-        --v-color-red-8: #E53B49;
-        --v-color-red-9: #992731;
-        --v-color-red-10: #661A20;
-        --v-color-red-11: #330D10;
-      
-        /* Green Colors */
-        --v-color-green-1: #FAFEFC;
-        --v-color-green-2: #E6FAF0;
-        --v-color-green-3: #CCF5E2;
-        --v-color-green-4: #99ECC5;
-        --v-color-green-5: #66E3A8;
-        --v-color-green-6: #33DA8B;
-        --v-color-green-7: #00D16E;
-        --v-color-green-8: #00BB62;
-        --v-color-green-9: #007D42;
-        --v-color-green-10: #00532C;
-        --v-color-green-11: #002916;
-      
-        /* Yellow Colors */
-        --v-color-yellow-1: #FFFDFA;
-        --v-color-yellow-2: #FFF5E6;
-        --v-color-yellow-3: #FFECCC;
-        --v-color-yellow-4: #FFDA99;
-        --v-color-yellow-5: #FFC766;
-        --v-color-yellow-6: #FFB533;
-        --v-color-yellow-7: #FFA300;
-        --v-color-yellow-8: #E59200;
-        --v-color-yellow-9: #996100;
-        --v-color-yellow-10: #664100;
-        --v-color-yellow-11: #332000;
-      
-        /* Purple Colors */
-        --v-color-purple-1: #FEFAFE;
-        --v-color-purple-2: #FEE9FB;
-        --v-color-purple-3: #FED3F7;
-        --v-color-purple-4: #FDA7EF;
-        --v-color-purple-5: #FD7CE7;
-        --v-color-purple-6: #FC50DF;
-        --v-color-purple-7: #FC25D8;
-        --v-color-purple-8: #E221C1;
-        --v-color-purple-9: #971681;
-        --v-color-purple-10: #640E56;
-        --v-color-purple-11: #32072B;
-      
-        /* primary Colors */
-        --v-color-primary-1: #FFFCFA;
-        --v-color-primary-2: #FFF0E7;
-        --v-color-primary-3: #FFE0CE;
-        --v-color-primary-4: #FFC29D;
-        --v-color-primary-5: #FFA36B;
-        --v-color-primary-6: #FF853A;
-        --v-color-primary-7: #FF6609;
-        --v-color-primary-8: #E65C08;
-        --v-color-primary-9: #993D05;
-        --v-color-primary-10: #662904;
-        --v-color-primary-11: #331402;
-      
-  }
-  
-  page {
-    position: fixed;
-    inset   : 0;
-  }
-  
-  image {
-    width : auto;
-    height: auto;
-  }
-  
-  m-text {
-    font-size: 0;
-    display  : block;
-  }
-  
-  .uni-video-container {
-    background-color: #fff !important;
-  }
-  
-  // m-icon {
-  //   font-size: 0;
-  // }
-  
-  /**
+  font-family: 'DINAlternate-Bold';
+  src        :
+    /* IE6-IE8 */
+    url('//file.40017.cn/tcsk/font/DINAlternate-Bold.ttf') format('woff2'),
+    /* chrome、firefox */
+    url('//file.40017.cn/tcsk/font/DINAlternate-Bold.ttf') format('truetype');
+  /* iOS 4.1- */
+}
+
+@font-face {
+  font-family: 'WEMONum-Bold';
+  src        :
+    /* IE6-IE8 */
+    url('https://file.40017.cn/tct/font/WEMONum-Bold-v1.2.ttf') format('TrueType');
+}
+
+// @font-face {
+//   font-family: 'FangZheng';
+//   src: url('https://file.40017.cn/jinfu/fangzheng-3500.ttf') format('TrueType');
+// }
+
+page {
+  background-color: #f5f5f5;
+}
+
+/** ifndef MP **/
+* {
+  margin            : 0;
+  padding           : 0;
+  box-sizing        : border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing   : border-box;
+  list-style        : none;
+
+}
+
+/** endif **/
+body,
+#app {
+  position           : fixed;
+  inset              : 0;
+  overflow           : hidden;
+  overscroll-behavior: none;
+}
+
+/** 隐藏滚动条 **/
+::-webkit-scrollbar {
+  display: none;
+}
+
+
+page,
+view,
+scroll-view,
+swiper,
+swiper-item,
+text,
+icon,
+progress,
+button,
+picker,
+switch,
+radio,
+checkbox,
+slider,
+form,
+input,
+textarea,
+label,
+navigator,
+image,
+video,
+canvas,
+rich-text,
+picker-view,
+picker-view-column {
+  box-sizing: border-box;
+  margin    : 0;
+  padding   : 0;
+}
+
+root-portal,
+body,
+page,
+view,
+button,
+text,
+span {
+  // 粗体
+  --v-font-family-bold  : PingFangSC-Medium, PingFang SC;
+  // 数字字体
+  --v-font-family-number: WEMONum-Bold, WEMONum;
+  // 普通字体
+  --v-font-family       : FangZheng;
+
+
+  /* Brand Colors */
+  --v-color-primary: #FF6609;
+  --v-color-success: #00D16E;
+  --v-color-error  : #FF4252;
+  --v-color-warning: #FFA300;
+  --v-color-info   : #0055FF;
+
+  /* Grey Colors */
+  --v-color-grey-1 : #FFFFFF;
+  --v-color-grey-2 : #FAFAFA;
+  --v-color-grey-3 : #F5F5F5;
+  --v-color-grey-4 : #EBEBEB;
+  --v-color-grey-5 : #E0E0E0;
+  --v-color-grey-6 : #C4C4C4;
+  --v-color-grey-7 : #9E9E9E;
+  --v-color-grey-8 : #757575;
+  --v-color-grey-9 : #212121;
+  --v-color-grey-10: #000000;
+
+  /* Blue Grey Colors */
+  --v-color-blue-grey-1 : #FFFFFF;
+  --v-color-blue-grey-2 : #FAFCFF;
+  --v-color-blue-grey-3 : #F5F7FA;
+  --v-color-blue-grey-4 : #EEF0F5;
+  --v-color-blue-grey-5 : #E1E3E8;
+  --v-color-blue-grey-6 : #B2B7BF;
+  --v-color-blue-grey-7 : #888F99;
+  --v-color-blue-grey-8 : #3B3E45;
+  --v-color-blue-grey-9 : #1F2126;
+  --v-color-blue-grey-10: #0D0E12;
+
+  /* Blue Colors */
+  --v-color-blue-1 : #F7F9FC;
+  --v-color-blue-2 : #E6EEFF;
+  --v-color-blue-3 : #CCDEFF;
+  --v-color-blue-4 : #99BDFF;
+  --v-color-blue-5 : #669CFF;
+  --v-color-blue-6 : #337AFF;
+  --v-color-blue-7 : #0055FF;
+  --v-color-blue-8 : #0048D9;
+  --v-color-blue-9 : #003399;
+  --v-color-blue-10: #002266;
+  --v-color-blue-11: #000C24;
+
+  /* Red Colors */
+  --v-color-red-1 : #FFFBFB;
+  --v-color-red-2 : #FFECEE;
+  --v-color-red-3 : #FFD9DC;
+  --v-color-red-4 : #FFB3B9;
+  --v-color-red-5 : #FF8D97;
+  --v-color-red-6 : #FF6774;
+  --v-color-red-7 : #FF4252;
+  --v-color-red-8 : #E53B49;
+  --v-color-red-9 : #992731;
+  --v-color-red-10: #661A20;
+  --v-color-red-11: #330D10;
+
+  /* Green Colors */
+  --v-color-green-1 : #FAFEFC;
+  --v-color-green-2 : #E6FAF0;
+  --v-color-green-3 : #CCF5E2;
+  --v-color-green-4 : #99ECC5;
+  --v-color-green-5 : #66E3A8;
+  --v-color-green-6 : #33DA8B;
+  --v-color-green-7 : #00D16E;
+  --v-color-green-8 : #00BB62;
+  --v-color-green-9 : #007D42;
+  --v-color-green-10: #00532C;
+  --v-color-green-11: #002916;
+
+  /* Yellow Colors */
+  --v-color-yellow-1 : #FFFDFA;
+  --v-color-yellow-2 : #FFF5E6;
+  --v-color-yellow-3 : #FFECCC;
+  --v-color-yellow-4 : #FFDA99;
+  --v-color-yellow-5 : #FFC766;
+  --v-color-yellow-6 : #FFB533;
+  --v-color-yellow-7 : #FFA300;
+  --v-color-yellow-8 : #E59200;
+  --v-color-yellow-9 : #996100;
+  --v-color-yellow-10: #664100;
+  --v-color-yellow-11: #332000;
+
+  /* Purple Colors */
+  --v-color-purple-1 : #FEFAFE;
+  --v-color-purple-2 : #FEE9FB;
+  --v-color-purple-3 : #FED3F7;
+  --v-color-purple-4 : #FDA7EF;
+  --v-color-purple-5 : #FD7CE7;
+  --v-color-purple-6 : #FC50DF;
+  --v-color-purple-7 : #FC25D8;
+  --v-color-purple-8 : #E221C1;
+  --v-color-purple-9 : #971681;
+  --v-color-purple-10: #640E56;
+  --v-color-purple-11: #32072B;
+
+  /* primary Colors */
+  --v-color-primary-1 : #FFFCFA;
+  --v-color-primary-2 : #FFF0E7;
+  --v-color-primary-3 : #FFE0CE;
+  --v-color-primary-4 : #FFC29D;
+  --v-color-primary-5 : #FFA36B;
+  --v-color-primary-6 : #FF853A;
+  --v-color-primary-7 : #FF6609;
+  --v-color-primary-8 : #E65C08;
+  --v-color-primary-9 : #993D05;
+  --v-color-primary-10: #662904;
+  --v-color-primary-11: #331402;
+
+}
+
+page {
+  position: fixed;
+  inset   : 0;
+}
+
+image {
+  width : auto;
+  height: auto;
+}
+
+m-text {
+  font-size: 0;
+  display  : block;
+}
+
+.uni-video-container {
+  background-color: #fff !important;
+}
+
+// m-icon {
+//   font-size: 0;
+// }
+
+/**
   * 复制body里css变量 调用 format 生成  less-var.code-snippets （css代码变量提示）
   **/
-  // function getStyleMap(str) {
-  //   const obj = createObj(str);
-  //   const keys = Object.keys(obj);
-  //   const newMap = {};
-  //   const newRevMap = {};
-  
-  //   keys.forEach((key) => {
-  //     const k = key.replace('--v-color-', '');
-  //     newRevMap[k] = [obj[key]];
-  //     newMap[obj[key]] = k;
-  //   });
-  //   return {
-  //   newMap,
-  //   newRevMap
-  // };
-  // }
-  // function createObj (str){
-  //   const rows = str.replace(/;|px/gi,'').split('\n')
-  //   const styleObj = {};
-  //   rows.forEach(row=>{
-  //    const sp = row.split(':')
-  //    if(sp.length<2) return
-  //    styleObj[sp[0].trim()] = sp[1].trim()
-  //   })
-  //   return styleObj
-  //  }
-  // function format(cssText) {
-  //   const cssObj = createObj(cssText)
-  //   const res = {};
-  //   Object.keys(cssObj).forEach((key) => {
-  //     res[cssObj[key]] = {
-  //       scope: 'javascript,typescriptreact,less,typescript',
-  //       prefix: [key.replace('--v-color-','')],
-  //       body: [`var(${key});`],
-  //     };
-  //   });
-  //   Object.keys(cssObj).forEach((key) => {
-  //     res[key] = {
-  //       scope: 'javascript,typescriptreact,less,typescript',
-  //       prefix: [cssObj[key]],
-  //       body: `var(${[key]});`,
-  //     };
-  //   });
-  //   return res;
-  // }
+// function getStyleMap(str) {
+//   const obj = createObj(str);
+//   const keys = Object.keys(obj);
+//   const newMap = {};
+//   const newRevMap = {};
+
+//   keys.forEach((key) => {
+//     const k = key.replace('--v-color-', '');
+//     newRevMap[k] = [obj[key]];
+//     newMap[obj[key]] = k;
+//   });
+//   return {
+//   newMap,
+//   newRevMap
+// };
+// }
+// function createObj (str){
+//   const rows = str.replace(/;|px/gi,'').split('\n')
+//   const styleObj = {};
+//   rows.forEach(row=>{
+//    const sp = row.split(':')
+//    if(sp.length<2) return
+//    styleObj[sp[0].trim()] = sp[1].trim()
+//   })
+//   return styleObj
+//  }
+// function format(cssText) {
+//   const cssObj = createObj(cssText)
+//   const res = {};
+//   Object.keys(cssObj).forEach((key) => {
+//     res[cssObj[key]] = {
+//       scope: 'javascript,typescriptreact,less,typescript',
+//       prefix: [key.replace('--v-color-','')],
+//       body: [`var(${key});`],
+//     };
+//   });
+//   Object.keys(cssObj).forEach((key) => {
+//     res[key] = {
+//       scope: 'javascript,typescriptreact,less,typescript',
+//       prefix: [cssObj[key]],
+//       body: `var(${[key]});`,
+//     };
+//   });
+//   return res;
+// }
