@@ -1,35 +1,39 @@
 <template>
-	<view>
-		<web-view :src="webviewUrl" @message="getMessage"></web-view> 
-	</view>
+    <m-loading v-if="isLoading" text="加载中..." direction="column" />
+    <view>
+        <web-view :src="url" @message="getMessage"></web-view>
+    </view>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
+import { HomeHistoryRow } from '@/services/home'
 import { onLoad } from '@dcloudio/uni-app'
 import { paramStrToJson } from '@dimjs/utils'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
-const webviewUrl = ref('')
-const getMessage = (e: any) => {
-	uni.showModal({
-		content: JSON.stringify(e.detail),
-		showCancel: false
-	})
+const isLoading = ref(true)
+const url = ref('')
+
+const getMessage = (event) => {
+
+
+    uni.showModal({
+        content: JSON.stringify(event.detail),
+        showCancel: false
+    })
 }
+
 onLoad(() => {
-	// 从页面参数中获取url
-	const url = location.href
-	const params = paramStrToJson(url) as {
+   const urlParams = paramStrToJson(location.href) as {
 		url: string
 	}
-
-	console.log('params', params)
-
-	webviewUrl.value = params.url
-
+	
+    if (urlParams.url) {
+        url.value = decodeURIComponent(urlParams.url)
+    }
 })
-
-
 </script>
 
-<style></style>
+<style scoped>
+/* 添加样式（如果需要） */
+</style>

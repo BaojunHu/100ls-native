@@ -93,6 +93,7 @@
 import { homeServices } from '@/services/home';
 import { useMRequest } from '@/tools/use-request';
 import { onShow } from '@dcloudio/uni-app';
+import { modifyQueryString } from '@dimjs/utils';
 import { watch } from 'vue';
 import { ref } from 'vue';
 
@@ -130,10 +131,23 @@ const props = withDefaults(defineProps<TVideoListProps>(), {
 
 const clickSwiperItem = (item: { index: number; name: string }) => {
     console.log('clickItem', item);
-    
-    uni.navigateTo({
-        url: `/pages/component/web-view-local/web-view-local?url=${'/hybrid/h5/index.html'}`,
+    let url =  `/pages/component/web-view-local/web-view-local`;
+
+    const targetUrl = modifyQueryString('/hybrid/h5/index.html', {
+        ...item
     });
+
+    url = modifyQueryString(url, {
+        url: targetUrl,
+    });
+
+    uni.navigateTo({
+        url,
+    });
+    
+    // uni.navigateTo({
+    //     url: `/pages/component/web-view-local/web-view-local?url=${'/hybrid/html/local.html'}`,
+    // });
 };
 
 const handleCateClick = (item: { categoryNo: string }) => {
