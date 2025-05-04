@@ -46,7 +46,7 @@ export const  createHomeHistoryData = () => {
 
   return   {
         rows: Mock.mock({
-          "rows|3-4": [
+          "rows|4-5": [
             {
               resourceCode: "@string('upper', 10)",
               sortNo: "@integer(1, 100)",

@@ -341,8 +341,9 @@ const swiperDotIndex = ref(0);
         flex-direction: column;
         margin-right: 12rpx;
 
-
-
+    }
+    .video-item:last-child {
+        margin-right: 0;
     }
 
     .video-image-warp {
@@ -359,5 +360,8 @@ const swiperDotIndex = ref(0);
     }
 
 
+}
+.video-list-scroll .uni-scroll-view-content{
+    width: max-content;
 }
 </style>
