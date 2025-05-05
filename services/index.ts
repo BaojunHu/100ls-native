@@ -12,12 +12,11 @@ interface ApiResponse<T = any> {
 }
 
 // 基础URL，根据环境变量来设置
-export let baseUrl =  'https://100ls.com.cn//web/api'
+// export let baseUrl =  'https://100ls.com.cn/api'
+export let baseUrl =  'http://1.116.101.175:8092/api'
 
 // if(process.env.NODE_ENV === 'development'){
-
 //     baseUrl = '/proxy-api/' // 开发环境使用代理
-
 // }else{
 //     baseUrl = 'https://100ls.com.cn' // 生产环境使用真实的API地址
 // }
@@ -108,8 +107,10 @@ const request = <T>(
       method,
       data: method === "GET" ? data : { param: data },
       header: {
-        "Content-Type": "application/json",
         "auth-token": authToken,
+        "Auth-Token": authToken,
+        "Authorization": authToken,
+        "AuthToken": authToken,
         ...headers,
       },
       timeout: 20000,
@@ -205,6 +206,9 @@ const upload = <T>(
       formData,
       header: {
         "auth-token": authToken,
+        "Auth-Token": authToken,
+        "Authorization": authToken,
+        "AuthToken": authToken,
         ...headers,
       },
       success: (res) => {

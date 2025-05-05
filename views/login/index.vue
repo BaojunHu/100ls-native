@@ -1,28 +1,35 @@
 <template>
   <view class="content">
-    <m-navbar ></m-navbar>
+    <m-navbar></m-navbar>
     <view class="loginBox">
       <h3>登录</h3>
       <view class="inputBox">
         <view class="ipt">
-          <uni-icons type="contact" size="24" color="var(--v-color-primary-7)"></uni-icons>
-          <input type="text" value="" placeholder="请输入账号" />
+          <!-- <uni-icons type="contact" size="24" color="var(--v-color-primary-7)"></uni-icons> -->
+          <input type="text" v-model="loginForm.account" :maxlength="11" placeholder="请输入手机号" />
         </view>
         <view class="ipt">
-          <uni-icons type="eye" size="24" color="var(--v-color-primary-7)"></uni-icons>
-          <input type="passsword" value="" placeholder="请输入密码" />
+
+          <view class="password-wrapper">
+            <input class="uni-input" v-model="loginForm.password" placeholder="请输入密码" :password="!showPassword" />
+
+            <uni-icons type="eye" size="24" :color="showPassword ? 'var(--v-color-primary-7)' : 'var(--v-color-grey-6)'"
+              @click="changePassword"></uni-icons>
+
+          </view>
+
         </view>
         <view class="forgetPwd">
           <span>忘记密码</span>
           <span @click="openRegister">没有账号，去注册</span>
         </view>
-        <button>登录</button>
+        <m-button class="login-button" block :handle-click="handleLogin">登录</m-button>
       </view>
       <view class="tipbox">
         <view class="txt">
           —— 其他账号登录 ——
         </view>
-        <view class="otherUser">
+        <view class="otherUser" @click="openOtherLogin">
           <uni-icons type="qq" size="40" color="rgb(66,157,250)"></uni-icons>
           <uni-icons type="weixin" size="40" color="rgb(2,187,17)"></uni-icons>
         </view>
@@ -30,18 +37,30 @@
     </view>
 
     <view class="tip">
-      某某应用 2024
+      百听百说 2025
     </view>
   </view>
-  <uni-drawer ref="registerDrawerRef" mode="right" class="register-drawer" >
-      <Register @close="closeRegister"></Register>
+  <uni-drawer ref="registerDrawerRef" mode="right" class="register-drawer">
+    <Register @close="closeRegister"></Register>
   </uni-drawer>
-  
+  <m-modal />
+
 </template>
 
 <script lang="ts" setup>
+import { memberServices } from '@/services/member';
+import { useMRequest } from '@/tools/use-request';
 import Register from './register.vue';
-import { ref } from 'vue';
+import { getCurrentInstance, ref } from 'vue';
+const loginForm = ref({
+  account: '',
+  password: '',
+});
+const showPassword = ref(false);
+const changePassword = () => {
+  showPassword.value = !showPassword.value;
+  console.log('changePassword', showPassword.value);
+};
 
 const registerDrawerRef = ref(null);
 const openRegister = () => {
@@ -52,14 +71,78 @@ const closeRegister = () => {
   registerDrawerRef.value.close();
   console.log('closeRegister', registerDrawerRef.value);
 };
+const openOtherLogin = () => {
+  uni.showToast({
+    title: '暂未开放此功能，敬请期待',
+    icon: 'none',
+  });
+};
+const { runAsync: requestLogin, loading } = useMRequest(memberServices.login, {
+  manual: true,
+});
+
+const { proxy } = getCurrentInstance()
+const handleLogin = async () => {
+
+  const loginFormValue = loginForm.value;
+
+
+  if (!loginFormValue.account || !loginFormValue.password) {
+
+    // proxy.$showModal({
+    //   title: '提示',
+    //   content: '请填写完整信息！',
+    //   showCancel: false,
+    // });
+
+    uni.showToast({
+      title: '请填写完整信息！',
+      icon: 'none',
+    });
+
+    return;
+  }
+
+
+
+  const data = await requestLogin({
+    loginType: 'paswd',
+    account: loginFormValue.account,
+    password: loginFormValue.password,
+  });
+  console.log('data>>>>>>>>>>>>>>>>>>>>', data);
+  
+
+  if (data?.authToken) {
+
+
+    uni.showToast({
+      title: '登录成功',
+      icon: 'success',
+    });
+
+    uni.setStorageSync("authToken", data.authToken);
+
+    setTimeout(() => {
+      uni.navigateBack()
+    }, 600);
+  } else {
+    
+    uni.showToast({
+      title: '出错了，请稍后再试',
+      icon: 'none',
+    });
+  }
+
+
+};
 
 
 </script>
 
 <style scoped>
-
-::v-deep .register-drawer .uni-drawer--right{
-  width: 100vw!important;
+::v-deep .register-drawer .uni-drawer--right {
+  width: 100vw !important;
 }
 
 .content {
@@ -101,10 +184,12 @@ const closeRegister = () => {
 }
 
 h3 {
-  color: rgb(247, 120, 172);
-  font-size: 40rpx;
+  /* color: rgb(247, 120, 172); */
+  color: var(--v-color-grey-9);
+  font-size: 36rpx;
   letter-spacing: 10rpx;
   margin-bottom: 40rpx;
+  padding-left: 12rpx;
 }
 
 .inputBox {}
@@ -123,11 +208,11 @@ h3 {
 .ipt input {
   margin-left: 20rpx;
   font-size: 28rpx;
+  background-color: #f5f5f5;
+  padding: 0;
+
 }
 
-.ipt input {
-  margin-left: 20rpx;
-}
 
 .forgetPwd {
   font-size: 26rpx;
@@ -138,7 +223,7 @@ h3 {
   justify-content: space-between;
 }
 
-button {
+.login-button {
   margin-top: 20rpx;
   line-height: 85rpx;
   text-align: center;
@@ -146,6 +231,7 @@ button {
   border-radius: 40rpx;
   color: #fff;
   margin-top: 40rpx;
+  border: none;
 }
 
 .tip {
@@ -176,5 +262,21 @@ button {
 
 .otherUser .uni-icons {
   margin-left: 20rpx;
+}
+
+.password-wrapper {
+  flex: 1 1 100%;
+  padding-right: 24rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .uni-icon {
+    color: var(--v-color-grey-6);
+  }
+
+  .uni-eye-active {
+    color: var(--v-color-grey-8);
+  }
 }
 </style>

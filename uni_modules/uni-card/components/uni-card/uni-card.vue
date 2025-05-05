@@ -8,7 +8,12 @@
 			</view>
 		</slot>
 		<slot name="title">
-			<view v-if="title || extra" class="uni-card__header">
+			 
+
+			<view v-if="title || extra" class="uni-card__header" 
+			:class="{ 'uni-card__header-no-border': !$slots.default }" 
+
+			>
 				<!-- 卡片标题 -->
 				<view class="uni-card__header-box" @click="onClick('title')">
 					<view v-if="thumbnail" class="uni-card__header-avatar">
@@ -112,6 +117,8 @@
 		methods: {
 			onClick(type) {
 				this.$emit('click', type)
+	
+				
 			}
 		}
 	}
@@ -219,6 +226,9 @@
 					color: $uni-cart-subtitle-color;
 				}
 			}
+		}
+		.uni-card__header-no-border{
+			border-bottom: none;
 		}
 
 		.uni-card__content {

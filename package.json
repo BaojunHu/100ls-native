@@ -25,7 +25,8 @@
 		"@dimjs/utils": "^2.1.2",
 		"@flatbiz/utils": "^5.0.9",
 		"@types/vue": "^2.0.0",
-		"vue-hooks-plus": "^2.3.1"
+		"vue-hooks-plus": "2.2.1",
+		"vuex": "^4.1.0"
 	},
 	"uni_modules": {
 		"dependencies": [],

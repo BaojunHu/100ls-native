@@ -5,7 +5,7 @@
       <view class="inputBox">
         <view class="ipt">
           <uni-icons type="contact" size="24" color="var(--v-color-primary-7)"></uni-icons>
-          <input v-model="username" type="text" placeholder="请输入用户名" />
+          <input v-model="username" type="text" :maxlength="11" placeholder="请输入手机号" />
         </view>
         <view class="ipt">
           <uni-icons type="eye" size="24" color="var(--v-color-primary-7)"></uni-icons>
@@ -24,6 +24,7 @@
       <view class="tip">
         已有账号？<span @click="backLogin">去登录</span>
       </view>
+      <m-modal />
     </view>
   </view>
 </template>
@@ -31,7 +32,7 @@
 <script lang="ts" setup>
 import { memberServices } from "@/services/member";
 import { useMRequest } from "@/tools/use-request";
-import { ref } from "vue";
+import { getCurrentInstance, ref } from "vue";
 
 const username = ref("");
 const password = ref("");
@@ -48,15 +49,26 @@ const backLogin = () => {
 const { data, runAsync: requestRegister } = useMRequest(memberServices.register, {
   manual: true,
 });
+const {proxy} = getCurrentInstance();
 
 const register = async () => {
   if (!username.value || !password.value || !confirmPassword.value) {
-    alert("请填写完整信息！");
+
+    uni.showToast({
+      title: "提示",
+      content: "请填写完整信息！",
+      showCancel: false,
+    });
+
     return;
   }
 
   if (password.value !== confirmPassword.value) {
-    alert("两次输入的密码不一致！");
+    uni.showModal({
+      title: "提示",
+      content: "两次输入的密码不一致！",
+      showCancel: false,
+    });
     return;
   }
 
@@ -64,9 +76,29 @@ const register = async () => {
     account: username.value,
     password: password.value,
   });
-  alert("注册成功！");
 
-  backLogin();
+  if (data.value) {
+
+    uni.showModal({
+      title: "提示",
+      content: "注册成功，请登录！",
+      showCancel: false,
+    });
+
+
+
+    setTimeout(() => {
+      backLogin();
+    }, 1000);
+  } else {
+    proxy.$showModal({
+      title: "提示",
+      content: "注册成功，请登录！",
+      showCancel: false,
+    });
+
+  }
+
 
 };
 

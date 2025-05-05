@@ -1,10 +1,10 @@
 <template>
     <scroll-view scroll-y class="video-list-page layout-full " v-show="props.show">
-        <uni-swiper-dot class="swiper-dot-box  " :info="data?.banners"
-            :current="swiperDotIndex" mode="round" :dots-styles="dotsStyles" field="content">
+        <uni-swiper-dot class="swiper-dot-box  " :info="data?.banners" :current="swiperDotIndex" mode="round"
+            :dots-styles="dotsStyles" field="content">
             <swiper class="swiper-box" :current="swiperDotIndex">
                 <swiper-item v-for="(item, index) in data?.banners" :key="item.sortNo">
-                    <view class="swiper-item" :class="'swiper-item' + index" @click=clickSwiperItem(item) >
+                    <view class="swiper-item" :class="'swiper-item' + index" @click=clickSwiperItem(item)>
                         <image :src="item.coverImage" mode="aspectFill" class="swiper-image" />
                         <text class="swiper-text">
                             {{ item.title }}
@@ -73,7 +73,7 @@
                     <m-text bold :size="26" color="grey-9" class="mt-12 mb-8  text-ellipsis">{{ item.title
                         }}</m-text>
                     <view class="video-info">
-                        <m-text :size="22" color="grey-7" class="history-info__text" v-for="lang in item.languages">{{
+                        <m-text :size="22" color="grey-7" class="history-info__text " v-for="lang in item.languages">{{
                             lang
                         }}
                         </m-text>
@@ -81,6 +81,27 @@
                 </div>
             </view>
         </scroll-view>
+
+
+        <m-text bold :size="30" color="grey-9" class="ml-20 mt-24">学习技巧</m-text>
+
+        <view class="lesson-list">
+            <div class="lesson-item" v-for="item in lessonList?.rows" :key="item.resourceCode"
+                @click="handleVideoClick(item)">
+                <div class="lesson-image-warp">
+                    <image :src="item.coverImage" mode="aspectFill" class="lesson-image
+                        " />
+                    <view class="episode-count">
+                        <!-- <m-text :size="20" color="blue-grey-1">全{{ item.episodeCount }}集</m-text> -->
+                    </view>
+                </div>
+                <uni-card :is-shadow="false" :is-full="true" :spacing="0" :padding="0" :border="false"
+                    class="lesson-info" :title="item.title" :sub-title="item.author" :extra="`${item.learnNumber}人在学`"
+                    :thumbnail="item.authorIcon" />
+
+
+            </div>
+        </view>
         <div class="pb-64"></div>
     </scroll-view>
 
@@ -90,11 +111,11 @@
 </template>
 <script lang="ts" setup>
 
-import { homeServices } from '@/services/home';
+import { navigateVideoPlayer } from '@/router/main';
+import { HomeData, HomeHistoryResponse, HomeHistoryRow, homeServices, LessonListResponse, THomeBannerItem } from '@/services/home';
 import { useMRequest } from '@/tools/use-request';
 import { onShow } from '@dcloudio/uni-app';
-import { modifyQueryString } from '@dimjs/utils';
-import { watch } from 'vue';
+
 import { ref } from 'vue';
 
 type TVideoListProps = {
@@ -109,17 +130,23 @@ const { data: videList, runAsync: requestVideoList } = useMRequest(homeServices.
 const { data: historyData, runAsync: requestHistory } = useMRequest(homeServices.history, {
     manual: true,
 })
+const { data: lessonList, runAsync: reqestLessList } = useMRequest(homeServices.lessonList, {
+    manual: true,
+})
 
 onShow(async () => {
+
+
     const data = await requestHomeData();
-    const firstCategory = data?.categories[0]?.categoryNo;
+    const firstCategory = data?.categories?.[0]?.categoryNo;
     if (firstCategory) {
         await requestVideoList({ categoryNo: firstCategory, pageSize: 10, pageNo: 1 });
-        await requestHistory({
-            pageSize: 10,
-            pageNo: 1,
-            categoryNo: firstCategory,
-        });
+        await reqestLessList({ categoryNo: firstCategory, pageSize: 10, pageNo: 1 });
+        // await requestHistory({
+        //     pageSize: 10,
+        //     pageNo: 1,
+        //     categoryNo: firstCategory,
+        // });
     }
 
 });
@@ -129,25 +156,13 @@ const props = withDefaults(defineProps<TVideoListProps>(), {
     show: false,
 });
 
-const clickSwiperItem = (item: { index: number; name: string }) => {
-    console.log('clickItem', item);
-    let url =  `/pages/component/web-view-local/web-view-local`;
-
-    const targetUrl = modifyQueryString('/hybrid/h5/index.html', {
-        ...item
-    });
-
-    url = modifyQueryString(url, {
-        url: targetUrl,
-    });
-
-    uni.navigateTo({
-        url,
-    });
-    
-    // uni.navigateTo({
-    //     url: `/pages/component/web-view-local/web-view-local?url=${'/hybrid/html/local.html'}`,
-    // });
+const clickSwiperItem = (item: THomeBannerItem) => {
+    navigateVideoPlayer({
+        subtitles: item.subtitles,
+        title: item.title,
+        coverImage: item.coverImage,
+        link: item.link,
+    })
 };
 
 const handleCateClick = (item: { categoryNo: string }) => {
@@ -157,11 +172,17 @@ const handleCateClick = (item: { categoryNo: string }) => {
 const handleHistoryClick = (item: { resourceCode: string }) => {
     console.log('handleHistoryClick', item);
 };
-const handleVideoClick = (item: { resourceCode: string }) => {
+const handleVideoClick = (item: HomeHistoryRow | LessonListResponse) => {
+
     console.log('handleVideoClick', item);
+
+    navigateVideoPlayer({
+        subtitles: item.subtitles,
+        title: item.title,
+        coverImage: item.coverImage,
+        link: item.link,
+    })
 };
-
-
 
 
 const dotsStyles = {
@@ -249,6 +270,15 @@ const swiperDotIndex = ref(0);
 
 
 
+::v-deep .history-info__text {
+    margin-right: 12rpx;
+}
+
+::v-deep .history-info__text:last-child {
+    margin-right: 0;
+}
+
+
 .history-list {
     // display: flex;
     // flex-wrap: wrap;
@@ -263,10 +293,6 @@ const swiperDotIndex = ref(0);
         overflow: hidden;
         border-radius: 16rpx;
         margin-bottom: 32rpx;
-
-
-
-
     }
 
     .history-image-warp {
@@ -302,13 +328,6 @@ const swiperDotIndex = ref(0);
         line-height: 0;
     }
 
-    .history-info__text {
-        margin-right: 12rpx;
-    }
-
-    .history-info__text:last-child {
-        margin-right: 0;
-    }
 
 
 
@@ -342,6 +361,7 @@ const swiperDotIndex = ref(0);
         margin-right: 12rpx;
 
     }
+
     .video-item:last-child {
         margin-right: 0;
     }
@@ -361,7 +381,69 @@ const swiperDotIndex = ref(0);
 
 
 }
-.video-list-scroll .uni-scroll-view-content{
+
+.lesson-list-scroll .uni-scroll-view-content,
+.video-list-scroll .uni-scroll-view-content {
     width: max-content;
+}
+
+.lesson-list {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    margin: 16rpx 20rpx;
+
+
+
+    .lesson-item {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 24rpx;
+        border-radius: 16rpx;
+        background: #f2f2f2;
+
+        overflow: hidden;
+    }
+
+    .lesson-image-warp {
+        height: 392rpx;
+        position: relative;
+    }
+
+    .lesson-image {
+        width: 100%;
+        height: 100%;
+        border-radius: 16rpx;
+
+    }
+
+}
+::v-deep .uni-card{
+    background-color: transparent !important;
+}
+::v-deep .uni-card__header {
+    .uni-card__header-extra {
+        align-self: flex-start !important;
+        margin-top: 6rpx !important;
+    }
+
+    .uni-card__header-avatar {
+
+        border-radius: 50% !important;
+        overflow: hidden !important;
+
+        .uni-card__header-avatar-image,
+        img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .uni-card__header-avatar-image>div {
+            background-size: 100% 100% !important;
+
+        }
+
+
+    }
 }
 </style>

@@ -5,7 +5,7 @@ export const memberServices = {
     return await http.post<TMemberLoginData>("/login", param);
   },
   register: async (param: TMemberRegisterParam) => {
-    return await http.post('/register', param);
+    return await http.post('/signup', param);
 
   },
 };

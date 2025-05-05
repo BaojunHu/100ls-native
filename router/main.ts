@@ -1,4 +1,4 @@
-import { modifyQueryString, uuid } from "@dimjs/utils";
+import { modifyQueryString, PlainObject, uuid } from "@dimjs/utils";
 import type {
   PageRouter,
   PageRouterBack,
@@ -6,6 +6,7 @@ import type {
   RouterKey,
 } from "./constants";
 import { isPlainObject } from "@dimjs/lang";
+import { HomeHistoryResponse, TSubtitle } from "@/services/home";
 
 export type NavigateToType<
   BC extends keyof ReType & RouterKey,
@@ -163,6 +164,45 @@ const getRouteEventKey = (id: string) => {
     back: "back_" + id,
   };
 };
+
+
+export const navigateToWebview = (targetUrl: string, data: PlainObject) => {
+  let webviewUrl = `/pages/component/web-view-local/web-view-local`;
+
+  targetUrl = modifyQueryString(targetUrl, {
+    ...data,
+  });
+
+  webviewUrl = modifyQueryString(webviewUrl, {
+    url: targetUrl,
+  });
+
+  uni.navigateTo({
+    url: webviewUrl,
+  });
+};
+
+export type TVideoPlayerParams = {
+
+  /** 字幕列表 */
+  subtitles: TSubtitle[];
+
+  coverImage: string;
+
+  link: string;
+
+  title: string;
+}
+
+
+export const navigateVideoPlayer = (data: TVideoPlayerParams) => {
+
+      let targetUrl = 'http://localhost:8083'
+  // let webviewUrl = '/hybrid/h5/index.html'
+
+  navigateToWebview(targetUrl, data);
+};
+
 
 // 示例导出
 export { getRouteEventKey, navigateBack, navigateTo };

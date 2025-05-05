@@ -1,11 +1,11 @@
 {
-    "compilerOptions": {
-      "types": ["@dcloudio/types", "node"],
-      "baseUrl": "./",
-      "paths": {
-        "@/*": ["./*"]
-      },
-      "include": ["**/*.ts", "**/*.d.ts", "**/*.tsx", "**/*.vue"],
-      "exclude": ["node_modules", "dist", "build", "public"],
+  "compilerOptions": {
+    "types": ["@dcloudio/types", "node"],
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./*"]
     }
-  }
+  },
+  "include": ["**/*.ts", "**/*.d.ts", "**/*.tsx", "**/*.vue"],
+  "exclude": ["node_modules", "dist", "build", "public"]
+}

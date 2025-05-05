@@ -1,0 +1,185 @@
+<template>
+
+    <div class="layout-page speak-page" v-show="props.show" :style="{
+        '--bg-img': `url(${list?.rows[current].coverImage})`,
+    }">
+        <m-navbar class="layout-auto"> </m-navbar>
+        <!--  -->
+        <swiper class="full-swiper" :vertical="true" @change="onSwiperChange" :next-margin="offsetBottom">
+            <swiper-item class="full-swiper-item" v-for="(item, index) in list?.rows" :key="index">
+                <view class="swiper-item ">
+
+                    <view class="speak-item__img-warp">
+
+                        <image :src="item.coverImage" mode="aspectFill" class="speak-item__img" />
+                        <view class="speak-item__img-mask">
+                            <m-text bold :size="42" color="blue-grey-1" multipleLines>{{ item.titleEN }}</m-text>
+                            <m-text :size="24" color="blue-grey-1" class="mt-24" multipleLines>{{ item.titleCN
+                            }}</m-text>
+                            <view class="flex-between mt-50">
+                                <m-text :size="24" color="blue-grey-1" multipleLines># {{ item.tags.join('、')
+                                }}</m-text>
+                                <view class="speak-btn">
+                                    <m-icon type="icon-shengyin" color="grey-1" size="32" />
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="flex al-c mt-20 w-full">
+                        <m-button type="primary" circle>
+                            跟读 · {{ item.learnNumber }}人
+                        </m-button>
+                        <div class="flex al-c js-e flex-1 mr-56">
+                            <image :src="FlowReadImg" style="width: 36rpx;height:36rpx;" class="mr-4"></image>
+                            <m-text :size="24" color="grey-1">跟读辑</m-text>
+                        </div>
+
+                        <div class="flex al-c mr-24">
+                            <m-icon type="icon-fenxiang" color="grey-1" class="mr-4" :size="24"></m-icon>
+                            <m-text :size="24" color="grey-1">分享</m-text>
+                        </div>
+                    </view>
+
+                </view>
+            </swiper-item>
+        </swiper>
+    </div>
+
+</template>
+<script setup lang="ts">
+import { homeServices } from '@/services/home';
+import { ref, watch } from 'vue';
+import { useMRequest } from '@/tools/use-request';
+import FlowReadImg from './flow-read.png';
+
+type TPageProps = {
+    show: boolean
+}
+const props = withDefaults(defineProps<TPageProps>(), {
+    show: false,
+});
+const { data: list, runAsync: requestList } = useMRequest(homeServices.followSentenceList, {
+    manual: true,
+});
+
+
+const pxToRpx = (px: number) => {
+    const screenWidth = uni.getSystemInfoSync().screenWidth
+    return (750 * Number.parseInt(px.toString())) / screenWidth
+}
+
+const winHeight = uni.getSystemInfoSync().screenHeight;
+const winHeightRPX = pxToRpx(winHeight);
+const offsetBottom = parseInt((winHeightRPX - 200 - 964).toString()) + 'rpx';
+
+
+watch(() => props.show, (newVal) => {
+
+    if (newVal && !list.value) {
+        requestList({
+            pageNo: 1,
+            pageSize: 10,
+        })
+    }
+}, {
+    immediate: true,
+    deep: true,
+});
+const current = ref(0);
+const onSwiperChange = (e: any) => {
+    const { current } = e.detail;
+    console.log('onSwiperChange', current);
+    current.value = current;
+    // uni.showToast({
+    //     title: `当前索引：${current}`,
+    //     icon: 'none',
+    // });
+};
+
+
+</script>
+
+<style lang="less" scoped>
+.speak-page {
+
+
+    &::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: var(--bg-img);
+        background-size: cover;
+        background-position: center;
+        filter: blur(40rpx);
+    }
+}
+
+
+.full-swiper {
+    flex: 1;
+    height: 100%;
+    width: 100%;
+    margin-top: 24rpx;
+    z-index: 99;
+}
+
+.full-swiper-item {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    font-size: 30rpx;
+    color: #000;
+}
+
+.swiper-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 30rpx;
+    color: #000;
+}
+
+::v-deep .speak-item__img-warp {
+    width: 670rpx;
+    height: 880rpx;
+
+    border-radius: 14rpx;
+    position: relative;
+
+
+}
+
+.speak-item__img {
+    width: 100%;
+    height: 100%;
+    border-radius: 14rpx;
+}
+
+.speak-item__img-mask {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 32rpx 40rpx;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.5) 100%);
+    border-radius: 14rpx;
+}
+
+.speak-btn {
+    width: 104rpx;
+    height: 48rpx;
+    background: #727B88;
+    border-radius: 35rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+</style>
