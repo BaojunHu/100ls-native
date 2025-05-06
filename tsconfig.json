@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "types": ["@dcloudio/types", "node"],
+    "types": ["@dcloudio/types", "node" ,"./global.d.ts"],
     "baseUrl": "./",
     "paths": {
       "@/*": ["./*"]

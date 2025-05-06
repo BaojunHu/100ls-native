@@ -12,7 +12,14 @@
 		}
 	},
 	"pages": [
-
+		{
+			"path": "views/home/index",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
 		// pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
 			"path": "pages/tabBar/component/component",
@@ -31,14 +38,7 @@
 				}
 			}
 		},
-		{
-			"path": "views/home/index",
-			"style": {
-				"app-plus": {
-					"titleNView": false
-				}
-			}
-		},
+
 		{
 			"path": "views/login/index",
 			"style": {
@@ -285,7 +285,10 @@
 		{
 			"path": "pages/component/web-view/web-view",
 			"style": {
-				"navigationBarTitleText": "web-view"
+				"app-plus": {
+					"titleNView": false
+				}
+			
 			}
 		},
 		// #ifdef APP-VUE || APP-NVUE
@@ -299,7 +302,11 @@
 		// #ifdef APP-PLUS || H5
 		{
 			"path": "pages/component/web-view-local/web-view-local",
-			"style": {}
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
 		},
 		// #endif
 		{

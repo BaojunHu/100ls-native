@@ -50,7 +50,9 @@
 import { homeServices } from '@/services/home';
 import { ref, watch } from 'vue';
 import { useMRequest } from '@/tools/use-request';
+//@ts-ignore
 import FlowReadImg from './flow-read.png';
+import { onShow } from '@dcloudio/uni-app';
 
 type TPageProps = {
     show: boolean
@@ -82,9 +84,25 @@ watch(() => props.show, (newVal) => {
         })
     }
 }, {
-    immediate: true,
+    // immediate: true,
     deep: true,
 });
+
+onShow(() => {
+    if (props.show && !list.value) {
+        requestList({
+            pageNo: 1,
+            pageSize: 10,
+        })
+    }
+});
+
+
+
+
+
+
+
 const current = ref(0);
 const onSwiperChange = (e: any) => {
     const { current } = e.detail;

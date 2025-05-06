@@ -8,6 +8,7 @@
 			<u-link class="hello-link" :href="'https://uniapp.dcloud.io/component/'" :text="'https://uniapp.dcloud.io/component/'"
 			 :inWhiteList="true"></u-link>
 		</view>
+		
 		<view class="uni-panel" v-for="(item, index) in list" :key="item.id">
 			<view class="uni-panel-h" :class="item.open ? 'uni-panel-h-on' : ''" @click="triggerCollapse(index, item.id)">
 				<text class="uni-panel-text">{{item.name}}</text>

@@ -23,7 +23,7 @@ const navbarTabs = ref([
 	'看剧',
 	'一句跟读',
 ])
-const tabActive = ref(1)
+const tabActive = ref(0)
 const handleTabChange = (item: {
 	index: number,
 	name: string

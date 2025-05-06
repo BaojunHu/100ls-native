@@ -165,12 +165,11 @@ const getRouteEventKey = (id: string) => {
   };
 };
 
-
 export const navigateToWebview = (targetUrl: string, data: PlainObject) => {
   let webviewUrl = `/pages/component/web-view-local/web-view-local`;
 
   targetUrl = modifyQueryString(targetUrl, {
-    ...data,
+    data: JSON.stringify(data),
   });
 
   webviewUrl = modifyQueryString(webviewUrl, {
@@ -183,7 +182,6 @@ export const navigateToWebview = (targetUrl: string, data: PlainObject) => {
 };
 
 export type TVideoPlayerParams = {
-
   /** 字幕列表 */
   subtitles: TSubtitle[];
 
@@ -192,17 +190,15 @@ export type TVideoPlayerParams = {
   link: string;
 
   title: string;
-}
-
+};
 
 export const navigateVideoPlayer = (data: TVideoPlayerParams) => {
-
-      let targetUrl = 'http://localhost:8083'
-  // let webviewUrl = '/hybrid/h5/index.html'
+  // let targetUrl = 'http://localhost:8083'
+  // let targetUrl = "/hybrid/html/h5/index.html";
+  let targetUrl = "http://1.116.101.175:8092/spa-app/index.html";
 
   navigateToWebview(targetUrl, data);
 };
-
 
 // 示例导出
 export { getRouteEventKey, navigateBack, navigateTo };

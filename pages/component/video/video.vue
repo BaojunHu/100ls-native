@@ -3,7 +3,7 @@
 		<page-head :title="title"></page-head>
 		<view class="uni-padding-wrap uni-common-mt" v-if="showVideo">
 			<view>
-				<video id="myVideo" src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/2minute-demo.mp4"
+				<video id="myVideo" src="https://shangeban.oss-cn-shanghai.aliyuncs.com/100ls/greenbook.mp4"
 				 @error="videoErrorCallback" :danmu-list="danmuList" enable-danmu danmu-btn controls poster="https://web-assets.dcloud.net.cn/unidoc/zh/poster.png"></video>
 			</view>
 			<!-- #ifndef MP-ALIPAY || MP-TOUTIAO || MP-KUAISHOU || MP-LARK || MP-JD -->

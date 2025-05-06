@@ -82,7 +82,6 @@
             </view>
         </scroll-view>
 
-
         <m-text bold :size="30" color="grey-9" class="ml-20 mt-24">学习技巧</m-text>
 
         <view class="lesson-list">
