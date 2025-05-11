@@ -1,15 +1,12 @@
 <template>
-	<view :class="`page layout-page ${tabActive == 0 ? 'bg-blue' : 'bg-transparent'}`">
-
+	<view :class="`page layout-page ${tabsConfig.current == 0 ? 'bg-blue' : 'bg-transparent'}`">
 		<m-navbar class="layout-auto page-header" fixed>
 			<m-icon type="icon-huahua" :size="40" bold color="grey-9" />
 			<fui-tabs v-bind="tabsConfig" @change="handleTabChange" />
-
 			<m-icon type="icon-whole-search" :size="40" bold color="grey-9" />
-
 		</m-navbar>
-		<VideoList :show="tabActive === 0" />
-		<SpeackList :show="tabActive === 1" />
+		<VideoList :show="tabsConfig.current  === 0" />
+		<SpeackList :show="tabsConfig.current  === 1" @changeTab="handleTabChange" />
 	</view>
 </template>
 
@@ -23,26 +20,29 @@ const navbarTabs = ref([
 	'看剧',
 	'一句跟读',
 ])
-const tabActive = ref(0)
+
 const handleTabChange = (item: {
 	index: number,
 	name: string
-
 }) => {
-	tabActive.value = item.index
+	tabsConfig.value.current = item.index
 }
+
+
+
 const tabsConfig = ref({
 	tabs: navbarTabs.value,
-	current: tabActive.value,
+	current: 0,
 	isSlider: true,
 	padding: 12,
 	bottom: -12,
 	center: true,
 	color: 'var(--v-color-grey-8)',
 	size: 34,
-	fontWeight: 500,
+	fontWeight: 400,
 	selectedColor: 'var(--v-color-grey-9)',
 	selectedSize: 34,
+	selectedFontWeight: 500,
 	scale: 1,
 	background: 'transparent',
 	sliderHeight: 6,
@@ -66,10 +66,11 @@ function updateTabsConfig(newConfig: TabsConfig) {
 </script>
 
 <style lang="less">
-.page-header{
+.page-header {
 	position: relative;
 	z-index: 9999;
 }
+
 ::v-deep.fui-tabs__item {
 	padding: 0 12px !important;
 	width: max-content !important;

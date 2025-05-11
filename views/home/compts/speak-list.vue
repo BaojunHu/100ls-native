@@ -15,10 +15,10 @@
                         <view class="speak-item__img-mask">
                             <m-text bold :size="42" color="blue-grey-1" multipleLines>{{ item.titleEN }}</m-text>
                             <m-text :size="24" color="blue-grey-1" class="mt-24" multipleLines>{{ item.titleCN
-                            }}</m-text>
+                                }}</m-text>
                             <view class="flex-between mt-50">
                                 <m-text :size="24" color="blue-grey-1" multipleLines># {{ item.tags.join('、')
-                                }}</m-text>
+                                    }}</m-text>
                                 <view class="speak-btn">
                                     <m-icon type="icon-shengyin" color="grey-1" size="32" />
                                 </view>
@@ -44,15 +44,17 @@
             </swiper-item>
         </swiper>
     </div>
-
+    <m-modal />
 </template>
 <script setup lang="ts">
 import { homeServices } from '@/services/home';
-import { ref, watch } from 'vue';
+import { getCurrentInstance, ref, watch } from 'vue';
 import { useMRequest } from '@/tools/use-request';
 //@ts-ignore
 import FlowReadImg from './flow-read.png';
 import { onShow } from '@dcloudio/uni-app';
+import { navigateTo } from '@/router/main';
+import { RouterEnum } from '@/router/constants';
 
 type TPageProps = {
     show: boolean
@@ -60,8 +62,50 @@ type TPageProps = {
 const props = withDefaults(defineProps<TPageProps>(), {
     show: false,
 });
+
+const isTriggerAuthError = ref(false);
+
 const { data: list, runAsync: requestList } = useMRequest(homeServices.followSentenceList, {
     manual: true,
+    showErrorMessage: false,
+    onError: (err: any) => {
+        if (err.code == 410) {
+            console.log();
+
+            // 如果第一次进来 但是没登录 则自动跳转登录页
+            if (!isTriggerAuthError.value) {
+                navigateTo({
+                    path: RouterEnum.Login
+                })
+                isTriggerAuthError.value = true;
+            } else {
+                // 如果是登录后跳转过来 但是没有登录 则弹出登录提示
+                showLoginModal({
+                    onCancel() {
+                        backVideoList();
+                        isTriggerAuthError.value = false;
+                    }
+                });
+            }
+
+        }
+    },
+    onSuccess: (res) => {
+        if (!res?.rows?.length) {
+            PageInstance.proxy.$showModal({
+                title: '提示',
+                content: '来到了知识的荒漠，快去看看别的吧~',
+                confirmText: '返回',
+                showCancel: false,
+                success: (res) => {
+                    if (res.confirm) {
+                        backVideoList();
+                    }
+                }
+            })
+        }
+
+    }
 });
 
 
@@ -74,20 +118,40 @@ const winHeight = uni.getSystemInfoSync().screenHeight;
 const winHeightRPX = pxToRpx(winHeight);
 const offsetBottom = parseInt((winHeightRPX - 200 - 964).toString()) + 'rpx';
 
+const PageInstance = getCurrentInstance();
+
+const showLoginModal = (config: {
+    onCancel?: () => void
+    onConfirm?: () => void
+}) => {
+    PageInstance.proxy.$showModal({
+        title: '提示',
+        content: '访问【一句跟读】，需要您先完成登录。',
+        confirmText: '去登录',
+        cancelText: '再逛逛',
+        success: (res) => {
+            if (res.confirm) {
+                navigateTo({
+                    path: RouterEnum.Login
+                });
+            } else {
+                config?.onCancel?.();
+            }
+        }
+    });
+}
+
+
 
 watch(() => props.show, (newVal) => {
-
+    
     if (newVal && !list.value) {
         requestList({
             pageNo: 1,
             pageSize: 10,
         })
     }
-}, {
-    // immediate: true,
-    deep: true,
 });
-
 onShow(() => {
     if (props.show && !list.value) {
         requestList({
@@ -99,6 +163,12 @@ onShow(() => {
 
 
 
+const emit = defineEmits(['changeTab']);
+const backVideoList = () => {
+    emit('changeTab', {
+        index: 0,
+    });
+}
 
 
 

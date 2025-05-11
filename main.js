@@ -17,7 +17,7 @@ export function createApp() {
     playTime: 0,
     formatedPlayTime: "00:00:00",
   };
-  // 调用 initModal 并绑定到 Vue 实例
+  // 调用 initModal 并绑定到 Vue 实例  可以自定义样式的Modal
   initModal(app);
   return {
     app,

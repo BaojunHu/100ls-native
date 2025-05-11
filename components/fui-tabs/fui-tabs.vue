@@ -227,6 +227,8 @@
 				this.initData(vals)
 			},
 			current(newVal, oldVal) {
+
+			
 				this.switchTab(newVal);
 			}
 		},

@@ -20,7 +20,7 @@ export const homeServices = {
     return await http.post<HomeHistoryResponse>("/home/history", param);
   },
   videoList: async (param: {
-    categoryNo: string;
+    catalogueNo: string;
     pageNo: number;
     pageSize: number;
   }) => {

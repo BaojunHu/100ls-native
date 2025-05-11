@@ -15,11 +15,13 @@
         </uni-swiper-dot>
         <scroll-view scroll-x :scroll-with-animation="true" class="cate-list-scroll">
             <view class="cate-list">
-                <div class="cate-item" v-for="item in data?.categories" :key="item.categoryNo"
-                    @click="handleCateClick(item)">
+                <div class="cate-item" :class="activedCate === item.categoryNo ? 'cate-item__active' : ''"
+                    v-for="item in data?.categories" :key="item.categoryNo" @click="handleCateClick(item)">
                     <image :src="item.icon" mode="aspectFill" class="cate-image
                         " />
-                    <m-text bold :size="24" color="grey-9">{{ item.categoryName }}</m-text>
+                    <text class="cate-name">
+                        {{ item.categoryName }}
+                    </text>
                 </div>
             </view>
         </scroll-view>
@@ -59,33 +61,36 @@
                 :btnText="hisEmptyErrorMsg.btnText" @click="handleEmptyClick" btnSize="small" btnType="text" />
         </view>
 
-        <m-text bold :size="30" color="grey-9" class="ml-20">5分钟学习区</m-text>
+        <template v-for="videoListItem in videoListMap" :key="videoListItem.no">
 
-        <scroll-view scroll-x :scroll-with-animation="true" class="video-list-scroll">
-            <view class="video-list">
-                <div class="video-item" v-for="item in videList?.rows" :key="item.resourceCode"
-                    @click="handleVideoClick(item)">
-                    <div class="video-image-warp">
-                        <image :src="item.coverImage" mode="aspectFill" class="video-image
+
+            <m-text bold :size="30" color="grey-9" class="ml-20">{{ videoListItem.name }}</m-text>
+            <scroll-view scroll-x :scroll-with-animation="true" class="video-list-scroll">
+                <view class="video-list">
+                    <div class="video-item" v-for="item in videoListItem.data" :key="item.resourceCode"
+                        @click="handleVideoClick(item)">
+                        <div class="video-image-warp">
+                            <image :src="item.coverImage" mode="aspectFill" class="video-image
                         " />
-                        <view class="episode-count">
+                            <view class="episode-count">
 
-                            <m-text :size="20" color="blue-grey-1">全{{ item.episodeCount }}集</m-text>
+                                <m-text :size="20" color="blue-grey-1">全{{ item.episodeCount }}集</m-text>
+                            </view>
+                        </div>
+
+                        <m-text bold :size="26" color="grey-9" class="mt-12 mb-8  text-ellipsis">{{ item.title
+                        }}</m-text>
+                        <view class="video-info">
+                            <m-text :size="22" color="grey-7" class="history-info__text "
+                                v-for="lang in item.languages">{{
+                                    lang
+                                }}
+                            </m-text>
                         </view>
                     </div>
-
-                    <m-text bold :size="26" color="grey-9" class="mt-12 mb-8  text-ellipsis">{{ item.title
-                        }}</m-text>
-                    <view class="video-info">
-                        <m-text :size="22" color="grey-7" class="history-info__text " v-for="lang in item.languages">{{
-                            lang
-                        }}
-                        </m-text>
-                    </view>
-                </div>
-            </view>
-        </scroll-view>
-
+                </view>
+            </scroll-view>
+        </template>
         <m-text bold :size="30" color="grey-9" class="ml-20 mt-24">学习技巧</m-text>
 
         <view class="lesson-list">
@@ -114,12 +119,12 @@
 
 import { RouterEnum } from '@/router/constants';
 import { navigateTo, navigateVideoPlayer } from '@/router/main';
-import { HomeData, HomeHistoryResponse, HomeHistoryRow, homeServices, LessonListResponse, THomeBannerItem } from '@/services/home';
+import { Catalogue, HomeData, HomeHistoryResponse, HomeHistoryRow, homeServices, LessonListResponse, THomeBannerItem } from '@/services/home';
 import { useMRequest } from '@/tools/use-request';
 import { onShow } from '@dcloudio/uni-app';
 import awaitTo from 'await-to-ts';
 
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 type TVideoListProps = {
     show: boolean;
@@ -127,68 +132,75 @@ type TVideoListProps = {
 const { data, loading, runAsync: requestHomeData } = useMRequest(homeServices.homeCore, {
     manual: true,
 })
-const { data: videList, runAsync: requestVideoList } = useMRequest(homeServices.videoList, {
+const { data: videoListMap, runAsync: requestVideoList } = useMRequest(async (catalogues: Catalogue[]) => {
+
+    const promiseList = catalogues?.map((item) => {
+        return homeServices.videoList({
+            catalogueNo: item.catalogueNo,
+            pageSize: 10,
+            pageNo: 1,
+        })
+    })
+    return Promise.all(promiseList).then((res) => {
+
+        return res.map((item, index) => {
+            return {
+                no: catalogues[index].catalogueNo,
+                data: item.rows,
+                name: catalogues[index].catalogueName,
+            }
+        })
+    }) as Promise<{
+        no: string;
+        data: HomeHistoryRow[];
+        name: string;
+    }[]>
+}, {
     manual: true,
 })
-const { data: historyData, runAsync: requestHistory, mutate: historyDataMutate } = useMRequest(homeServices.history, {
+const { data: historyData, run: requestHistory } = useMRequest(homeServices.history, {
     manual: true,
     onError: (err) => {
-        console.log('onError', err);
+        //@ts-ignore
+        if (err.code === '410') {
+            hisEmptyErrorMsg.value = {
+                title: '',
+                desc: '',
+                btnText: '点击登录，开始学习吧~',
+            };
+        } else {
+            hisEmptyErrorMsg.value = {
+                title: '暂无浏览记录',
+                desc: '快去看看视频吧',
+                btnText: '',
+            };
+        }
     },
     showErrorMessage: false
 })
-const { data: lessonList, runAsync: reqestLessList } = useMRequest(homeServices.lessonList, {
+const { data: lessonList, run: reqestLessList } = useMRequest(homeServices.lessonList, {
     manual: true,
 })
 const hisEmptyErrorMsg = ref({
-    title: '暂无学习记录',
-    desc: '去看看其他课程吧',
+    title: '',
+    desc: '',
     btnText: '',
 });
-
-onShow(async () => {
-    const data = await requestHomeData();
-    const firstCategory = data?.categories?.[0]?.categoryNo;
-    if (firstCategory) {
-        await requestVideoList({ categoryNo: firstCategory, pageSize: 10, pageNo: 1 });
-        await reqestLessList({ categoryNo: firstCategory, pageSize: 10, pageNo: 1 });
-        const [err, res] = await awaitTo(requestHistory({
-            pageSize: 10,
-            pageNo: 1,
-            categoryNo: firstCategory,
-        }));
-
-        if (!res?.rows.length) {
-            //@ts-ignore
-            if (err.code === '410') {
-                hisEmptyErrorMsg.value = {
-                    title: '',
-                    desc: '',
-                    btnText: '点击登录，开始学习吧~',
-                };
-            } else {
-                hisEmptyErrorMsg.value = {
-                    title: '暂无学习记录',
-                    desc: '去看看其他课程吧',
-                    btnText: '',
-                };
-            }
-        }
-    }
-
-});
-
+const activedCate = ref('')
 
 const props = withDefaults(defineProps<TVideoListProps>(), {
     show: false,
 });
 
 
+
+
+
 const handleEmptyClick = () => {
     console.log('handleEmptyClick', props.show);
     if (hisEmptyErrorMsg.value.btnText) {
         navigateTo({
-            path:RouterEnum.Login
+            path: RouterEnum.Login
         })
     }
 };
@@ -203,7 +215,14 @@ const clickSwiperItem = (item: THomeBannerItem) => {
 };
 
 const handleCateClick = (item: { categoryNo: string }) => {
-    console.log('handleCateClick', item);
+    activedCate.value = item.categoryNo;
+
+    void requestHistory({
+        pageSize: 10,
+        pageNo: 1,
+        categoryNo: item.categoryNo,
+    })
+
 
 };
 const handleHistoryClick = (item: { resourceCode: string }) => {
@@ -230,6 +249,36 @@ const dotsStyles = {
     selectedBorder: '1px rgba(255, 255, 255, .8) solid'
 }
 const swiperDotIndex = ref(0);
+
+
+const handleIntail = async () => {
+    if (!props.show) {
+        return;
+    }
+    const data = await requestHomeData();
+    const firstCategory = data?.categories?.[0]?.categoryNo;
+    activedCate.value = firstCategory;
+    void requestHistory({
+        pageSize: 10,
+        pageNo: 1,
+        categoryNo: firstCategory,
+    })
+    if (firstCategory) {
+        reqestLessList({ categoryNo: firstCategory, pageSize: 10, pageNo: 1 });
+        requestVideoList(data?.catalogues || [])
+    }
+}
+
+
+onShow(async () => {
+    handleIntail();
+});
+watch(() => props.show, (newVal) => {
+    handleIntail();
+}, {
+    deep: true,
+});
+
 
 
 
@@ -285,6 +334,7 @@ const swiperDotIndex = ref(0);
 
 .cate-list {
     display: flex;
+    align-items: flex-end;
 
     .cate-item {
         display: flex;
@@ -296,12 +346,32 @@ const swiperDotIndex = ref(0);
         flex: 0 0 auto;
 
         .cate-image {
+            // width: 90rpx;
+            // height: 66rpx;
             width: 97rpx;
             height: 71rpx;
             background: #F5F6FB;
-            border-radius: 36rpx;
+            border-radius: 999rpx;
             margin-bottom: 13rpx;
         }
+
+        .cate-name {
+            font-weight: 500;
+            font-size: 24rpx;
+            color: var(--v-color-grey-9);
+        }
+    }
+
+
+
+    .cate-item__active .cate-image {
+        width: 97rpx;
+        height: 71rpx;
+    }
+
+    .cate-item__active .cate-name {
+        // font-size: 26rpx;
+        color: var(--v-color-zlv-7);
     }
 }
 
@@ -422,6 +492,8 @@ const swiperDotIndex = ref(0);
 .lesson-list-scroll .uni-scroll-view-content,
 .video-list-scroll .uni-scroll-view-content {
     width: max-content;
+
+    padding-bottom: 40rpx;
 }
 
 .lesson-list {

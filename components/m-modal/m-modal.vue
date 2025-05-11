@@ -34,7 +34,6 @@
 					return this.$modalStore.state.content;
 				},
 				showCancel(){
-					console.log(this.$modalStore.state.showCancel,'>>>>>>>>>>>>>>>>>>>>>>>>');
 					
 					return this.$modalStore.state.showCancel;
 				},

@@ -83,13 +83,11 @@ export const checkAuth = <T>(
 ) => {
   const { code } = (response.data || {}) as ApiResponse<T>;
   if (code && ["410", "402"].includes(code)) {
+    reject({ code: "410", message: "登录失效" });
     // 检查是否是白名单
-    if (NO_AUTH_API.includes(url)) {
-      reject({ code: "410", message: "登录失效" });
-      return false;
+    if (!NO_AUTH_API.includes(url)) {
+      handleLoginStatus(code);
     }
-
-    handleLoginStatus(code);
     return false;
   }
   return true;
@@ -118,9 +116,6 @@ const request = <T>(
       data: method === "GET" ? data : { param: data },
       header: {
         "auth-token": authToken,
-        "Auth-Token": authToken,
-        Authorization: authToken,
-        AuthToken: authToken,
         ...headers,
       },
       timeout: 20000,
@@ -221,9 +216,6 @@ const upload = <T>(
       formData,
       header: {
         "auth-token": authToken,
-        "Auth-Token": authToken,
-        Authorization: authToken,
-        AuthToken: authToken,
         ...headers,
       },
       success: (res) => {
