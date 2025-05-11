@@ -21,7 +21,6 @@
     <template v-if="!btnLoading">
       <m-icon v-if="icon" :type="icon" :size="size === 'small' ? 24 : size === 'large' ? 40 : 36"
         :color="type === 'default' ? 'grey-9' : 'grey-1'" class="block mr-8 icon-warp" />
-
       <slot name="icon">
         <!-- 在这里可以放置默认图标显示 -->
       </slot>
@@ -39,7 +38,7 @@ import type { TIcon } from '../m-icon/icon-map';
 
 const props = withDefaults(
   defineProps<{
-    type?: 'primary' | 'default' | 'danger' | 'success' | 'warning' | 'green';
+    type?: 'primary' | 'default' | 'danger' | 'success' | 'warning' | 'green' | 'text';
     size?: 'large' | 'default' | 'small';
     loading?: boolean;
     disabled?: boolean;
@@ -48,8 +47,7 @@ const props = withDefaults(
     ghost?: boolean;
     row?: boolean;
     // 圓形按鈕
-    circle?: boolean; 
-
+    circle?: boolean;
     handleClick?: (e: any) => void | Promise<void>;
   }>(),
   {
@@ -122,13 +120,14 @@ const clickDebounceRes = useDebounceFn(handleClickBar, {
 
 .m-btn-default {
   background-color: #fff;
-  color: #212121;
+  color: var(--v-color-grey-7);
   border-color: #d9d9d9;
 
   .anticon {
-    color: #212121;
+    color: var(--v-color-grey-7);
   }
 }
+
 
 .m-btn-primary {
   background-color: var(--v-color-primary-7);
@@ -180,6 +179,13 @@ const clickDebounceRes = useDebounceFn(handleClickBar, {
   }
 }
 
+.m-btn-text {
+  border: 1rpx solid transparent;
+  background-color: transparent;
+  color: var(--v-color-grey-7);
+}
+
+
 .m-btn-loading {
   cursor: not-allowed;
 }
@@ -224,7 +230,7 @@ const clickDebounceRes = useDebounceFn(handleClickBar, {
 .m-btn-outline {
   border: 1rpx solid currentColor;
   background-color: transparent;
-  color: currentColor;
+  // color: currentColor;
 
   &.m-btn-primary {
     color: var(--v-color-primary-7);
@@ -246,9 +252,16 @@ const clickDebounceRes = useDebounceFn(handleClickBar, {
     color: var(--v-color-success-7);
   }
 
+  &.m-btn-text {
+    border: 1rpx solid transparent;
+    background-color: transparent;
+    color: var(--v-color-grey-7);
+  }
+
   &::v-deep .icon-warp .bta-icon {
     color: currentColor;
   }
+
 }
 
 .m-btn-ghost {
@@ -287,6 +300,7 @@ const clickDebounceRes = useDebounceFn(handleClickBar, {
   }
 
 }
+
 .m-btn-circle {
   border-radius: 999rpx;
   padding-left: 24rpx;

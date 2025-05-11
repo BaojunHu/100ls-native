@@ -4,6 +4,7 @@ import { TPlainObject } from "@flatbiz/utils";
 import { firstThrottle } from "@/tools/first-throttle";
 import { RouterEnum } from "@/router/constants";
 import { navigateTo } from "@/router/main";
+import { NO_AUTH_API } from "./constant";
 
 interface ApiResponse<T = any> {
   code: string;
@@ -13,14 +14,13 @@ interface ApiResponse<T = any> {
 
 // 基础URL，根据环境变量来设置
 // export let baseUrl =  'https://100ls.com.cn/api'
-export let baseUrl =  'http://1.116.101.175:8092/api'
+export let baseUrl = "http://1.116.101.175:8092/api";
 
 // if(process.env.NODE_ENV === 'development'){
 //     baseUrl = '/proxy-api/' // 开发环境使用代理
 // }else{
 //     baseUrl = 'https://100ls.com.cn' // 生产环境使用真实的API地址
 // }
-
 
 const exceptionHandler = (
   res: UniApp.RequestSuccessCallbackResult,
@@ -45,7 +45,7 @@ const exceptionHandler = (
 /** 清空登录缓存 */
 export const logout = async (isRelunch?: boolean) => {
   uni.removeStorageSync("authToken");
-//   removeUserInfo();
+  //   removeUserInfo();
 
   if (isRelunch) {
     // 清空所有页面栈
@@ -58,17 +58,17 @@ export const logout = async (isRelunch?: boolean) => {
 /**​ 防止同一时间打开多个登录页 */
 const handleLoginStatus = firstThrottle(async (code: string) => {
   // 判断第一张页面是否是登录页
- 
+
   const pages = getCurrentPages();
   const currentPage = pages[pages.length - 1];
+
   if (RouterEnum.Login.includes(currentPage.route as string)) {
     return false;
   }
-// void logout();
-navigateTo({
-  path: RouterEnum.Login,
-})
-
+  // void logout();
+  navigateTo({
+    path: RouterEnum.Login,
+  });
 }, 3000);
 
 /**​
@@ -76,16 +76,26 @@ navigateTo({
  * @param response
  * @returns
  */
-export const checkAuth = <T>(response: UniApp.RequestSuccessCallbackResult) => {
+export const checkAuth = <T>(
+  response: UniApp.RequestSuccessCallbackResult,
+  url: string,
+  reject: (reason?: any) => void
+) => {
   const { code } = (response.data || {}) as ApiResponse<T>;
   if (code && ["410", "402"].includes(code)) {
+    // 检查是否是白名单
+    if (NO_AUTH_API.includes(url)) {
+      reject({ code: "410", message: "登录失效" });
+      return false;
+    }
+
     handleLoginStatus(code);
     return false;
   }
   return true;
 };
 
-/**​
+/**​a
  * 基础请求方法
  * @param url 请求地址
  * @param method 请求方法
@@ -109,8 +119,8 @@ const request = <T>(
       header: {
         "auth-token": authToken,
         "Auth-Token": authToken,
-        "Authorization": authToken,
-        "AuthToken": authToken,
+        Authorization: authToken,
+        AuthToken: authToken,
         ...headers,
       },
       timeout: 20000,
@@ -119,11 +129,16 @@ const request = <T>(
         const responseData = res.data as ApiResponse<T>;
 
         if (statusCode !== 200) {
-          exceptionHandler(res as unknown as UniApp.RequestSuccessCallbackResult, reject);
+          exceptionHandler(
+            res as unknown as UniApp.RequestSuccessCallbackResult,
+            reject
+          );
           return;
         }
 
-        if (!checkAuth(res as UniApp.RequestSuccessCallbackResult)) {
+        if (
+          !checkAuth(res as UniApp.RequestSuccessCallbackResult, url, reject)
+        ) {
           return;
         }
 
@@ -207,20 +222,29 @@ const upload = <T>(
       header: {
         "auth-token": authToken,
         "Auth-Token": authToken,
-        "Authorization": authToken,
-        "AuthToken": authToken,
+        Authorization: authToken,
+        AuthToken: authToken,
         ...headers,
       },
       success: (res) => {
         if (res.statusCode !== 200) {
-          exceptionHandler(res as unknown as UniApp.RequestSuccessCallbackResult, reject);
+          exceptionHandler(
+            res as unknown as UniApp.RequestSuccessCallbackResult,
+            reject
+          );
           return;
         }
 
         try {
           const data = JSON.parse(res.data) as ApiResponse<T>;
 
-          if (!checkAuth(res as unknown as UniApp.RequestSuccessCallbackResult)) {
+          if (
+            !checkAuth(
+              res as unknown as UniApp.RequestSuccessCallbackResult,
+              url,
+              reject
+            )
+          ) {
             return;
           }
 

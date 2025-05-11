@@ -25,6 +25,7 @@
 		"@dimjs/utils": "^2.1.2",
 		"@flatbiz/utils": "^5.0.9",
 		"@types/vue": "^2.0.0",
+		"await-to-ts": "^1.0.6",
 		"vue-hooks-plus": "2.2.1",
 		"vuex": "^4.1.0"
 	},
@@ -96,6 +97,24 @@
 				"BROWSER": "Chrome",
 				"env": {
 					"UNI_PLATFORM": "h5"
+				},
+				"define": {
+					"PRODUCT-SERVER": true
+				}
+			},
+			"test-app-platform": {
+				"title": "App-测试服务器",
+				"env": {
+					"UNI_PLATFORM": "app"
+				},
+				"define": {
+					"TEST-SERVER": true
+				}
+			},
+			"product-app-platform": {
+				"title": "App-生产服务器",
+				"env": {
+					"UNI_PLATFORM": "app"
 				},
 				"define": {
 					"PRODUCT-SERVER": true

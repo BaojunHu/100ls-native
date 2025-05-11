@@ -54,6 +54,10 @@
                 </div>
             </uni-col>
         </uni-row>
+        <view class="empty-box pb-40" v-if="!historyData?.rows?.length">
+            <m-empty :title="hisEmptyErrorMsg.title" :desc="hisEmptyErrorMsg.desc" :imgWidth="120"
+                :btnText="hisEmptyErrorMsg.btnText" @click="handleEmptyClick" btnSize="small" btnType="text" />
+        </view>
 
         <m-text bold :size="30" color="grey-9" class="ml-20">5分钟学习区</m-text>
 
@@ -97,8 +101,6 @@
                 <uni-card :is-shadow="false" :is-full="true" :spacing="0" :padding="0" :border="false"
                     class="lesson-info" :title="item.title" :sub-title="item.author" :extra="`${item.learnNumber}人在学`"
                     :thumbnail="item.authorIcon" />
-
-
             </div>
         </view>
         <div class="pb-64"></div>
@@ -110,10 +112,12 @@
 </template>
 <script lang="ts" setup>
 
-import { navigateVideoPlayer } from '@/router/main';
+import { RouterEnum } from '@/router/constants';
+import { navigateTo, navigateVideoPlayer } from '@/router/main';
 import { HomeData, HomeHistoryResponse, HomeHistoryRow, homeServices, LessonListResponse, THomeBannerItem } from '@/services/home';
 import { useMRequest } from '@/tools/use-request';
 import { onShow } from '@dcloudio/uni-app';
+import awaitTo from 'await-to-ts';
 
 import { ref } from 'vue';
 
@@ -126,26 +130,50 @@ const { data, loading, runAsync: requestHomeData } = useMRequest(homeServices.ho
 const { data: videList, runAsync: requestVideoList } = useMRequest(homeServices.videoList, {
     manual: true,
 })
-const { data: historyData, runAsync: requestHistory } = useMRequest(homeServices.history, {
+const { data: historyData, runAsync: requestHistory, mutate: historyDataMutate } = useMRequest(homeServices.history, {
     manual: true,
+    onError: (err) => {
+        console.log('onError', err);
+    },
+    showErrorMessage: false
 })
 const { data: lessonList, runAsync: reqestLessList } = useMRequest(homeServices.lessonList, {
     manual: true,
 })
+const hisEmptyErrorMsg = ref({
+    title: '暂无学习记录',
+    desc: '去看看其他课程吧',
+    btnText: '',
+});
 
 onShow(async () => {
-
-
     const data = await requestHomeData();
     const firstCategory = data?.categories?.[0]?.categoryNo;
     if (firstCategory) {
         await requestVideoList({ categoryNo: firstCategory, pageSize: 10, pageNo: 1 });
         await reqestLessList({ categoryNo: firstCategory, pageSize: 10, pageNo: 1 });
-        // await requestHistory({
-        //     pageSize: 10,
-        //     pageNo: 1,
-        //     categoryNo: firstCategory,
-        // });
+        const [err, res] = await awaitTo(requestHistory({
+            pageSize: 10,
+            pageNo: 1,
+            categoryNo: firstCategory,
+        }));
+
+        if (!res?.rows.length) {
+            //@ts-ignore
+            if (err.code === '410') {
+                hisEmptyErrorMsg.value = {
+                    title: '',
+                    desc: '',
+                    btnText: '点击登录，开始学习吧~',
+                };
+            } else {
+                hisEmptyErrorMsg.value = {
+                    title: '暂无学习记录',
+                    desc: '去看看其他课程吧',
+                    btnText: '',
+                };
+            }
+        }
     }
 
 });
@@ -154,6 +182,16 @@ onShow(async () => {
 const props = withDefaults(defineProps<TVideoListProps>(), {
     show: false,
 });
+
+
+const handleEmptyClick = () => {
+    console.log('handleEmptyClick', props.show);
+    if (hisEmptyErrorMsg.value.btnText) {
+        navigateTo({
+            path:RouterEnum.Login
+        })
+    }
+};
 
 const clickSwiperItem = (item: THomeBannerItem) => {
     navigateVideoPlayer({
@@ -417,9 +455,11 @@ const swiperDotIndex = ref(0);
     }
 
 }
-::v-deep .uni-card{
+
+::v-deep .uni-card {
     background-color: transparent !important;
 }
+
 ::v-deep .uni-card__header {
     .uni-card__header-extra {
         align-self: flex-start !important;
