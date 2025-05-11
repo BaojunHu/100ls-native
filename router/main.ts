@@ -196,7 +196,6 @@ export type TVideoPlayerParams = {
 export const navigateVideoPlayer = (data: TVideoPlayerParams) => {
   // let targetUrl = 'http://localhost:8083'
   // let targetUrl = "/hybrid/html/h5/index.html";
-  // let targetUrl = "http://1.116.101.175:8092/spa-app/index.html";
   let targetUrl = "http://1.116.101.175/spa-app/index.html";
 
   navigateToWebview(targetUrl, data);

@@ -1,7 +1,8 @@
 <template>
-	<div class="fixed999">阿达就是离开家到老家</div>
     <m-loading v-if="isLoading" text="加载中..." direction="column" />
-    <web-view style="width: 100vw;height:100vw;" :src="url" @message="getMessage"></web-view>
+    <view v-show="!isLoading">
+        <web-view style="width: 100vw;height:100vh;" :src="url" @message="getMessage"></web-view>
+    </view>
 </template>
 
 <script setup lang="ts">
@@ -15,22 +16,20 @@ const url = ref('')
 uni.showNavigationBarLoading()
 
 const getMessage = (event) => {
-
-
     // uni.showModal({
     //     content: JSON.stringify(event.detail),
     //     showCancel: false
     // })
-	isLoading.value = false
-	uni.hideNavigationBarLoading()
+    isLoading.value = false
+    uni.hideNavigationBarLoading()
 }
 
 // const query = usePageInParams()
 
 onLoad((options) => {
-	console.log(options,'>options>>>>>');
-	const targetUrl =  decodeURIComponent(options.url)
-	console.log(targetUrl,'>>>>>>>>')
+    console.log(options, '>options>>>>>');
+    const targetUrl = decodeURIComponent(options.url)
+    console.log(targetUrl, '>>>>>>>>')
     if (targetUrl) {
         url.value = decodeURIComponent(targetUrl)
     }
@@ -38,10 +37,4 @@ onLoad((options) => {
 </script>
 
 <style scoped>
-/* 添加样式（如果需要） */
-.fixed999{
-	position: fixed;
-	z-index: 999999;
-	background-color: #000;
-}
 </style>
