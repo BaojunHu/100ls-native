@@ -14,6 +14,9 @@ import { ref, onMounted } from 'vue'
 import { usePageInParams } from '@/router/hooks'
 const isLoading = ref(true)
 const url = ref('')
+// #ifndef APP
+isLoading.value = false
+// #endif
 
 const getMessage = (event) => {
     isLoading.value = false
