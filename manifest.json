@@ -1,7 +1,7 @@
 {
-    "name" : "100ls",
+    "name" : "百听百说",
     "appid" : "__UNI__92E9902",
-    "description" : "应用描述",
+    "description" : "百听白说 100LS 提供专业的语言学习资源，通过听力训练和口语练习，帮助用户快速提高外语水平。适合各个阶段的学习者，轻松掌握英语、日语、法语等多种语言。",
     "versionName" : "0.0.3",
     "versionCode" : 3,
     "transformPx" : false,
@@ -18,12 +18,12 @@
             "delay" : 0
         },
         "modules" : {
-            "OAuth" : {},
-            "Payment" : {},
             "Push" : {},
             "Share" : {},
             "Speech" : {},
-            "VideoPlayer" : {}
+            "VideoPlayer" : {},
+            "Webview-x5" : {},
+            "UIWebview" : {}
         },
         "distribute" : {
             "android" : {
@@ -70,11 +70,61 @@
             "sdkConfigs" : {
                 "speech" : {
                     "ifly" : {}
-                }
+                },
+                "oauth" : {}
             },
             "orientation" : [ "portrait-primary" ],
             "splashscreen" : {
-                "useOriginalMsgbox" : true
+                "useOriginalMsgbox" : true,
+                "androidStyle" : "default",
+                "android" : {
+                    "xxhdpi" : "/static/AppEnter.png",
+                    "xhdpi" : "/static/AppEnter.png",
+                    "hdpi" : "/static/AppEnter.png"
+                },
+                "iosStyle" : "default",
+                "ios" : {
+                    "iphone" : {
+                        "portrait-896h@3x" : "/static/AppEnter.png",
+                        "landscape-896h@3x" : "/static/AppEnter.png",
+                        "portrait-896h@2x" : "/static/AppEnter.png",
+                        "landscape-896h@2x" : "/static/AppEnter.png",
+                        "iphonex" : "/static/AppEnter.png",
+                        "iphonexl" : "/static/AppEnter.png"
+                    }
+                }
+            },
+            "icons" : {
+                "android" : {
+                    "hdpi" : "/static/logo.png",
+                    "xhdpi" : "/static/logo.png",
+                    "xxhdpi" : "/static/logo.png",
+                    "xxxhdpi" : "/static/logo.png"
+                },
+                "ios" : {
+                    "appstore" : "/static/logo_1024.png",
+                    "iphone" : {
+                        "app@2x" : "/static/logo.png",
+                        "app@3x" : "/static/logo.png",
+                        "spotlight@2x" : "/static/logo.png",
+                        "spotlight@3x" : "/static/logo.png",
+                        "settings@2x" : "/static/logo.png",
+                        "settings@3x" : "/static/logo.png",
+                        "notification@2x" : "/static/logo.png",
+                        "notification@3x" : "/static/logo.png"
+                    },
+                    "ipad" : {
+                        "app" : "/static/logo.png",
+                        "app@2x" : "/static/logo.png",
+                        "proapp@2x" : "/static/logo.png",
+                        "spotlight" : "/static/logo.png",
+                        "spotlight@2x" : "/static/logo.png",
+                        "settings" : "/static/logo.png",
+                        "settings@2x" : "/static/logo.png",
+                        "notification" : "/static/logo.png",
+                        "notification@2x" : "/static/logo.png"
+                    }
+                }
             }
         },
         "uniStatistics" : {

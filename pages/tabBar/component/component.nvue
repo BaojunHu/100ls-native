@@ -151,7 +151,7 @@
 				uni.navigateTo({
 					url: '/pages/about/about'
 				});
-			},
+		},
 		onNavigationBarButtonTap(e) {
 			uni.navigateTo({
 				url: '/pages/about/about'

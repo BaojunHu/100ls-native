@@ -2,24 +2,17 @@
 	"id": "100ls-native",
 	"name": "100ls-native",
 	"displayName": "100ls-native",
-	"version": "3.4.8",
-	"description": "uni-app 框架示例，一套代码，同时发行到iOS、Android、H5、小程序等多个平台，请使用手机扫码快速体验 uni-app 的强大功能",
+	"version": "0.0.3",
+	"description": "百听白说 100LS 提供专业的语言学习资源，通过听力训练和口语练习，帮助用户快速提高外语水平。适合各个阶段的学习者，轻松掌握英语、日语、法语等多种语言。",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
-	"repository": "https://github.com/dcloudio/hello-uniapp.git",
 	"keywords": [
-		"hello-uniapp",
-		"uni-app",
-		"uni-ui",
-		"示例工程"
+		"100ls",
+		"百听百说"
 	],
 	"author": "",
 	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/dcloudio/hello-uniapp/issues"
-	},
-	"homepage": "https://github.com/dcloudio/hello-uniapp#readme",
 	"dependencies": {
 		"@dimjs/lang": "^2.1.1",
 		"@dimjs/utils": "^2.1.2",
