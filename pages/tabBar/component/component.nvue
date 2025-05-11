@@ -3,6 +3,7 @@
 		<view v-if="!hasLeftWin" class="uni-header-logo">
 			<image class="uni-header-image" src="/static/componentIndex.png"></image>
 		</view>
+		<button @click="toHome">去首页</button>
 		<view v-if="!hasLeftWin" class="uni-hello-text">
 			<text class="hello-text">uni-app内置组件，展示样式仅供参考，文档详见：</text>
 			<u-link class="hello-link" :href="'https://uniapp.dcloud.io/component/'" :text="'https://uniapp.dcloud.io/component/'"
@@ -43,6 +44,7 @@
 			}
 		},
 		data() {
+		
 			return {
 				list: [{
 						id: 'view',
@@ -144,6 +146,12 @@
 				path: '/pages/tabBar/component/component'
 			}
 		},
+		toHome(){
+				
+				uni.navigateTo({
+					url: '/pages/about/about'
+				});
+			},
 		onNavigationBarButtonTap(e) {
 			uni.navigateTo({
 				url: '/pages/about/about'

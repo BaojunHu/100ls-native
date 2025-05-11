@@ -169,12 +169,13 @@ export const navigateToWebview = (targetUrl: string, data: PlainObject) => {
   let webviewUrl = `/pages/component/web-view-local/web-view-local`;
 
   targetUrl = modifyQueryString(targetUrl, {
-    data: JSON.stringify(data),
+    data: encodeURIComponent(JSON.stringify(data)),
   });
 
   webviewUrl = modifyQueryString(webviewUrl, {
     url: targetUrl,
   });
+  console.log(webviewUrl,'webviewUrl>>>>>>')
 
   uni.navigateTo({
     url: webviewUrl,

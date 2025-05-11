@@ -7,18 +7,28 @@
         'flex-column': direction === 'column',
       }"
     >
-      <view class="loadingio-spinner-dual-ball mt-16">
-        <view class="ldio">
-          <view class="ldio-item"></view>
-          <view class="ldio-item"></view>
-          <view class="ldio-item"></view>
-        </view>
-      </view>
+      
+		  
+        <!-- #ifdef APP -->
+        <image :src="loadingSvg" class="loading-gif"  />
+        <!-- #endif -->
+		<!-- #ifndef APP -->
+		<view class="loadingio-spinner-dual-ball mt-16">
+			<view class="ldio">
+			  <view class="ldio-item"></view>
+			  <view class="ldio-item"></view>
+			  <view class="ldio-item"></view>
+			</view>
+		</view>
+		<!-- #endif -->
+ 
+
       <m-text :size="24" class="block" color="grey-8">{{ text }}</m-text>
     </view>
   </div>
 </template>
 <script setup lang="ts">
+import loadingSvg from "./loading.gif"
 const props = withDefaults(
   defineProps<{
     text?: string;
@@ -48,9 +58,17 @@ const props = withDefaults(
 .flex-column {
   flex-direction: column;
 }
+.loading-gif{
+	width: 72rpx;
+	height: 72rpx;
+}
 
 .lading-mask {
   inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   position: fixed;
   z-index: 9999999;
   display: flex;

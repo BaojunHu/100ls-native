@@ -2,8 +2,8 @@
     "name" : "100ls",
     "appid" : "__UNI__92E9902",
     "description" : "应用描述",
-    "versionName" : "0.0.2",
-    "versionCode" : 2,
+    "versionName" : "0.0.3",
+    "versionCode" : 3,
     "transformPx" : false,
     "app-plus" : {
         "usingComponents" : true,

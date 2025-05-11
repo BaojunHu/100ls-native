@@ -1,6 +1,10 @@
 <template>
   <view class="content">
-    <m-navbar></m-navbar>
+    <m-navbar :title="` `"></m-navbar>
+	
+	
+	<image :src="logo" style="width: 420rpx;height: auto;margin: 60rpx auto;display: block;" mode="widthFix"></image>
+	
     <view class="loginBox">
       <h3>登录</h3>
       <view class="inputBox">
@@ -48,6 +52,7 @@
 </template>
 
 <script lang="ts" setup>
+	import logo from './logo-black.png'
 import { memberServices } from '@/services/member';
 import { useMRequest } from '@/tools/use-request';
 import Register from './register.vue';
@@ -150,8 +155,7 @@ const handleLogin = async () => {
   /* background: url("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F202005%2F10%2F20200510005139_JR8fL.jpeg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1714820289&t=e835cde99a094cbd98f9c318f25160ec") no-repeat;
 		background-size: 100% 100%; */
 
-  background: linear-gradient(to bottom,
-      #FFF4E6, #FFB38A, #FFE0CC);
+  background: linear-gradient(to bottom,  var(--v-color-primary-3), var(--v-color-primary-5), rgb(247, 120, 172));
   background-size: 200% 200%;
   animation: gradientFlow 8s ease infinite;
   height: 100vh;
@@ -161,11 +165,15 @@ const handleLogin = async () => {
   0% {
     background-position: 0% 0%;
   }
-
+ 30% {
+    background-position: 0% 60%;
+  }
   50% {
     background-position: 0% 100%;
   }
-
+ 80% {
+    background-position: 0% 30%;
+  }
   100% {
     background-position: 0% 0%;
   }
@@ -175,7 +183,7 @@ const handleLogin = async () => {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -60%);
+  transform: translate(-50%, -50%);
   width: 90%;
   background-color: #fff;
   border-radius: 20rpx;
@@ -227,7 +235,7 @@ h3 {
   margin-top: 20rpx;
   line-height: 85rpx;
   text-align: center;
-  background: linear-gradient(to right, rgb(255, 170, 127), rgb(247, 120, 172));
+  background: linear-gradient(to right, var(--v-color-primary-5), var(--v-color-primary-6));
   border-radius: 40rpx;
   color: #fff;
   margin-top: 40rpx;
