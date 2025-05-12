@@ -1,8 +1,8 @@
 <template>
     <scroll-view scroll-y class="video-list-page layout-full " v-show="props.show">
-        <uni-swiper-dot class="swiper-dot-box  " :info="data?.banners" :current="swiperDotIndex" mode="round"
+        <uni-swiper-dot class="swiper-dot-box" :info="data?.banners" :current="swiperDotIndex" mode="round"
             :dots-styles="dotsStyles" field="content">
-            <swiper class="swiper-box" :current="swiperDotIndex">
+            <swiper class="swiper-box" :current="swiperDotIndex" @change="swiperDotIndex = $event.detail.current">
                 <swiper-item v-for="(item, index) in data?.banners" :key="item.sortNo">
                     <view class="swiper-item" :class="'swiper-item' + index" @click=clickSwiperItem(item)>
                         <image :src="item.coverImage" mode="aspectFill" class="swiper-image" />
@@ -306,6 +306,7 @@ watch(() => props.show, (newVal) => {
     .swiper-item {
         height: 100%;
         width: 100%;
+		border-radius: 14rpx;
     }
 
     .swiper-item {

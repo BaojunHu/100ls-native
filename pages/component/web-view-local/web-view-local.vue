@@ -19,7 +19,15 @@ isLoading.value = false
 // #endif
 
 const getMessage = (event) => {
-    isLoading.value = false
+	
+	const action = event.detail.data[0].action
+	
+
+	if(action==='loaded'){
+		isLoading.value = false
+	}else if(action==='back'){
+		uni.navigateBack()
+	}
 }
 
 onLoad((options) => {
