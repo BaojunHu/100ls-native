@@ -27,7 +27,11 @@ const getMessage = (event) => {
 		isLoading.value = false
 	}else if(action==='back'){
 		uni.navigateBack()
-	}
+	}else if(action==='rotateWindow'){
+           // #ifdef APP-PLUS
+        plus.screen.lockOrientation('landscape-primary'); // 横屏
+            // #endif
+    }
 }
 
 onLoad((options) => {

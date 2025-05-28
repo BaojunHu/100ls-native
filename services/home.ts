@@ -11,7 +11,7 @@ export const homeServices = {
     return await http.post<HomeData>("/home/core");
   },
   history: async (param: {
-    categoryNo: string;
+    // categoryNo: string;
     pageNo: number;
     pageSize: number;
   }) => {
@@ -21,6 +21,7 @@ export const homeServices = {
   },
   videoList: async (param: {
     catalogueNo: string;
+    categoryNo:string;
     pageNo: number;
     pageSize: number;
   }) => {

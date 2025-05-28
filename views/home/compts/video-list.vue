@@ -17,8 +17,11 @@
             <view class="cate-list">
                 <div class="cate-item" :class="activedCate === item.categoryNo ? 'cate-item__active' : ''"
                     v-for="item in data?.categories" :key="item.categoryNo" @click="handleCateClick(item)">
-                    <image :src="item.icon" mode="aspectFill" class="cate-image
-                        " />
+                    <div class="cate-image-warp"
+                    >
+                    <image :src="item.icon" mode="heightFix" class="cate-image" />
+                    </div>
+                    
                     <text class="cate-name">
                         {{ item.categoryName }}
                     </text>
@@ -40,7 +43,7 @@
                         </view>
                     </div>
                     <m-text bold :size="26" color="grey-9" class="mt-12 mb-8 mx-20 text-ellipsis">{{ item.title
-                        }}</m-text>
+                    }}</m-text>
 
 
                     <view class="history-info" v-if="item?.currLearning">
@@ -51,7 +54,7 @@
                     <view class="history-info" v-else>
                         <m-text :size="22" color="grey-7" class="history-info__text" v-for="lang in item.languages">{{
                             lang
-                        }}</m-text>
+                            }}</m-text>
                     </view>
                 </div>
             </uni-col>
@@ -79,7 +82,7 @@
                         </div>
 
                         <m-text bold :size="26" color="grey-9" class="mt-12 mb-8  text-ellipsis">{{ item.title
-                        }}</m-text>
+                            }}</m-text>
                         <view class="video-info">
                             <m-text :size="22" color="grey-7" class="history-info__text "
                                 v-for="lang in item.languages">{{
@@ -105,7 +108,7 @@
                 </div>
                 <uni-card :is-shadow="false" :is-full="true" :spacing="0" :padding="0" :border="false"
                     class="lesson-info" :title="item.title" :sub-title="item.author" :extra="`${item.learnNumber}人在学`"
-                    :thumbnail="item.authorIcon" />
+                    :thumbnail="item.authorIcon||item.coverImage" />
             </div>
         </view>
         <div class="pb-64"></div>
@@ -122,14 +125,13 @@ import { navigateTo, navigateVideoPlayer } from '@/router/main';
 import { Catalogue, HomeData, HomeHistoryResponse, HomeHistoryRow, homeServices, LessonListResponse, THomeBannerItem } from '@/services/home';
 import { useMRequest } from '@/tools/use-request';
 import { onShow } from '@dcloudio/uni-app';
-import awaitTo from 'await-to-ts';
 
 import { ref, watch } from 'vue';
 
 type TVideoListProps = {
     show: boolean;
 };
-const { data, loading, runAsync: requestHomeData } = useMRequest(homeServices.homeCore, {
+const { data, loading, runAsync: requestHomeData,mutate:mutateCoreData } = useMRequest(homeServices.homeCore, {
     manual: true,
 })
 const { data: videoListMap, runAsync: requestVideoList } = useMRequest(async (catalogues: Catalogue[]) => {
@@ -137,6 +139,7 @@ const { data: videoListMap, runAsync: requestVideoList } = useMRequest(async (ca
     const promiseList = catalogues?.map((item) => {
         return homeServices.videoList({
             catalogueNo: item.catalogueNo,
+            categoryNo: activedCate.value,
             pageSize: 10,
             pageNo: 1,
         })
@@ -144,10 +147,13 @@ const { data: videoListMap, runAsync: requestVideoList } = useMRequest(async (ca
     return Promise.all(promiseList).then((res) => {
 
         return res.map((item, index) => {
+
             return {
-                no: catalogues[index].catalogueNo,
-                data: item.rows,
-                name: catalogues[index].catalogueName,
+                no: catalogues?.[index]?.catalogueNo,
+                data: (item?.rows || []).sort((a, b) => {
+                    return (a.sortNo - b.sortNo);
+                }),
+                name: catalogues?.[index]?.catalogueName,
             }
         })
     }) as Promise<{
@@ -169,6 +175,16 @@ const { data: historyData, run: requestHistory } = useMRequest(homeServices.hist
                 btnText: '点击登录，开始学习吧~',
             };
         } else {
+
+            hisEmptyErrorMsg.value = {
+                title: '暂无浏览记录',
+                desc: '快去看看视频吧',
+                btnText: '',
+            };
+        }
+    },
+    onSuccess: (res) => {
+        if (!res?.rows?.length) {
             hisEmptyErrorMsg.value = {
                 title: '暂无浏览记录',
                 desc: '快去看看视频吧',
@@ -216,12 +232,10 @@ const clickSwiperItem = (item: THomeBannerItem) => {
 
 const handleCateClick = (item: { categoryNo: string }) => {
     activedCate.value = item.categoryNo;
-
-    void requestHistory({
-        pageSize: 10,
-        pageNo: 1,
-        categoryNo: item.categoryNo,
-    })
+    if (item.categoryNo) {
+        reqestLessList({ categoryNo: item.categoryNo, pageSize: 10, pageNo: 1 });
+        requestVideoList(data.value?.catalogues || [])
+    }
 
 
 };
@@ -255,18 +269,23 @@ const handleIntail = async () => {
     if (!props.show) {
         return;
     }
-    const data = await requestHomeData();
-    const firstCategory = data?.categories?.[0]?.categoryNo;
-    activedCate.value = firstCategory;
     void requestHistory({
         pageSize: 10,
         pageNo: 1,
-        categoryNo: firstCategory,
+        // categoryNo: firstCategory,
     })
-    if (firstCategory) {
-        reqestLessList({ categoryNo: firstCategory, pageSize: 10, pageNo: 1 });
-        requestVideoList(data?.catalogues || [])
-    }
+    const data = await requestHomeData();
+
+    const newCateList =  data.categories?.sort((a, b) => {
+        return (a.sortNo - b.sortNo);
+    });
+    mutateCoreData({
+        ...data,
+        categories: newCateList,
+    });
+
+    handleCateClick(newCateList[0]);
+
 }
 
 
@@ -306,7 +325,7 @@ watch(() => props.show, (newVal) => {
     .swiper-item {
         height: 100%;
         width: 100%;
-		border-radius: 14rpx;
+        border-radius: 14rpx;
     }
 
     .swiper-item {
@@ -346,14 +365,20 @@ watch(() => props.show, (newVal) => {
         width: max-content;
         flex: 0 0 auto;
 
-        .cate-image {
+        .cate-image-warp {
             // width: 90rpx;
             // height: 66rpx;
             width: 97rpx;
-            height: 71rpx;
+            height: 70rpx;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             background: #F5F6FB;
             border-radius: 999rpx;
             margin-bottom: 13rpx;
+        }
+        .cate-image{
+            height: 48rpx;
         }
 
         .cate-name {
@@ -365,10 +390,10 @@ watch(() => props.show, (newVal) => {
 
 
 
-    .cate-item__active .cate-image {
-        width: 97rpx;
-        height: 71rpx;
-    }
+    // .cate-item__active .cate-image {
+    //     width: 97rpx;
+    //     height: 71rpx;
+    // }
 
     .cate-item__active .cate-name {
         // font-size: 26rpx;
@@ -548,6 +573,7 @@ watch(() => props.show, (newVal) => {
         img {
             width: 100%;
             height: 100%;
+            background-color: #777;
         }
 
         .uni-card__header-avatar-image>div {
