@@ -1,4 +1,4 @@
-import { onReady } from '@dcloudio/uni-app';
+import { onLoad, onReady } from '@dcloudio/uni-app';
 import { paramStrToJson } from '@dimjs/utils';
 import { ref } from 'vue';
 import type { PageRouter, RouterKey } from './constants';
@@ -15,10 +15,10 @@ export const usePageInParams = <BC extends RouterKey, T extends PageRouter = Pag
   };
 
   /**options 异步赋值 */
-  onReady(() => {
+  onLoad((urlParams) => {
     //@ts-ignore
-    const { eventID } = curRoute.options || {};
-
+    const { eventID } = urlParams|| curRoute?.$page?.options || {};
+    console.log('usePageInParams onLoad eventID:>> >>>>',urlParams, eventID);
     const queryObj = paramStrToJson(curRoute?.$page?.fullPath as string);
 
     const options = {

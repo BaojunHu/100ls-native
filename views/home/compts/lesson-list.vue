@@ -15,7 +15,7 @@
         </uni-swiper-dot>
         <scroll-view scroll-x :scroll-with-animation="true" class="cate-list-scroll">
             <view class="cate-list">
-                <div class="cate-item" :class="activedCate === item.categoryNo ? 'cate-item__active' : ''"
+                <div class="cate-item" 
                     v-for="item in data?.categories" :key="item.categoryNo" @click="handleCateClick(item)">
                     <div class="cate-image-warp"
                     >
@@ -30,7 +30,7 @@
         </scroll-view>
 
         <uni-row :gutter="22" class="history-list" :showBorder="false" :highlight="false" :borderColor="false">
-            <uni-col :span="12" v-for="item in historyData?.rows">
+            <uni-col :span="12" v-for="item in historyData?.rows" :key="item.resourceCode">
                 <div class="history-item" @click="handleHistoryClick(item)">
                     <div class="history-image-warp">
                         <image :src="item.coverImage" mode="aspectFill" class="history-image" />
@@ -52,79 +52,43 @@
                         <m-text :size="22" color="grey-7">继续观看</m-text>
                     </view>
                     <view class="history-info" v-else>
-                        <m-text :size="22" color="grey-7" class="history-info__text" v-for="lang in item.languages">{{
+                        <m-text :size="22" color="grey-7" class="history-info__text" v-for="lang in item.languages" :key="lang">{{
                             lang
                             }}</m-text>
                     </view>
                 </div>
             </uni-col>
         </uni-row>
-        <view class="empty-box pb-40" v-if="!historyData?.rows?.length">
-            <m-empty :title="hisEmptyErrorMsg.title" :desc="hisEmptyErrorMsg.desc" :imgWidth="120"
-                :btnText="hisEmptyErrorMsg.btnText" @click="handleEmptyClick" btnSize="small" btnType="text" />
-        </view>
-
+     
         <template v-for="videoListItem in videoListMap" :key="videoListItem.no">
-
-
             <m-text bold :size="30" color="grey-9" class="ml-20">{{ videoListItem.name }}</m-text>
-            <scroll-view scroll-x :scroll-with-animation="true" class="video-list-scroll">
-                <view class="video-list">
-                    <div class="video-item" v-for="item in videoListItem.data" :key="item.resourceCode"
-                        @click="handleVideoClick(item)">
-                        <div class="video-image-warp">
-                            <image :src="item.coverImage" mode="aspectFill" class="video-image
-                        " />
-                            <view class="episode-count">
-
-                                <m-text :size="20" color="blue-grey-1">全{{ item.episodeCount }}集</m-text>
-                            </view>
-                        </div>
-
-                        <m-text bold :size="26" color="grey-9" class="mt-12 mb-8  text-ellipsis">{{ item.title
-                            }}</m-text>
-                        <view class="video-info">
-                            <m-text :size="22" color="grey-7" class="history-info__text "
-                                v-for="lang in item.languages">{{
-                                    lang
-                                }}
-                            </m-text>
-                        </view>
-                    </div>
-                </view>
-            </scroll-view>
-        </template>
-        <m-text bold :size="30" color="grey-9" class="ml-20 mt-24">学习技巧</m-text>
-
-        <view class="lesson-list">
-            <div class="lesson-item" v-for="item in lessonList?.rows" :key="item.resourceCode"
+            <view class="lesson-list">
+            <div class="lesson-item" v-for="item in videoListItem?.data" :key="item.resourceCode"
                 @click="handleVideoClick(item)">
                 <div class="lesson-image-warp">
-                    <image :src="item.coverImage" mode="aspectFill" class="lesson-image
-                        " />
+                    <image :src="item.coverImage" mode="aspectFill" class="lesson-image "  />
                     <view class="episode-count">
                         <!-- <m-text :size="20" color="blue-grey-1">全{{ item.episodeCount }}集</m-text> -->
                     </view>
                 </div>
                 <uni-card :is-shadow="false" :is-full="true" :spacing="0" :padding="0" :border="false"
                     class="lesson-info" :title="item.title" :sub-title="item.author" :extra="`${item.learnNumber}人在学`"
-                    :thumbnail="item.authorIcon||item.coverImage" />
+                    :thumbnail="isUrl(item.authorIcon)?item.authorIcon:'/static/logo.png'" />
             </div>
         </view>
+        </template>
         <div class="pb-64"></div>
     </scroll-view>
-
-
     <m-loading v-if="loading" text="加载中..." direction="column" />
-
 </template>
 <script lang="ts" setup>
 
 import { RouterEnum } from '@/router/constants';
 import { navigateTo, navigateVideoPlayer } from '@/router/main';
-import { Catalogue, HomeData, HomeHistoryResponse, HomeHistoryRow, homeServices, LessonListResponse, THomeBannerItem } from '@/services/home';
+import { Catalogue, Category, HomeData, HomeHistoryResponse, HomeHistoryRow, homeServices, LessonListResponse, THomeBannerItem } from '@/services/home';
 import { useMRequest } from '@/tools/use-request';
 import { onShow } from '@dcloudio/uni-app';
+import { title } from 'process';
 
 import { ref, watch } from 'vue';
 
@@ -137,17 +101,15 @@ const { data, loading, runAsync: requestHomeData,mutate:mutateCoreData } = useMR
 const { data: videoListMap, runAsync: requestVideoList } = useMRequest(async (catalogues: Catalogue[]) => {
 
     const promiseList = catalogues?.map((item) => {
-        return homeServices.videoList({
+        return homeServices.lessonList({
             catalogueNo: item.catalogueNo,
-            categoryNo: activedCate.value,
+            // categoryNo: activedCate.value,
             pageSize: 10,
             pageNo: 1,
         })
     })
     return Promise.all(promiseList).then((res) => {
-
         return res.map((item, index) => {
-
             return {
                 no: catalogues?.[index]?.catalogueNo,
                 data: (item?.rows || []).sort((a, b) => {
@@ -158,7 +120,7 @@ const { data: videoListMap, runAsync: requestVideoList } = useMRequest(async (ca
         })
     }) as Promise<{
         no: string;
-        data: HomeHistoryRow[];
+        data: LessonListResponse[];
         name: string;
     }[]>
 }, {
@@ -178,7 +140,7 @@ const { data: historyData, run: requestHistory } = useMRequest(homeServices.hist
 
             hisEmptyErrorMsg.value = {
                 title: '暂无浏览记录',
-                desc: '快去看看视频吧',
+                desc: '快去看看视频吧', 
                 btnText: '',
             };
         }
@@ -194,22 +156,22 @@ const { data: historyData, run: requestHistory } = useMRequest(homeServices.hist
     },
     showErrorMessage: false
 })
-const { data: lessonList, run: reqestLessList } = useMRequest(homeServices.lessonList, {
-    manual: true,
-})
+
 const hisEmptyErrorMsg = ref({
     title: '',
     desc: '',
     btnText: '',
 });
-const activedCate = ref('')
+// const activedCate = ref('')
 
 const props = withDefaults(defineProps<TVideoListProps>(), {
     show: false,
 });
 
 
-
+const isUrl = (str: string) => {
+    return /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(str);
+};
 
 
 const handleEmptyClick = () => {
@@ -230,13 +192,25 @@ const clickSwiperItem = (item: THomeBannerItem) => {
     })
 };
 
-const handleCateClick = (item: { categoryNo: string }) => {
-    activedCate.value = item.categoryNo;
-    if (item.categoryNo) {
-        reqestLessList({ categoryNo: item.categoryNo, pageSize: 10, pageNo: 1 });
-        requestVideoList(data.value?.catalogues || [])
-    }
+const handleCateClick = (item: Category) => {
+    console.log(">>>>>>>>>>>> ",item);
+    
+    navigateTo({
+        path: RouterEnum.Video,
+        data: {
+            categoryNo: item.categoryNo,
+            title: item.categoryName,
+        }
+    })
 
+    // activedCate.value = item.categoryNo;
+    // if (item.categoryNo) {
+    //     reqestLessList({ categoryNo: item.categoryNo, pageSize: 10, pageNo: 1 });
+    //     requestVideoList(data.value?.catalogues || [])
+    // }
+    // uni.navigateTo({
+    //     url: `/pages/home/video-list?categoryNo=${item.categoryNo}`
+    // })
 
 };
 const handleHistoryClick = (item: { resourceCode: string }) => {
@@ -284,7 +258,9 @@ const handleIntail = async () => {
         categories: newCateList,
     });
 
-    handleCateClick(newCateList[0]);
+    // handleCateClick(newCateList[0]);
+        // reqestLessList({  pageSize: 10, pageNo: 1 });
+    requestVideoList(data?.catalogues || [])
 
 }
 
@@ -349,12 +325,14 @@ watch(() => props.show, (newVal) => {
 }
 
 .cate-list-scroll {
-    padding: 0 40rpx 32rpx;
+    margin-bottom:   40rpx ;
 }
 
 .cate-list {
     display: flex;
     align-items: flex-end;
+    padding: 0 32rpx;
+    width: max-content;
 
     .cate-item {
         display: flex;
@@ -481,39 +459,6 @@ watch(() => props.show, (newVal) => {
 }
 
 
-.video-list {
-    display: flex;
-    flex-wrap: nowrap;
-    padding: 16rpx 20rpx;
-
-    .video-item {
-        display: flex;
-        width: 228rpx;
-        flex: 0 0 228rpx;
-        flex-direction: column;
-        margin-right: 12rpx;
-
-    }
-
-    .video-item:last-child {
-        margin-right: 0;
-    }
-
-    .video-image-warp {
-        width: 228rpx;
-        height: 304rpx;
-        position: relative;
-    }
-
-    .video-image {
-        width: 100%;
-        height: 100%;
-        border-radius: 16rpx;
-
-    }
-
-
-}
 
 .lesson-list-scroll .uni-scroll-view-content,
 .video-list-scroll .uni-scroll-view-content {

@@ -10,5 +10,7 @@
         "uni_modules/uni-popup/components/uni-popup/i18n",
         "uni_modules/uni-pagination/components/uni-pagination/i18n",
         "uni_modules/uni-search-bar/components/uni-search-bar/i18n"
-    ]
+    ],
+    "vetur.experimental.templateInterpolationService": true,
+"volar.takeOverMode.enabled": true
 }

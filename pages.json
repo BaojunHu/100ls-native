@@ -20,6 +20,22 @@
 				}
 			}
 		},
+		{
+			"path": "views/video-list/index",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "views/login/index",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
 		// pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
 			"path": "pages/tabBar/component/component",
@@ -39,14 +55,7 @@
 			}
 		},
 
-		{
-			"path": "views/login/index",
-			"style": {
-				"app-plus": {
-					"titleNView": false
-				}
-			}
-		},
+		
 		{
 			"path": "pages/tabBar/API/API",
 			"style": {

@@ -1,9 +1,9 @@
 <template>
 	<view :class="`page layout-page ${tabsConfig.current == 0 ? 'bg-blue' : 'bg-transparent'}`">
 		<m-navbar class="layout-auto page-header" fixed>
-			<m-icon type="icon-huahua" :size="40" bold color="grey-9" />
+			<!-- <m-icon type="icon-huahua" :size="40" bold color="grey-9" /> -->
 			<fui-tabs v-bind="tabsConfig" @change="handleTabChange" />
-			<m-icon type="icon-whole-search" :size="40" bold color="grey-9" />
+			<!-- <m-icon type="icon-whole-search" :size="40" bold color="grey-9" /> -->
 		</m-navbar>
 		<VideoList :show="tabsConfig.current  === 0" />
 		<SpeackList :show="tabsConfig.current  === 1" @changeTab="handleTabChange" />
@@ -12,13 +12,13 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import VideoList from './compts/video-list.vue';
+import VideoList from './compts/lesson-list.vue';
 import SpeackList from './compts/speak-list.vue';
 
 
 const navbarTabs = ref([
 	'看剧',
-	'一句跟读',
+	'每日金句',
 ])
 
 const handleTabChange = (item: {

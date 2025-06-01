@@ -8,28 +8,42 @@ import type {
 import { isPlainObject } from "@dimjs/lang";
 import { HomeHistoryResponse, TSubtitle } from "@/services/home";
 
-export type NavigateToType<
-  BC extends keyof ReType & RouterKey,
-  T extends PageRouter,
-  ReType extends PageRouterBack
-> = {
-  // 路由路径
-  path: BC | RouterEnum;
-  // 数据 参数
-  data?: T[BC];
-  // 分发是否显示loading
+// export type NavigateToType<
+//   BC extends keyof ReType & RouterKey,
+//   T extends PageRouter,
+//   ReType extends PageRouterBack
+// > = {
+//   // 路由路径
+//   path: BC | RouterEnum;
+//   // 数据 参数
+//   data?: T[BC];
+//   // 分发是否显示loading
+//   dispatchLoading?: boolean;
+//   // 有callback，就会使用navigateToWithCallback
+//   callBack?: (data: ReType[BC]) => void | Promise<void>;
+//   // 禁用回退手势
+//   disableGestureBack?: boolean;
+//   // 跳转模式 默认 navigateTo
+//   type?: "navigateTo" | "redirectTo" | "reLaunch" | "switchTab";
+//   // 其他文档中可以实现的属性
+//   animationType?: UniApp.NavigateToOptions["animationType"];
+//   animationDuration?: number;
+//   events?: object;
+// };
+
+type NavigateToParams<P extends RouterKey> = {
+  path: P;
+  data?: PageRouter[P];
   dispatchLoading?: boolean;
-  // 有callback，就会使用navigateToWithCallback
-  callBack?: (data: ReType[BC]) => void | Promise<void>;
-  // 禁用回退手势
+  callBack?: (data: PageRouterBack[P]) => void | Promise<void>;
   disableGestureBack?: boolean;
-  // 跳转模式 默认 navigateTo
   type?: "navigateTo" | "redirectTo" | "reLaunch" | "switchTab";
-  // 其他文档中可以实现的属性
   animationType?: UniApp.NavigateToOptions["animationType"];
   animationDuration?: number;
   events?: object;
 };
+
+
 
 export type NavigateBackType<
   BC extends keyof ReType & RouterKey,
@@ -59,13 +73,13 @@ const navigateTo = <
   animationType,
   animationDuration,
   events,
-}: NavigateToType<BC, T, ReType>) => {
+}: NavigateToParams<BC>) => {
   const eventID = uuid(); // 事件标识
 
   const evnentKeys = getRouteEventKey(eventID);
 
   let url = path as string;
-  let routerData: T[BC] | undefined;
+  let routerData: PageRouter[BC] | undefined = undefined;
 
   if (!!data && JSON.stringify(data)?.length > 255) {
     routerData = data;
@@ -113,7 +127,7 @@ const navigateTo = <
           uni.$emit(evnentKeys.post, data);
         });
       }
-
+      
       uni.navigateTo({
         url,
         animationType,
@@ -195,9 +209,9 @@ export type TVideoPlayerParams = {
 
 export const navigateVideoPlayer = (data: TVideoPlayerParams) => {
   // let targetUrl = 'http://localhost:8083'
-  // let targetUrl = 'http://172.20.10.4:8083'
+  let targetUrl = 'http://172.20.10.4:8083'
   // let targetUrl = "/hybrid/html/h5/index.html";
-  let targetUrl = "http://1.116.101.175/spa-app/index.html";
+  // let targetUrl = "http://1.116.101.175/spa-app/index.html";
 
   navigateToWebview(targetUrl, data);
 };

@@ -20,17 +20,17 @@ export const homeServices = {
     return await http.post<HomeHistoryResponse>("/home/history", param);
   },
   videoList: async (param: {
-    catalogueNo: string;
+    // catalogueNo: string;
     categoryNo:string;
     pageNo: number;
     pageSize: number;
   }) => {
     // await sleep(200);
-    // return createHomeHistoryData();
+    return createHomeHistoryData(param);
     return await http.post<HomeHistoryResponse>("/video/list", param);
   },
   lessonList: async (param: {
-    categoryNo: string;
+    catalogueNo: string;
     pageNo: number;
     pageSize: number;
   }) => {

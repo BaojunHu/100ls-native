@@ -38,10 +38,11 @@ export const createHomeCoreData = () => {
   };
 };
 
-export const createHomeHistoryData = () => {
+export const createHomeHistoryData = (param) => {
+  const len = param.pageNo === 1 ? 10 : 5; // 第一页返回10条，其他页返回5条
   return {
     rows: Mock.mock({
-      "rows|4-5": [
+      [`rows|${len}`]: [
         {
           resourceCode: "@string('upper', 10)",
           sortNo: "@integer(1, 100)",
@@ -86,7 +87,6 @@ export const createHomeLessonListData = () => {
   };
 };
 
-
 export const createFollowSentenceList = () => {
   return {
     rows: Mock.mock({
@@ -104,4 +104,4 @@ export const createFollowSentenceList = () => {
     }).rows,
     total: "@integer(10, 50)",
   };
-}
+};
