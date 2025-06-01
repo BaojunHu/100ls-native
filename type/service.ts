@@ -603,6 +603,7 @@ export type TBranchOpenReq = {
 };
 
 export type TGetUsesrInfoRes = {
+  authToken: string;
   /** 会员编号 */
   memberNo: string;
   /** 会员名称 */

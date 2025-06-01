@@ -21,7 +21,6 @@
 
             <uni-icons type="eye" size="24" :color="showPassword ? 'var(--v-color-primary-7)' : 'var(--v-color-grey-6)'"
               @click="changePassword"></uni-icons>
-
           </view>
 
         </view>
@@ -31,7 +30,7 @@
         </view>
         <m-button class="login-button" block :handle-click="handleLogin">登录</m-button>
       </view>
-      <view class="tipbox">
+      <!-- <view class="tipbox">
         <view class="txt">
           —— 其他账号登录 ——
         </view>
@@ -39,14 +38,14 @@
           <uni-icons type="qq" size="40" color="rgb(66,157,250)"></uni-icons>
           <uni-icons type="weixin" size="40" color="rgb(2,187,17)"></uni-icons>
         </view>
-      </view>
+      </view> -->
     </view>
 
     <view class="tip">
       百听百说 @2025
     </view>
   </view>
-  <uni-drawer ref="registerDrawerRef" mode="right" class="register-drawer">
+  <uni-drawer ref="registerDrawerRef" mode="right" class="register-drawer" :width="windowWidth">
     <Register @close="closeRegister"></Register>
   </uni-drawer>
   <m-modal />
@@ -59,8 +58,9 @@ import logo from './logo-black.png'
 import { memberServices } from '@/services/member';
 import { useMRequest } from '@/tools/use-request';
 import Register from './register.vue';
-import { getCurrentInstance, ref } from 'vue';
+import { getCurrentInstance, onMounted, ref } from 'vue';
 import { navigateBack } from '@/router/main';
+import { setUserInfo } from '@/tools/user-info';
 const loginForm = ref({
   account: '',
   password: '',
@@ -70,6 +70,13 @@ const changePassword = () => {
   showPassword.value = !showPassword.value;
   console.log('changePassword', showPassword.value);
 };
+const windowWidth = uni.getSystemInfoSync().windowWidth;
+
+onMounted(() => {
+  const ele = registerDrawerRef.value;
+  // 打印ele的
+  console.log('registerDrawerRef》>>>>>>>>>>>>>', ele,windowWidth);
+});
 
 const registerDrawerRef = ref(null);
 const openRegister = () => {
@@ -128,8 +135,13 @@ const handleLogin = async () => {
       title: '登录成功',
       icon: 'success',
     });
+    uni.showModal({
+      content:JSON.stringify(data),
+    })
 
     uni.setStorageSync("authToken", data.authToken);
+
+    setUserInfo(data as any);
 
     setTimeout(() => {
       uni.navigateBack()
@@ -149,19 +161,20 @@ const handleLogin = async () => {
 </script>
 
 <style scoped>
-::v-deep .register-drawer .uni-drawer--right {
-  width: 100vw !important;
-}
 
 .content {
   height: 100vh;
-  /* background: url("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F202005%2F10%2F20200510005139_JR8fL.jpeg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1714820289&t=e835cde99a094cbd98f9c318f25160ec") no-repeat;
-		background-size: 100% 100%; */
-
-  background: linear-gradient(to bottom, var(--v-color-primary-3), var(--v-color-primary-5), rgb(247, 120, 172));
+  /* background: linear-gradient(to bottom, var(--v-color-primary-3), var(--v-color-primary-5), rgb(247, 120, 172)); */
+    background: linear-gradient(
+    to bottom,
+    #e3eafc,      /* 柔和浅蓝 */
+    #f5e8fa,      /* 柔和浅紫 */
+    #f6f7fb       /* 柔和灰白 */
+  );
   background-size: 200% 200%;
   animation: gradientFlow 8s ease infinite;
   height: 100vh;
+
 }
 
 @keyframes gradientFlow {
@@ -193,6 +206,7 @@ const handleLogin = async () => {
   padding: 60rpx;
   box-sizing: border-box;
   margin: 0 auto;
+  box-shadow:  0 4rpx 20rpx rgba(0, 0, 0, 0.1);
 }
 
 h3 {
@@ -237,13 +251,15 @@ h3 {
 
 .login-button {
   margin-top: 20rpx;
-  line-height: 85rpx;
+  /* line-height: 128rpx; */
+  height: 72rpx;
   text-align: center;
   background: linear-gradient(to right, var(--v-color-primary-5), var(--v-color-primary-6));
   border-radius: 40rpx;
   color: #fff;
   margin-top: 40rpx;
   border: none;
+  font-size: 28rpx;
 }
 
 .tip {

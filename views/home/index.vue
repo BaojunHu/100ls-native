@@ -14,6 +14,21 @@
 import { ref } from 'vue';
 import VideoList from './compts/lesson-list.vue';
 import SpeackList from './compts/speak-list.vue';
+import { onShow } from '@dcloudio/uni-app';
+import { getUserInfo } from '@/tools/user-info';
+import { navigateTo } from '@/router/main';
+import { RouterEnum } from '@/router/constants';
+
+
+onShow(() => {
+	const userInfo = getUserInfo();
+	
+	if (!userInfo.authToken) {
+		navigateTo({
+			path:RouterEnum.Login
+		})
+	}
+});
 
 
 const navbarTabs = ref([
@@ -25,12 +40,26 @@ const handleTabChange = (item: {
 	index: number,
 	name: string
 }) => {
-	tabsConfig.value.current = item.index
+	// tabsConfig.value.current = item.index;
+
+	// uni.showToast({
+	// 	title: `切换到 ${item.index}`,
+	// 	icon: 'none',
+	// 	duration: 1000
+	// });
+	if( item.index === 0) {
+
+		tabsConfig.value = videoListCfg
+ 
+		// updateTabsConfig(videoListCfg as Partial<TabsConfig>);
+	} else if(item.index === 1) {
+		tabsConfig.value = audioListCfg
+		// updateTabsConfig(audioListCfg as Partial<TabsConfig>);
+	}
+
 }
 
-
-
-const tabsConfig = ref({
+const videoListCfg = {
 	tabs: navbarTabs.value,
 	current: 0,
 	isSlider: true,
@@ -48,15 +77,39 @@ const tabsConfig = ref({
 	sliderHeight: 6,
 	sliderBackground: 'var(--v-color-grey-9)',
 	sliderRadius: 3
-})
+}
+const audioListCfg = {
+	current: 1,
+	color: 'var(--v-color-grey-6)',
+	selectedColor: 'var(--v-color-grey-1)',
+	tabs: navbarTabs.value,
+	isSlider: true,
+	padding: 12,
+	bottom: -12,
+	center: true,
+	size: 34,
+	fontWeight: 400,
+	selectedSize: 34,
+	selectedFontWeight: 500,
+	scale: 1,
+	background: 'transparent',
+	sliderHeight: 6,
+	sliderBackground: 'var(--v-color-grey-9)',
+	sliderRadius: 3
+}
+
+const tabsConfig = ref(videoListCfg)
 type TabsConfig = typeof tabsConfig
 
 // 批量更新多个属性
-function updateTabsConfig(newConfig: TabsConfig) {
+function updateTabsConfig(newConfig: Partial<TabsConfig>) {
 	tabsConfig.value = {
 		...tabsConfig.value,
 		...newConfig
 	}
+	// uni.showModal({
+	// 	content:JSON.stringify(tabsConfig.value, null, 2),
+	// })
 }
 
 
@@ -131,4 +184,5 @@ function updateTabsConfig(newConfig: TabsConfig) {
 ::v-deep .uni-navbar__content {
 	background-color: transparent !important;
 }
+
 </style>

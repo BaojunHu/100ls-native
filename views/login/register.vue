@@ -1,5 +1,8 @@
 <template>
   <view class="content">
+     <m-navbar>
+      <m-icon type="icon-whole-arrows-left" size="40" color="var(--v-color-grey-9)" @click="backLogin"></m-icon>
+    </m-navbar>
     <view class="registerBox">
       <h3>注册</h3>
       <view class="inputBox">

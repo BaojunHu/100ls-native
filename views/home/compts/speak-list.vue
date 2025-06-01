@@ -10,6 +10,14 @@
                 <view class="swiper-item ">
 
                     <view class="speak-item__img-warp">
+                        <view class="date-box">
+                            <m-text bold :size="100" align="right" block color="blue-grey-1">
+                                {{ currentDay }}
+                            </m-text>
+                            <m-text bold :size="28" block color="blue-grey-1">
+                                {{ currentMonthStr }}.{{ currentYear }}
+                            </m-text>
+                        </view>
 
                         <image :src="item.coverImage" mode="aspectFill" class="speak-item__img" />
                         <view class="speak-item__img-mask">
@@ -19,8 +27,11 @@
                             <view class="flex-between mt-50">
                                 <m-text :size="24" color="blue-grey-1" multipleLines># {{ item.tags.join('、')
                                     }}</m-text>
-                                <view class="speak-btn">
-                                    <m-icon type="icon-shengyin" color="grey-1" size="32" />
+                                <view class="speak-btn" :class="{
+                                    'playing': audioPlaying
+                                }" @click="startListen(item)">
+                                    <m-icon type="icon-shengyin" :color="audioPlaying ? 'primary-7' : 'grey-1'"
+                                        size="32" />
                                 </view>
                             </view>
                         </view>
@@ -45,16 +56,18 @@
         </swiper>
     </div>
     <m-modal />
+    <m-loading v-if="!!loading" />
 </template>
 <script setup lang="ts">
-import { homeServices } from '@/services/home';
-import { getCurrentInstance, ref, watch } from 'vue';
+import { FollowSentenceRows, homeServices } from '@/services/home';
+import { getCurrentInstance, ref, watch, onMounted, nextTick } from 'vue';
 import { useMRequest } from '@/tools/use-request';
 //@ts-ignore
 import FlowReadImg from './flow-read.png';
 import { onShow } from '@dcloudio/uni-app';
 import { navigateTo } from '@/router/main';
 import { RouterEnum } from '@/router/constants';
+const timestamp = Date.now()
 
 type TPageProps = {
     show: boolean
@@ -140,26 +153,91 @@ const showLoginModal = (config: {
         }
     });
 }
+// 创建英文月份简写的map
+const monthMap: Record<number, string> = {
+    0: 'Jan',
+    1: 'Feb',
+    2: 'Mar',
+    3: 'Apr',
+    4: 'May',
+    5: 'Jun',
+    6: 'Jul',
+    7: 'Aug',
+    8: 'Sep',
+    9: 'Oct',
+    10: 'Nov',
+    11: 'Dec'
+};
+const currentMonth = new Date(timestamp).getMonth();
+const currentYear = new Date(timestamp).getFullYear();
+const currentMonthStr = monthMap[currentMonth];
+// 前面保留0 
+const currentDay = ('0' + new Date(timestamp).getDate()).slice(-2);
 
 
 
-watch(() => props.show, (newVal) => {
-    
-    if (newVal && !list.value) {
-        requestList({
-            pageNo: 1,
-            pageSize: 10,
-        })
-    }
-});
+// watch(() => props.show, (newVal) => {
+//     if (newVal && !list.value) {
+//         requestList({
+//             pageNo: 1,
+//             pageSize: 10,
+//         }).then(() => {
+//             nextTick(() => {
+//                 // 预加载第一张图片
+//                 if (list.value?.rows?.[0]?.coverImage) {
+//                     preloadImage(list.value.rows[0].coverImage);
+//                 }
+//             });
+//         });
+//     }
+// },
+// {
+//     immediate: true,
+//     deep: true,
+// });
 onShow(() => {
-    if (props.show && !list.value) {
+    if (!list.value) {
         requestList({
             pageNo: 1,
             pageSize: 10,
-        })
+        }).then(() => {
+            nextTick(() => {
+                // 预加载第一张图片
+                if (list.value?.rows?.[0]?.coverImage) {
+                    preloadImage(list.value.rows[0].coverImage);
+                }
+            });
+        });
     }
 });
+
+const loading = ref(false);
+const audioPlaying = ref(false);
+const innerAudioContext = uni.createInnerAudioContext();
+const startListen = (item: FollowSentenceRows) => {
+
+    if (!audioPlaying.value) {
+        audioPlaying.value = true;
+    } else {
+        innerAudioContext.stop();
+        return;
+    }
+    loading.value = true;
+
+    innerAudioContext.autoplay = true;
+    innerAudioContext.src =  item.link;
+    innerAudioContext.onPlay(() => {
+        console.log('开始播放');
+        loading.value = false;
+    });
+    innerAudioContext.onError((res) => {
+        console.log(res.errMsg);
+        console.log(res.errCode);
+        loading.value = false;
+    });
+
+
+}
 
 
 
@@ -174,14 +252,33 @@ const backVideoList = () => {
 
 
 const current = ref(0);
+
+// 预加载图片函数
+function preloadImage(url: string) {
+    if (!url) return;
+    // 使用uni.downloadFile进行预加载
+    uni.downloadFile({
+        url,
+        success: (res) => {
+        },
+        fail: (err) => {
+            // 失败也无需弹窗，仅做预加载
+        }
+    });
+}
+
+
+
+
+// 监听 swiper 切换，预加载下一张图片
 const onSwiperChange = (e: any) => {
-    const { current } = e.detail;
-    console.log('onSwiperChange', current);
-    current.value = current;
-    // uni.showToast({
-    //     title: `当前索引：${current}`,
-    //     icon: 'none',
-    // });
+    const { current: idx } = e.detail;
+    current.value = idx;
+    // 预加载下一张图片
+    const nextIdx = idx + 1;
+    if (list.value?.rows?.[nextIdx]?.coverImage) {
+        preloadImage(list.value.rows[nextIdx].coverImage);
+    }
 };
 
 
@@ -241,6 +338,13 @@ const onSwiperChange = (e: any) => {
 
 }
 
+.date-box {
+    position: absolute;
+    right: 20rpx;
+    top: 20rpx;
+    z-index: 99;
+}
+
 .speak-item__img {
     width: 100%;
     height: 100%;
@@ -269,5 +373,8 @@ const onSwiperChange = (e: any) => {
     display: flex;
     align-items: center;
     justify-content: center;
+    &.playing {
+        background: #fff
+    }
 }
 </style>

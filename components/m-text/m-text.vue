@@ -143,8 +143,8 @@ function hexToRGBA(hex: string, alpha = 1) {
 
 @include create_num(line-height, u-lh, 100, 20);
 @include create_num(height, u-h, 100, 20);
-@include create_num(font-size, u-fs, 72, 16);
-@include create_num(font-size, u-fs, 72, 17);
+@include create_num(font-size, u-fs, 100, 16);
+@include create_num(font-size, u-fs, 100, 17);
 
 .bta-text-warp {
   display: inline-block;

@@ -31,7 +31,7 @@
 
         <uni-row :gutter="22" class="history-list" :showBorder="false" :highlight="false" :borderColor="false">
             <uni-col :span="12" v-for="item in historyData?.rows" :key="item.resourceCode">
-                <div class="history-item" @click="handleHistoryClick(item)">
+                <div class="history-item" @click="handleVideoClick(item)">
                     <div class="history-image-warp">
                         <image :src="item.coverImage" mode="aspectFill" class="history-image" />
                         <view class="learing-tag" v-if="item?.currLearning">你正在学习</view>
@@ -193,8 +193,6 @@ const clickSwiperItem = (item: THomeBannerItem) => {
 };
 
 const handleCateClick = (item: Category) => {
-    console.log(">>>>>>>>>>>> ",item);
-    
     navigateTo({
         path: RouterEnum.Video,
         data: {
@@ -202,23 +200,9 @@ const handleCateClick = (item: Category) => {
             title: item.categoryName,
         }
     })
-
-    // activedCate.value = item.categoryNo;
-    // if (item.categoryNo) {
-    //     reqestLessList({ categoryNo: item.categoryNo, pageSize: 10, pageNo: 1 });
-    //     requestVideoList(data.value?.catalogues || [])
-    // }
-    // uni.navigateTo({
-    //     url: `/pages/home/video-list?categoryNo=${item.categoryNo}`
-    // })
-
 };
-const handleHistoryClick = (item: { resourceCode: string }) => {
-    console.log('handleHistoryClick', item);
-};
+
 const handleVideoClick = (item: HomeHistoryRow | LessonListResponse) => {
-
-    console.log('handleVideoClick', item);
 
     navigateVideoPlayer({
         subtitles: item.subtitles,

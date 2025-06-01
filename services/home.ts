@@ -25,8 +25,8 @@ export const homeServices = {
     pageNo: number;
     pageSize: number;
   }) => {
-    // await sleep(200);
-    return createHomeHistoryData(param);
+    // await sleep(2000);
+    // return createHomeHistoryData(param);
     return await http.post<HomeHistoryResponse>("/video/list", param);
   },
   lessonList: async (param: {
