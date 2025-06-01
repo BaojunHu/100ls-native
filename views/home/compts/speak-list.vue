@@ -32,6 +32,10 @@
                                 }" @click="startListen(item)">
                                     <m-icon type="icon-shengyin" :color="audioPlaying ? 'primary-7' : 'grey-1'"
                                         size="32" />
+                                    <text style="margin-left: 4px;" v-if="totalTime && audioPlaying">
+                                        {{ currentTime }} / {{ totalTime }}
+                                    </text>
+
                                 </view>
                             </view>
                         </view>
@@ -67,6 +71,7 @@ import FlowReadImg from './flow-read.png';
 import { onShow } from '@dcloudio/uni-app';
 import { navigateTo } from '@/router/main';
 import { RouterEnum } from '@/router/constants';
+import { text } from 'stream/consumers';
 const timestamp = Date.now()
 
 type TPageProps = {
@@ -211,9 +216,46 @@ onShow(() => {
     }
 });
 
+
+
 const loading = ref(false);
 const audioPlaying = ref(false);
+const currentTime = ref('');
+const totalTime = ref('');
 const innerAudioContext = uni.createInnerAudioContext();
+const second2min = (second: number) => {
+    const min = Math.floor(second / 60);
+    const sec = Math.floor(second % 60);
+    return `${min}:${sec < 10 ? '0' + sec : sec}`;
+};
+innerAudioContext.onPlay(() => {
+    console.log('开始播放');
+    loading.value = false;
+    const t = parseInt(String(innerAudioContext.duration));
+    totalTime.value = second2min(t);
+});
+innerAudioContext.onError((res) => {
+    console.log(res.errMsg);
+    console.log(res.errCode);
+    loading.value = false;
+});
+innerAudioContext.onEnded(() => {
+    console.log('播放结束');
+    audioPlaying.value = false;
+    loading.value = false;
+});
+innerAudioContext.onStop(() => {
+    console.log('播放停止');
+    audioPlaying.value = false;
+    loading.value = false;
+});
+innerAudioContext.onTimeUpdate(() => {
+    const t = parseInt(String(innerAudioContext.currentTime));
+    // console.log('当前播放时间:', innerAudioContext.currentTime);
+    // 可以在这里处理音频播放进度
+    currentTime.value = second2min(t);
+});
+
 const startListen = (item: FollowSentenceRows) => {
 
     if (!audioPlaying.value) {
@@ -223,19 +265,9 @@ const startListen = (item: FollowSentenceRows) => {
         return;
     }
     loading.value = true;
-
     innerAudioContext.autoplay = true;
-    innerAudioContext.src =  item.link;
-    innerAudioContext.onPlay(() => {
-        console.log('开始播放');
-        loading.value = false;
-    });
-    innerAudioContext.onError((res) => {
-        console.log(res.errMsg);
-        console.log(res.errCode);
-        loading.value = false;
-    });
-
+    innerAudioContext.src = item.link;
+    innerAudioContext.play();
 
 }
 
@@ -366,13 +398,19 @@ const onSwiperChange = (e: any) => {
 }
 
 .speak-btn {
-    width: 104rpx;
+    // width: 104rpx;
+    padding: 0 16rpx;
+    width: max-content;
     height: 48rpx;
     background: #727B88;
     border-radius: 35rpx;
     display: flex;
     align-items: center;
     justify-content: center;
+
+    font-size: 20rpx;
+    color: var(--v-color-primary-7);
+
     &.playing {
         background: #fff
     }
