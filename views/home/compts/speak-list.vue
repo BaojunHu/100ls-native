@@ -23,10 +23,10 @@
                         <view class="speak-item__img-mask">
                             <m-text bold :size="42" color="blue-grey-1" multipleLines>{{ item.titleEN }}</m-text>
                             <m-text :size="24" color="blue-grey-1" class="mt-24" multipleLines>{{ item.titleCN
-                                }}</m-text>
+                            }}</m-text>
                             <view class="flex-between mt-50">
                                 <m-text :size="24" color="blue-grey-1" multipleLines># {{ item.tags.join('、')
-                                    }}</m-text>
+                                }}</m-text>
                                 <view class="speak-btn" :class="{
                                     'playing': audioPlaying
                                 }" @click="startListen(item)">
@@ -201,7 +201,8 @@ const currentDay = ('0' + new Date(timestamp).getDate()).slice(-2);
 //     deep: true,
 // });
 onShow(() => {
-    if (!list.value) {
+    const auth = uni.getStorageSync("authToken");
+    if (!list.value && auth) {
         requestList({
             pageNo: 1,
             pageSize: 10,

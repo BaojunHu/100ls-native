@@ -157,7 +157,7 @@ const navigateBack = <
   const routes = getCurrentPages(); // 获取当前打开过的页面路由数组
   const curRoute = routes[routes.length - 1]; // 获取当前页面路由，也就是最后一个打开的页面路由
   //@ts-ignore
-  const { eventID } = curRoute.options;
+  const { eventID } = curRoute?.options || {};
 
   const evnentKeys = getRouteEventKey(eventID);
 
@@ -209,9 +209,9 @@ export type TVideoPlayerParams = {
 
 export const navigateVideoPlayer = (data: TVideoPlayerParams) => {
   // let targetUrl = 'http://localhost:8083'
-  let targetUrl = 'http://172.20.10.4:8083'
+  // let targetUrl = 'http://172.20.10.4:8083'
   // let targetUrl = "/hybrid/html/h5/index.html";
-  // let targetUrl = "http://1.116.101.175/spa-app/index.html";
+  let targetUrl = "http://1.116.101.175/spa-app/index.html";
 
   navigateToWebview(targetUrl, data);
 };

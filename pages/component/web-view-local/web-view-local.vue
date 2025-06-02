@@ -25,6 +25,7 @@ const getMessage = (event) => {
 
 	if(action==='loaded'){
 		isLoading.value = false
+    
 	}else if(action==='back'){
 		uni.navigateBack()
 	}else if(action==='rotateWindow'){

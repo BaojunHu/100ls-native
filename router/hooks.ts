@@ -23,7 +23,7 @@ export const usePageInParams = <BC extends RouterKey, T extends PageRouter = Pag
 
     const options = {
       ...(queryObj || {}),
-      ...(curRoute.options || {}),
+      ...(curRoute?.options || {}),
     };
 
     if (!eventID) {

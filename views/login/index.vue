@@ -1,7 +1,9 @@
 <template>
   <view class="content">
     <m-navbar>
-      <m-icon type="icon-whole-arrows-left" size="40" color="var(--v-color-grey-9)" @click="navigateBack"></m-icon>
+      <!-- <m-icon type="icon-whole-arrows-left" size="40" color="var(--v-color-grey-9)" @click="navigateBack"> -->
+        <text></text>
+      <!-- </m-icon> -->
     </m-navbar>
 
 
@@ -135,9 +137,9 @@ const handleLogin = async () => {
       title: '登录成功',
       icon: 'success',
     });
-    uni.showModal({
-      content:JSON.stringify(data),
-    })
+    // uni.showModal({
+    //   content:JSON.stringify(data),
+    // })
 
     uni.setStorageSync("authToken", data.authToken);
 
@@ -269,7 +271,7 @@ h3 {
   bottom: 50rpx;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: #f4f4f4;
+  color: var(--v-color-primary-5);
 }
 
 .tipbox {
