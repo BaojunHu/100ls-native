@@ -1,12 +1,14 @@
 <template>
-	<view :class="`page layout-page ${tabsConfig.current == 0 ? 'bg-blue' : 'bg-transparent'}`">
+	<view :class="`page layout-page ${tabsConfig.current == 0 ? 'bg-blue' : 'bg-transparent'}`" :style="{
+		'--v-home-bg': videoListBgImg,
+	}">
 		<m-navbar class="layout-auto page-header" fixed>
 			<!-- <m-icon type="icon-huahua" :size="40" bold color="grey-9" /> -->
 			<fui-tabs v-bind="tabsConfig" @change="handleTabChange" />
 			<!-- <m-icon type="icon-whole-search" :size="40" bold color="grey-9" /> -->
 		</m-navbar>
-		<VideoList :show="tabsConfig.current  === 0" />
-		<SpeackList :show="tabsConfig.current  === 1" @changeTab="handleTabChange" />
+		<VideoList :show="tabsConfig.current === 0" @changeBgImg="handleBgImgChange" />
+		<SpeackList :show="tabsConfig.current === 1" @changeTab="handleTabChange" />
 	</view>
 </template>
 
@@ -22,19 +24,25 @@ import { RouterEnum } from '@/router/constants';
 
 onShow(() => {
 	const userInfo = getUserInfo();
-	
+
 	if (!userInfo.authToken) {
 		navigateTo({
-			path:RouterEnum.Login
+			path: RouterEnum.Login
 		})
 	}
 });
+const videoListBgImg = ref();
+const handleBgImgChange = (bgImg: string) => {
+	videoListBgImg.value = `url(${encodeURI(bgImg)})`;
+}
 
 
 const navbarTabs = ref([
 	'看剧',
 	'每日金句',
 ])
+
+
 
 const handleTabChange = (item: {
 	index: number,
@@ -47,12 +55,12 @@ const handleTabChange = (item: {
 	// 	icon: 'none',
 	// 	duration: 1000
 	// });
-	if( item.index === 0) {
+	if (item.index === 0) {
 
 		tabsConfig.value = videoListCfg
- 
+
 		// updateTabsConfig(videoListCfg as Partial<TabsConfig>);
-	} else if(item.index === 1) {
+	} else if (item.index === 1) {
 		tabsConfig.value = audioListCfg
 		// updateTabsConfig(audioListCfg as Partial<TabsConfig>);
 	}
@@ -137,20 +145,31 @@ function updateTabsConfig(newConfig: Partial<TabsConfig>) {
 	flex: 1;
 }
 
+::v-deep .fui-tabs__text {
+	text-shadow: rgba(255, 255, 255, 0.5) 0 0rpx 4rpx;
+}
+
 
 ::v-deep .page {
 	position: relative;
 
-
 	&::after {
 		content: '';
 		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		height: 523rpx;
-		background: linear-gradient(188deg, #9BF2FF 0%, rgba(255, 255, 255, 0) 100%);
+		top: -50rpx;
+		left: -50rpx;
+		right: -50rpx;
+		height: 553rpx;
+		// background: linear-gradient(188deg, #9BF2FF 0%, rgba(255, 255, 255, 0) 100%);
 		z-index: -1;
+		background-image: var(--v-home-bg);
+		// background-size: cover;
+		background-size: cover;
+		/* 替代 cover */
+		background-position: center;
+		background-repeat: no-repeat;
+		filter: blur(30rpx);
+
 	}
 
 	&::before {
@@ -160,7 +179,7 @@ function updateTabsConfig(newConfig: Partial<TabsConfig>) {
 		left: 0;
 		right: 0;
 		bottom: 0;
-		background: #fff;
+		background: #fafafa;
 		z-index: -1;
 	}
 
@@ -168,7 +187,7 @@ function updateTabsConfig(newConfig: Partial<TabsConfig>) {
 
 		&::after,
 		&::before {
-			background: transparent
+			background: none;
 		}
 	}
 }
@@ -184,5 +203,4 @@ function updateTabsConfig(newConfig: Partial<TabsConfig>) {
 ::v-deep .uni-navbar__content {
 	background-color: transparent !important;
 }
-
 </style>

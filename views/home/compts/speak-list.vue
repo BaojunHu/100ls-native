@@ -72,6 +72,7 @@ import { onShow } from '@dcloudio/uni-app';
 import { navigateTo } from '@/router/main';
 import { RouterEnum } from '@/router/constants';
 import { text } from 'stream/consumers';
+import { preloadImage } from '@/tools/preload-img';
 const timestamp = Date.now()
 
 type TPageProps = {
@@ -207,11 +208,11 @@ onShow(() => {
             pageNo: 1,
             pageSize: 10,
         }).then(() => {
+            console.log('>>>>>>>>>>>>>>>> oosodajsdo');
+
             nextTick(() => {
                 // 预加载第一张图片
-                if (list.value?.rows?.[0]?.coverImage) {
-                    preloadImage(list.value.rows[0].coverImage);
-                }
+                preloadImage(list?.value?.rows?.[0]?.coverImage);
             });
         });
     }
@@ -286,22 +287,6 @@ const backVideoList = () => {
 
 const current = ref(0);
 
-// 预加载图片函数
-function preloadImage(url: string) {
-    if (!url) return;
-    // 使用uni.downloadFile进行预加载
-    uni.downloadFile({
-        url,
-        success: (res) => {
-        },
-        fail: (err) => {
-            // 失败也无需弹窗，仅做预加载
-        }
-    });
-}
-
-
-
 
 // 监听 swiper 切换，预加载下一张图片
 const onSwiperChange = (e: any) => {
@@ -324,10 +309,10 @@ const onSwiperChange = (e: any) => {
     &::before {
         content: '';
         position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        top: -50rpx;
+        left: -50rpx;
+        right: -50rpx;
+        bottom: -50rpx;
         background-image: var(--bg-img);
         background-size: cover;
         background-position: center;

@@ -2,7 +2,7 @@
     <scroll-view scroll-y class="video-list-page layout-full " v-show="props.show">
         <uni-swiper-dot class="swiper-dot-box" :info="data?.banners" :current="swiperDotIndex" mode="round"
             :dots-styles="dotsStyles" field="content">
-            <swiper class="swiper-box" :current="swiperDotIndex" @change="swiperDotIndex = $event.detail.current">
+            <swiper class="swiper-box" :current="swiperDotIndex" :autoplay="true" :interval="6000" @change="changeSwiperIndex($event?.detail?.current)">
                 <swiper-item v-for="(item, index) in data?.banners" :key="item.sortNo">
                     <view class="swiper-item" :class="'swiper-item' + index" @click=clickSwiperItem(item)>
                         <image :src="item.coverImage" mode="aspectFill" class="swiper-image" :lazy-load="true" />
@@ -18,7 +18,7 @@
                 <div class="cate-item" v-for="item in data?.categories" :key="item.categoryNo"
                     @click="handleCateClick(item)">
                     <div class="cate-image-warp">
-                        <image :src="item.icon" mode="heightFix" class="cate-image" :lazy-load="true"/>
+                        <image :src="item.icon" mode="heightFix" class="cate-image" :lazy-load="true" />
                     </div>
 
                     <text class="cate-name">
@@ -32,7 +32,7 @@
             <uni-col :span="12" v-for="item in historyData?.rows" :key="item.resourceCode">
                 <div class="history-item" @click="handleVideoClick(item)">
                     <div class="history-image-warp">
-                        <image :src="item.coverImage" mode="aspectFill" class="history-image" :lazy-load="true"/>
+                        <image :src="item.coverImage" mode="aspectFill" class="history-image" :lazy-load="true" />
                         <view class="learing-tag" v-if="item?.currLearning">你正在学习</view>
 
                         <view class="episode-count">
@@ -42,7 +42,7 @@
                         </view>
                     </div>
                     <m-text bold :size="26" color="grey-9" class="mt-12 mb-8 mx-20 text-ellipsis">{{ item.title
-                        }}</m-text>
+                    }}</m-text>
 
 
                     <view class="history-info" v-if="item?.currLearning">
@@ -61,14 +61,15 @@
         </uni-row>
 
         <template v-for="videoListItem in videoListMap" :key="videoListItem.no">
-            <m-text v-if="!!videoListItem.data.length" bold :size="30" color="grey-9" class="ml-20">{{ videoListItem.name }}</m-text>
+            <m-text v-if="!!videoListItem.data.length" bold :size="30" color="grey-9" class="ml-20">{{
+                videoListItem.name }}</m-text>
             <scroll-view scroll-x :scroll-with-animation="true" class="video-list-scroll">
                 <view class="video-list">
                     <div class="video-item" v-for="item in videoListItem.data" :key="item.resourceCode"
                         @click="handleVideoClick(item)">
                         <div class="video-image-warp">
                             <image :src="item.coverImage" mode="aspectFill" class="video-image
-                        " :lazy-load="true"/>
+                        " :lazy-load="true" />
                             <view class="episode-count">
 
                                 <m-text :size="20" color="blue-grey-1">全{{ item.episodeCount }}集</m-text>
@@ -76,7 +77,7 @@
                         </div>
 
                         <m-text bold :size="26" color="grey-9" class="mt-12 mb-8  text-ellipsis">{{ item.title
-                        }}</m-text>
+                            }}</m-text>
                         <view class="video-info">
                             <m-text :size="22" color="grey-7" class="history-info__text "
                                 v-for="lang in item.languages">{{
@@ -95,10 +96,10 @@
         <!-- <template v-for="videoListItem in lessonMap" :key="videoListItem.no">  -->
         <m-text bold :size="30" color="grey-9" class="ml-20">优质课程</m-text>
         <view class="lesson-list">
-            <div class="lesson-item" v-for="item in lessonRes.rows" :key="item.resourceCode"
+            <div class="lesson-item" v-for="item in lessonRes?.rows" :key="item.resourceCode"
                 @click="handleVideoClick(item)">
                 <div class="lesson-image-warp">
-                    <image :src="item.coverImage" mode="aspectFill" class="lesson-image " :lazy-load="true"/>
+                    <image :src="item.coverImage" mode="aspectFill" class="lesson-image " :lazy-load="true" />
                     <view class="episode-count">
                         <!-- <m-text :size="20" color="blue-grey-1">全{{ item.episodeCount }}集</m-text> -->
                     </view>
@@ -118,6 +119,7 @@
 import { RouterEnum } from '@/router/constants';
 import { navigateTo, navigateVideoPlayer } from '@/router/main';
 import { Catalogue, Category, HomeData, HomeHistoryResponse, HomeHistoryRow, homeServices, LessonListResponse, THomeBannerItem } from '@/services/home';
+import { preloadImage } from '@/tools/preload-img';
 import { useMRequest } from '@/tools/use-request';
 import { onShow } from '@dcloudio/uni-app';
 import { title } from 'process';
@@ -128,6 +130,68 @@ type TVideoListProps = {
     show: boolean;
 };
 const data = ref<HomeData>({} as HomeData);
+
+
+const dotsStyles = {
+    backgroundColor: 'rgba(255, 255, 255, .6)',
+    border: '1px rgba(255, 255, 255, .6) solid',
+    color: '#fff',
+    selectedBackgroundColor: 'rgba(255, 255, 255, .8)',
+    selectedBorder: '1px rgba(255, 255, 255, .8) solid'
+}
+const swiperDotIndex = ref(0);
+const changeSwiperIndex = (idx: number) => {
+    swiperDotIndex.value = idx;
+    const list = data.value?.banners || [];
+    const lastIdx = list?.length - 1;
+    const item = list?.[idx].coverImage || '';
+    emit('changeBgImg', item);
+
+    const next = list?.[idx + 1]?.coverImage || '';
+    preloadImage(next)
+
+};
+const emit = defineEmits<{
+    (e: 'changeBgImg', src: string): void;
+}>();
+
+const handleIntail = async () => {
+    if (!props.show) {
+        return;
+    }
+    void requestHistory({
+        pageSize: 10,
+        pageNo: 1,
+        // categoryNo: firstCategory,
+    })
+    const res = await requestHomeData();
+
+    const newCateList = res.categories?.sort((a, b) => {
+        return (a.sortNo - b.sortNo);
+    });
+    data.value = {
+        ...res,
+        categories: newCateList,
+    }
+
+
+    changeSwiperIndex(0);
+
+    // emit('changeBgImg', data.value?.banners?.[0]?.coverImage || '');
+
+    // handleCateClick(newCateList[0]);
+    // reqestLessList({  pageSize: 10, pageNo: 1 });
+    requestVideoList(res?.catalogues || [])
+    // requestVideoList(res?.categories?.map((item) => {
+    //     return {
+    //         catalogueNo: item.categoryNo,
+    //         catalogueName: item.categoryName,
+    //     } as Catalogue;
+    // })) 
+    requestLessonList();
+
+}
+
 const { loading, runAsync: requestHomeData, mutate: mutateCoreData } = useMRequest(homeServices.homeCore, {
     manual: true,
 })
@@ -276,47 +340,6 @@ const handleVideoClick = (item: HomeHistoryRow | LessonListResponse) => {
 };
 
 
-const dotsStyles = {
-    backgroundColor: 'rgba(255, 255, 255, .6)',
-    border: '1px rgba(255, 255, 255, .6) solid',
-    color: '#fff',
-    selectedBackgroundColor: 'rgba(255, 255, 255, .8)',
-    selectedBorder: '1px rgba(255, 255, 255, .8) solid'
-}
-const swiperDotIndex = ref(0);
-
-
-const handleIntail = async () => {
-    if (!props.show) {
-        return;
-    }
-    void requestHistory({
-        pageSize: 10,
-        pageNo: 1,
-        // categoryNo: firstCategory,
-    })
-    const res = await requestHomeData();
-
-    const newCateList = res.categories?.sort((a, b) => {
-        return (a.sortNo - b.sortNo);
-    });
-    data.value = {
-        ...res,
-        categories: newCateList,
-    }
-
-    // handleCateClick(newCateList[0]);
-    // reqestLessList({  pageSize: 10, pageNo: 1 });
-    requestVideoList(res?.catalogues || [])
-    // requestVideoList(res?.categories?.map((item) => {
-    //     return {
-    //         catalogueNo: item.categoryNo,
-    //         catalogueName: item.categoryName,
-    //     } as Catalogue;
-    // })) 
-    requestLessonList();
-
-}
 
 
 onShow(async () => {
@@ -337,6 +360,9 @@ watch(() => props.show, (newVal) => {
 // .video-list-page {}
 
 
+
+
+
 ::v-deep .swiper-dot-box {
     margin: 30rpx 28rpx 48rpx;
 
@@ -345,6 +371,8 @@ watch(() => props.show, (newVal) => {
         padding-left: 24rpx;
     }
 }
+
+
 
 .swiper-box {
     height: 392rpx;
