@@ -215,10 +215,11 @@
         "devServer" : {
             "proxy" : {
                 "/proxy-api" : {
-                    "target" : "https://100ls.com.cn",
+                    "target" : "http://1.116.101.175:8092/api/",
                     "pathRewrite" : {
                         "^/proxy-api" : ""
-                    }
+                    },
+                    "logLevel" : "debug" // 开启详细日志
                 }
             }
         },

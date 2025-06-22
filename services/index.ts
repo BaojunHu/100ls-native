@@ -13,14 +13,18 @@ interface ApiResponse<T = any> {
 }
 
 // 基础URL，根据环境变量来设置
-// export let baseUrl =  'https://100ls.com.cn/api'
-export let baseUrl = "http://1.116.101.175:8092/api";
 
-// if(process.env.NODE_ENV === 'development'){
-//     baseUrl = '/proxy-api/' // 开发环境使用代理
-// }else{
-//     baseUrl = 'https://100ls.com.cn' // 生产环境使用真实的API地址
+// let baseUrl = '';
+// if (process.env.NODE_ENV === 'development') {
+//   baseUrl =  "/proxy-api";// 本地调试域名
+// } else {
+//   baseUrl = 'http://1.116.101.175:8092/api';   // 生产环境域名
 // }
+// export default baseUrl;
+
+export const baseUrl = 'http://1.116.101.175:8092/api';  
+
+
 
 const exceptionHandler = (
   res: UniApp.RequestSuccessCallbackResult,

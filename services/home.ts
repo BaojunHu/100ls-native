@@ -30,7 +30,7 @@ export const homeServices = {
     return await http.post<HomeHistoryResponse>("/video/list", param);
   },
   lessonList: async (param: {
-    catalogueNo: string;
+    // catalogueNo: string;
     pageNo: number;
     pageSize: number;
   }) => {

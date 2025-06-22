@@ -5,7 +5,7 @@
             <swiper class="swiper-box" :current="swiperDotIndex" @change="swiperDotIndex = $event.detail.current">
                 <swiper-item v-for="(item, index) in data?.banners" :key="item.sortNo">
                     <view class="swiper-item" :class="'swiper-item' + index" @click=clickSwiperItem(item)>
-                        <image :src="item.coverImage" mode="aspectFill" class="swiper-image" />
+                        <image :src="item.coverImage" mode="aspectFill" class="swiper-image" :lazy-load="true" />
                         <text class="swiper-text">
                             {{ item.title }}
                         </text>
@@ -18,7 +18,7 @@
                 <div class="cate-item" v-for="item in data?.categories" :key="item.categoryNo"
                     @click="handleCateClick(item)">
                     <div class="cate-image-warp">
-                        <image :src="item.icon" mode="heightFix" class="cate-image" />
+                        <image :src="item.icon" mode="heightFix" class="cate-image" :lazy-load="true"/>
                     </div>
 
                     <text class="cate-name">
@@ -32,7 +32,7 @@
             <uni-col :span="12" v-for="item in historyData?.rows" :key="item.resourceCode">
                 <div class="history-item" @click="handleVideoClick(item)">
                     <div class="history-image-warp">
-                        <image :src="item.coverImage" mode="aspectFill" class="history-image" />
+                        <image :src="item.coverImage" mode="aspectFill" class="history-image" :lazy-load="true"/>
                         <view class="learing-tag" v-if="item?.currLearning">你正在学习</view>
 
                         <view class="episode-count">
@@ -42,7 +42,7 @@
                         </view>
                     </div>
                     <m-text bold :size="26" color="grey-9" class="mt-12 mb-8 mx-20 text-ellipsis">{{ item.title
-                    }}</m-text>
+                        }}</m-text>
 
 
                     <view class="history-info" v-if="item?.currLearning">
@@ -61,23 +61,54 @@
         </uni-row>
 
         <template v-for="videoListItem in videoListMap" :key="videoListItem.no">
-            <m-text bold :size="30" color="grey-9" class="ml-20">{{ videoListItem.name }}</m-text>
-            <view class="lesson-list">
-                <div class="lesson-item" v-for="item in videoListItem?.data" :key="item.resourceCode"
-                    @click="handleVideoClick(item)">
-                    <div class="lesson-image-warp">
-                        <image :src="item.coverImage" mode="aspectFill" class="lesson-image " />
-                        <view class="episode-count">
-                            <!-- <m-text :size="20" color="blue-grey-1">全{{ item.episodeCount }}集</m-text> -->
+            <m-text v-if="!!videoListItem.data.length" bold :size="30" color="grey-9" class="ml-20">{{ videoListItem.name }}</m-text>
+            <scroll-view scroll-x :scroll-with-animation="true" class="video-list-scroll">
+                <view class="video-list">
+                    <div class="video-item" v-for="item in videoListItem.data" :key="item.resourceCode"
+                        @click="handleVideoClick(item)">
+                        <div class="video-image-warp">
+                            <image :src="item.coverImage" mode="aspectFill" class="video-image
+                        " :lazy-load="true"/>
+                            <view class="episode-count">
+
+                                <m-text :size="20" color="blue-grey-1">全{{ item.episodeCount }}集</m-text>
+                            </view>
+                        </div>
+
+                        <m-text bold :size="26" color="grey-9" class="mt-12 mb-8  text-ellipsis">{{ item.title
+                        }}</m-text>
+                        <view class="video-info">
+                            <m-text :size="22" color="grey-7" class="history-info__text "
+                                v-for="lang in item.languages">{{
+                                    lang
+                                }}
+                            </m-text>
                         </view>
                     </div>
-                    <uni-card :is-shadow="false" :is-full="true" :spacing="0" :padding="0" :border="false"
-                        class="lesson-info" :title="item.title" :sub-title="item.author"
-                        :extra="`${item.learnNumber}人在学`"
-                        :thumbnail="isUrl(item.authorIcon) ? item.authorIcon : '/static/logo.png'" />
-                </div>
-            </view>
+                </view>
+                <!-- <view class="empty-box pb-40" v-if="videoListItem.data.length === 0 || videoListItem.data === null">
+                    <m-empty desc="来到了知识的荒漠~" :imgWidth="160" />
+                </view> -->
+            </scroll-view>
         </template>
+
+        <!-- <template v-for="videoListItem in lessonMap" :key="videoListItem.no">  -->
+        <m-text bold :size="30" color="grey-9" class="ml-20">优质课程</m-text>
+        <view class="lesson-list">
+            <div class="lesson-item" v-for="item in lessonRes.rows" :key="item.resourceCode"
+                @click="handleVideoClick(item)">
+                <div class="lesson-image-warp">
+                    <image :src="item.coverImage" mode="aspectFill" class="lesson-image " :lazy-load="true"/>
+                    <view class="episode-count">
+                        <!-- <m-text :size="20" color="blue-grey-1">全{{ item.episodeCount }}集</m-text> -->
+                    </view>
+                </div>
+                <uni-card :is-shadow="false" :is-full="true" :spacing="0" :padding="0" :border="false"
+                    class="lesson-info" :title="item.title" :sub-title="item.author" :extra="`${item.learnNumber}人在学`"
+                    :thumbnail="isUrl(item.authorIcon) ? item.authorIcon : '/static/logo.png'" />
+            </div>
+        </view>
+        <!-- </template> -->
         <div class="pb-64"></div>
     </scroll-view>
     <m-loading v-if="loading" text="加载中..." direction="column" />
@@ -102,9 +133,9 @@ const { loading, runAsync: requestHomeData, mutate: mutateCoreData } = useMReque
 })
 const { data: videoListMap, runAsync: requestVideoList } = useMRequest(async (catalogues: Catalogue[]) => {
     const promiseList = catalogues?.map((item) => {
-        return homeServices.lessonList({
-            catalogueNo: item.catalogueNo,
-            // categoryNo: activedCate.value,
+        return homeServices.videoList({
+            // catalogueNo: item.catalogueNo,
+            categoryNo: item.catalogueNo,
             pageSize: 10,
             pageNo: 1,
         })
@@ -121,12 +152,43 @@ const { data: videoListMap, runAsync: requestVideoList } = useMRequest(async (ca
         })
     }) as Promise<{
         no: string;
-        data: LessonListResponse[];
+        data: HomeHistoryRow[];
         name: string;
     }[]>
 }, {
     manual: true,
 })
+
+const { data: lessonRes, runAsync: requestLessonList } = useMRequest(async () => {
+
+    return homeServices.lessonList({
+        // catalogueNo: item.catalogueNo,
+        // categoryNo: activedCate.value,
+        pageSize: 10,
+        pageNo: 1,
+    })
+
+    // const promiseList = catalogues?.map((item) => {
+    // })
+    // return Promise.all(promiseList).then((res) => {
+    //     return res.map((item, index) => {
+    //         return {
+    //             no: catalogues?.[index]?.catalogueNo,
+    //             data: (item?.rows || []).sort((a, b) => {
+    //                 return (a.sortNo - b.sortNo);
+    //             }),
+    //             name: catalogues?.[index]?.catalogueName,
+    //         }
+    //     })
+    // }) as Promise<{
+    //     no: string;
+    //     data: LessonListResponse[];
+    //     name: string;
+    // }[]>
+}, {
+    manual: true,
+})
+
 const { data: historyData, run: requestHistory } = useMRequest(homeServices.history, {
     manual: true,
     onError: (err) => {
@@ -246,6 +308,13 @@ const handleIntail = async () => {
     // handleCateClick(newCateList[0]);
     // reqestLessList({  pageSize: 10, pageNo: 1 });
     requestVideoList(res?.catalogues || [])
+    // requestVideoList(res?.categories?.map((item) => {
+    //     return {
+    //         catalogueNo: item.categoryNo,
+    //         catalogueName: item.categoryName,
+    //     } as Catalogue;
+    // })) 
+    requestLessonList();
 
 }
 
