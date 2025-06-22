@@ -2,7 +2,8 @@
     <scroll-view scroll-y class="video-list-page layout-full " v-show="props.show">
         <uni-swiper-dot class="swiper-dot-box" :info="data?.banners" :current="swiperDotIndex" mode="round"
             :dots-styles="dotsStyles" field="content">
-            <swiper class="swiper-box" :current="swiperDotIndex" :autoplay="true" :interval="6000" @change="changeSwiperIndex($event?.detail?.current)">
+            <!-- :autoplay="true" :interval="6000" -->
+            <swiper class="swiper-box" :current="swiperDotIndex"  @change="changeSwiperIndex($event?.detail?.current)">
                 <swiper-item v-for="(item, index) in data?.banners" :key="item.sortNo">
                     <view class="swiper-item" :class="'swiper-item' + index" @click=clickSwiperItem(item)>
                         <image :src="item.coverImage" mode="aspectFill" class="swiper-image" :lazy-load="true" />
