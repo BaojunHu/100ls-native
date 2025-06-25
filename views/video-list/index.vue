@@ -23,7 +23,6 @@
                 </uni-col>
             </uni-row>
 
-
             <uni-row class="video-list" :gutter="12" v-if="loading && isFirstLoad">
                 <uni-col :span="8" class="video-item" v-for="n in 9" :key="n">
                     <div class="video-image-warp">
@@ -125,7 +124,8 @@ const loadMore = async (toNo?: number) => {
     const res = await reqestList({
         pageSize,
         pageNo: nextPageNo,
-        categoryNo: pageParams.value.categoryNo,
+        // categoryNo: pageParams.value.categoryNo,
+        categoryNo: 'CAT25062501',
     })
     if (isFirstLoad.value && res?.rows?.length > 0) {
         isFirstLoad.value = false;

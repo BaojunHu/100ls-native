@@ -64,7 +64,7 @@
         <template v-for="videoListItem in videoListMap" :key="videoListItem.no">
             <m-text v-if="!!videoListItem.data.length" bold :size="30" color="grey-9" class="ml-20">{{
                 videoListItem.name }}</m-text>
-            <scroll-view scroll-x :scroll-with-animation="true" class="video-list-scroll">
+            <scroll-view scroll-x :scroll-with-animation="true" class="video-list-scroll" v-if="!!videoListItem.data.length">
                 <view class="video-list">
                     <div class="video-item" v-for="item in videoListItem.data" :key="item.resourceCode"
                         @click="handleVideoClick(item)">
@@ -613,4 +613,86 @@ watch(() => props.show, (newVal) => {
 
     }
 }
+
+
+
+
+.video-list {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 16rpx 20rpx;
+
+    .video-item {
+        display: flex;
+        // width: 228rpx;
+        // flex: 0 0 228rpx;
+        flex-direction: column;
+        // margin-right: 12rpx;
+        margin-bottom: 24rpx;
+
+    }
+
+    .video-item:last-child {
+        margin-right: 0;
+    }
+
+    .video-image-warp {
+        width: 228rpx;
+        height: 304rpx;
+        position: relative;
+    }
+
+    .video-image {
+        width: 100%;
+        height: 100%;
+        border-radius: 16rpx;
+
+    }
+
+
+}
+
+.empty-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 75%;
+    padding-top: 40rpx;
+}
+
+.episode-count {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    border-radius: 0 0 16rpx 16rpx;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 16rpx;
+    width: 100%;
+    height: 78rpx;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(5, 5, 5, 0.69) 100%);
+}
+
+.skeleton-bg {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 37%, #f0f0f0 63%);
+    background-size: 400% 100%;
+    animation: skeleton-loading 1.4s ease infinite;
+    border-radius: 8rpx;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0 50%;
+    }
+}
+
+
+
+
 </style>

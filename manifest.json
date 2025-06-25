@@ -2,8 +2,8 @@
     "name" : "百听百说",
     "appid" : "__UNI__92E9902",
     "description" : "百听白说 100LS 提供专业的语言学习资源，通过听力训练和口语练习，帮助用户快速提高外语水平。适合各个阶段的学习者，轻松掌握英语、日语、法语等多种语言。",
-    "versionName" : "0.0.9",
-    "versionCode" : 9,
+    "versionName" : "0.0.11",
+    "versionCode" : 11,
     "transformPx" : false,
     "app-plus" : {
         "usingComponents" : true,
@@ -13,7 +13,7 @@
         "nvueLaunchMode" : "fast",
         "splashscreen" : {
             "alwaysShowBeforeRender" : true,
-            "waiting" : true,
+            "waiting" : false,
             "autoclose" : true,
             "delay" : 0
         },
