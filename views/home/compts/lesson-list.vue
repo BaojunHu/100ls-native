@@ -5,7 +5,7 @@
             <!-- :autoplay="true" :interval="6000" -->
             <swiper class="swiper-box" :current="swiperDotIndex"  @change="changeSwiperIndex($event?.detail?.current)">
                 <swiper-item v-for="(item, index) in data?.banners" :key="item.sortNo">
-                    <view class="swiper-item" :class="'swiper-item' + index" @click=clickSwiperItem(item)>
+                    <view class="swiper-item" :class="'swiper-item' + index" @click=handleVideoClick(item)>
                         <image :src="item.coverImage" mode="aspectFill" class="swiper-image" :lazy-load="true" />
                         <text class="swiper-text">
                             {{ item.title }}
@@ -21,7 +21,6 @@
                     <div class="cate-image-warp">
                         <image :src="item.icon" mode="heightFix" class="cate-image" :lazy-load="true" />
                     </div>
-
                     <text class="cate-name">
                         {{ item.categoryName }}
                     </text>
@@ -311,14 +310,7 @@ const handleEmptyClick = () => {
     }
 };
 
-const clickSwiperItem = (item: THomeBannerItem) => {
-    navigateVideoPlayer({
-        subtitles: item.subtitles,
-        title: item.title,
-        coverImage: item.coverImage,
-        link: item.link,
-    })
-};
+
 
 const handleCateClick = (item: Category) => {
     navigateTo({
@@ -330,13 +322,14 @@ const handleCateClick = (item: Category) => {
     })
 };
 
-const handleVideoClick = (item: HomeHistoryRow | LessonListResponse) => {
+const handleVideoClick = (item: HomeHistoryRow | LessonListResponse | THomeBannerItem) => {
 
     navigateVideoPlayer({
         subtitles: item.subtitles,
         title: item.title,
         coverImage: item.coverImage,
         link: item.link,
+        resourceCode: item.resourceCode,
     })
 };
 

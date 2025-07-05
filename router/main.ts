@@ -205,6 +205,8 @@ export type TVideoPlayerParams = {
   link: string;
 
   title: string;
+
+  resourceCode: string;
 };
 
 export const navigateVideoPlayer = (data: TVideoPlayerParams) => {

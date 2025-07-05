@@ -110,19 +110,19 @@ const { data: list, runAsync: requestList } = useMRequest(homeServices.followSen
         }
     },
     onSuccess: (res) => {
-        if (!res?.rows?.length) {
-            PageInstance.proxy.$showModal({
-                title: '提示',
-                content: '来到了知识的荒漠，快去看看别的吧~',
-                confirmText: '返回',
-                showCancel: false,
-                success: (res) => {
-                    if (res.confirm) {
-                        backVideoList();
-                    }
-                }
-            })
-        }
+        // if (!res?.rows?.length) {
+        //     PageInstance.proxy.$showModal({
+        //         title: '提示',
+        //         content: '来到了知识的荒漠，快去看看别的吧~',
+        //         confirmText: '返回',
+        //         showCancel: false,
+        //         success: (res) => {
+        //             if (res.confirm) {
+        //                 backVideoList();
+        //             }
+        //         }
+        //     })
+        // }
 
     }
 });
