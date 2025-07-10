@@ -49,15 +49,14 @@ export const homeServices = {
     pageSize: number;
   }) => {
     // await sleep(200);
-    // return  createFollowSentenceList() as unknown as {
+    // return createFollowSentenceList() as {
     //   rows: FollowSentenceRows[];
     //   total: number;
     // }
-
     return await http.post<{
       rows: FollowSentenceRows[];
       total: number;
-    }>("/followSentence/list", param);
+    }>("/follow/sentence/list", param);
   }
 };
 

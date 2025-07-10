@@ -1228,3 +1228,24 @@ export type TWarehouseItem = {
   /** 详细地址 */
   address: string;
 };
+
+/** 用户信息类型 */
+export type UserInfo = {
+  memberName: string;
+  crtTime: string;
+  avatarImg: string;
+  isVip: boolean;
+  coursesAll: number;
+  housrsLearn: number;
+  englishName?: string;
+};
+
+/** 收藏项目类型 */
+export type FavoriteItem = {
+  resourceCode: string;
+  title: string;
+  desc: string;
+  imageUrl: string;
+  createTime: string;
+  shortDesc?: string;
+};

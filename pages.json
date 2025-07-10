@@ -37,6 +37,26 @@
 				"navigationBarTextStyle": "black"
 			}
 		},
+		{
+			"path": "views/profile/index",
+			"style": {
+				"navigationBarTitleText": "个人中心",
+				"app-plus": {
+					"titleNView": false
+				},
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "views/profile/edit",
+			"style": {
+				"navigationBarTitleText": "编辑资料",
+				"app-plus": {
+					"titleNView": false
+				},
+				"navigationBarTextStyle": "black"
+			}
+		},
 		// pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
 			"path": "pages/tabBar/component/component",
