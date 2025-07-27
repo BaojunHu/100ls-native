@@ -1,17 +1,47 @@
 <!-- 列表空組件 -->
 
 <template>
-  <div class="m-empty" :style="{
-    '--imgWidth': imgWidth + 'rpx',
-  }">
+  <div
+    class="m-empty"
+    :style="{
+      '--imgWidth': imgWidth + 'rpx',
+    }"
+  >
     <!-- <image class="m-empty__img" src="./list-empty.png" alt="empty" mode="widthFix" /> -->
-    <m-icon class="icon-empty" name="list-empty" :size="imgWidth" color="blue-3" />
-    <m-text class="m-empty__title mt-40" v-if="props.title" bold :size="32" color="grey-9" multiple-lines>
+    <m-icon
+      class="icon-empty"
+      name="list-empty"
+      :size="imgWidth"
+      color="primary-4"
+      style="transform: translatex(10%)"
+    />
+    <m-text
+      class="m-empty__title mt-40"
+      v-if="props.title"
+      bold
+      :size="32"
+      color="grey-9"
+      multiple-lines
+    >
       {{ props.title }}
     </m-text>
-    <m-text v-if="!!props.desc" class="m-empty__desc" :size="28" color="grey-7" multiple-lines>{{ props.desc }}</m-text>
-    <m-button v-if="!!props.btnText" class="mt-24" outline :handle-click="handleClick" :size="props.btnSize"
-      :type="props.btnType">{{ props.btnText }}</m-button>
+    <m-text
+      v-if="!!props.desc"
+      class="m-empty__desc"
+      :size="28"
+      color="grey-7"
+      multiple-lines
+      >{{ props.desc }}</m-text
+    >
+    <m-button
+      v-if="!!props.btnText"
+      class="mt-24"
+      outline
+      :handle-click="handleClick"
+      :size="props.btnSize"
+      :type="props.btnType"
+      >{{ props.btnText }}</m-button
+    >
   </div>
 </template>
 
@@ -21,16 +51,23 @@ export type MEmptyProps = {
   desc?: string;
   btnText?: string;
   imgWidth?: number;
-  btnSize?: 'large' | 'default' | 'small';
-  btnType?: 'primary' | 'default' | 'danger' | 'success' | 'warning' | 'green' | 'text';
+  btnSize?: "large" | "default" | "small";
+  btnType?:
+    | "primary"
+    | "default"
+    | "danger"
+    | "success"
+    | "warning"
+    | "green"
+    | "text";
 };
 const props = defineProps<MEmptyProps>();
 
 const imgWidth = props.imgWidth || 360;
-const emit = defineEmits(['click']);
+const emit = defineEmits(["click"]);
 
 const handleClick = () => {
-  emit('click');
+  emit("click");
 };
 </script>
 

@@ -45,7 +45,7 @@ export const wordServices = {
   getWordList: async (params: WordListParams) => {
     const response = await http.post<WordListResponse>("api/word/list", params);
     // 处理返回的数据，确保 meaning 是数组格式
-    const processedRows = response.rows.map((item) => {
+    const processedRows = response?.rows?.map((item) => {
       let meaningList: WordItem["meaningList"] = [];
       try {
         meaningList = item.meaning ? JSON.parse(item.meaning as any) : [];

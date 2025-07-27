@@ -65,22 +65,18 @@
         </view>
       </view>
       <!-- 空状态 -->
-      <view
+      <m-empty
         v-if="!wordListData?.rows?.length && currentTab === 'unlearned'"
-        class="empty-state"
-      >
-        <image src="/static/image.png" class="empty-icon" />
-        <view class="empty-title">暂无未掌握的单词</view>
-        <view class="empty-subtitle">在播放页中选择生词添加吧</view>
-      </view>
-      <view
+        title="暂无未掌握的单词"
+        desc="在播放页中选择生词添加吧"
+        :img-width="320"
+      />
+      <m-empty
         v-if="!wordListData?.rows?.length && currentTab === 'learned'"
-        class="empty-state"
-      >
-        <image src="/static/image.png" class="empty-icon" />
-        <view class="empty-title">暂无已掌握的单词</view>
-        <view class="empty-subtitle">请先学习一些单词</view>
-      </view>
+        title="暂无已掌握的单词"
+        desc="请先学习一些单词"
+        :img-width="320"
+      />
     </scroll-view>
 
     <!-- 释义模态框 -->
@@ -88,10 +84,12 @@
       <view class="modal-content meaning-modal">
         <view class="modal-header">
           <text>{{ selectedWord?.word || "" }}</text>
-          <image
-            src="/static/stop.png"
+          <m-icon
+            type="icon-close"
+            :size="48"
+            color="grey-7"
             class="close-icon"
-            @tap="hideMeaningModal"
+            @click="hideMeaningModal"
           />
         </view>
         <view class="modal-body">
@@ -181,7 +179,10 @@ const fetchWordList = async (isRefresh: boolean = false) => {
       if (wordListData.value) {
         wordListData.value = {
           ...response,
-          rows: [...wordListData.value.rows, ...response.rows],
+          rows: [
+            ...(wordListData.value?.rows || []),
+            ...(response?.rows || []),
+          ],
         };
       } else {
         wordListData.value = response;
@@ -370,20 +371,24 @@ onReachBottom(async () => {
 <style lang="scss" scoped>
 /* 页面整体样式 */
 .page {
-  background: linear-gradient(to bottom, #f5f8f6, #e6f4ed);
+  background: linear-gradient(
+    to bottom,
+    var(--v-color-primary-1),
+    var(--v-color-primary-2)
+  );
   //   height: 100vh;
   height: 100%;
   display: flex;
   flex-direction: column;
   font-family: "PingFang SC", "Helvetica Neue", Arial, sans-serif;
-  color: #0d1c14;
+  color: var(--v-color-grey-9);
 }
 
 /* 分类导航 */
 .category-nav {
   padding: 24rpx 16rpx;
   background-color: #ffffff;
-  border-bottom: 2rpx solid #dbdbdb;
+  border-bottom: 2rpx solid var(--v-color-grey-4);
   box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
   position: sticky;
   top: 0;
@@ -412,19 +417,19 @@ onReachBottom(async () => {
   justify-content: center;
   height: 64rpx;
   padding: 0 32rpx;
-  background-color: #e6f4ed;
+  background-color: var(--v-color-primary-2);
   border-radius: 32rpx;
   margin: 0 12rpx;
   font-size: 30rpx;
-  color: #03cc63;
+  color: var(--v-color-primary-7);
   font-weight: 500;
   transition: all 0.3s ease;
 }
 
 .category-item.active {
-  background-color: #03cc63;
+  background-color: var(--v-color-primary-7);
   color: #ffffff;
-  box-shadow: 0 4rpx 12rpx rgba(3, 204, 99, 0.3);
+  box-shadow: 0 4rpx 12rpx rgba(255, 102, 9, 0.3);
   transform: scale(1.05);
   border-radius: 32rpx;
 }
@@ -469,7 +474,7 @@ onReachBottom(async () => {
 .word-icon {
   width: 88rpx;
   height: 88rpx;
-  background-color: #e6f4ed;
+  background-color: var(--v-color-primary-2);
   border-radius: 20rpx;
   display: flex;
   align-items: center;
@@ -478,7 +483,7 @@ onReachBottom(async () => {
 }
 
 .word-icon:hover {
-  background-color: #d0e8db;
+  background-color: var(--v-color-primary-3);
 }
 
 .word-info {
@@ -497,26 +502,26 @@ onReachBottom(async () => {
 .word-title {
   font-size: 36rpx;
   font-weight: bold;
-  color: #0d1c14;
+  color: var(--v-color-grey-9);
   margin-right: 12rpx;
 }
 
 .word-status {
   font-size: 24rpx;
-  color: #03cc63;
-  background: #e6f4ed;
+  color: var(--v-color-primary-7);
+  background: var(--v-color-primary-2);
   padding: 8rpx 16rpx;
   border-radius: 12rpx;
   transition: all 0.3s ease;
 }
 
 .word-status:hover {
-  background: #d0e8db;
+  background: var(--v-color-primary-3);
 }
 
 .word-pronunciation {
   font-size: 28rpx;
-  color: #666;
+  color: var(--v-color-grey-7);
 }
 
 .word-actions {
@@ -528,7 +533,11 @@ onReachBottom(async () => {
 .action-button {
   height: 56rpx;
   padding: 0 20rpx;
-  background: linear-gradient(135deg, #03cc63, #00a862);
+  background: linear-gradient(
+    135deg,
+    var(--v-color-primary-7),
+    var(--v-color-primary-8)
+  );
   color: #ffffff;
   border-radius: 28rpx;
   font-size: 26rpx;
@@ -538,8 +547,12 @@ onReachBottom(async () => {
 }
 
 .action-button:hover {
-  background: linear-gradient(135deg, #02b357, #009754);
-  box-shadow: 0 4rpx 12rpx rgba(3, 204, 99, 0.3);
+  background: linear-gradient(
+    135deg,
+    var(--v-color-primary-8),
+    var(--v-color-primary-9)
+  );
+  box-shadow: 0 4rpx 12rpx rgba(255, 102, 9, 0.3);
 }
 
 .icon {
@@ -581,30 +594,30 @@ onReachBottom(async () => {
 .meaning-modal {
   max-height: 80vh;
   overflow-y: auto;
-  background: linear-gradient(to bottom, #ffffff, #f8fafc);
+  background: linear-gradient(to bottom, #ffffff, var(--v-color-primary-1));
 }
 
 .modal-header {
   font-size: 36rpx;
   font-weight: bold;
-  color: #0d1c14;
+  color: var(--v-color-grey-9);
   margin-bottom: 24rpx;
   text-align: center;
   position: relative;
   padding-bottom: 16rpx;
-  border-bottom: 2rpx solid #e6f4ed;
+  border-bottom: 2rpx solid var(--v-color-primary-2);
 }
 
 .close-icon {
-  width: 48rpx;
-  height: 48rpx;
   position: absolute;
-  right: 16rpx;
+  right: 8rpx;
+  top: 0rpx;
   transition: all 0.2s ease;
+  cursor: pointer;
 }
 
 .close-icon:hover {
-  transform: scale(1.1);
+  transform: translateY(-50%) scale(1.1);
   opacity: 0.8;
 }
 
@@ -619,51 +632,25 @@ onReachBottom(async () => {
   flex-direction: column;
   gap: 8rpx;
   padding: 16rpx;
-  background: #f5f8f6;
+  background: var(--v-color-primary-1);
   border-radius: 12rpx;
   transition: all 0.3s ease;
 }
 
 .meaning-item:hover {
-  background: #e6f4ed;
+  background: var(--v-color-primary-2);
   transform: translateY(-2rpx);
 }
 
 .meaning-pos {
   font-size: 28rpx;
   font-weight: bold;
-  color: #0d1c14;
+  color: var(--v-color-grey-9);
 }
 
 .meaning-tran {
   font-size: 28rpx;
-  color: #4a5b6c;
-  line-height: 1.5;
-}
-
-/* 空状态 */
-.empty-state {
-  text-align: center;
-  padding: 120rpx 40rpx;
-}
-
-.empty-icon {
-  width: 160rpx;
-  height: 160rpx;
-  margin: 0 auto 32rpx;
-  opacity: 0.3;
-}
-
-.empty-title {
-  font-size: 32rpx;
-  color: #333;
-  margin-bottom: 16rpx;
-  font-weight: 500;
-}
-
-.empty-subtitle {
-  font-size: 28rpx;
-  color: #999;
+  color: var(--v-color-grey-8);
   line-height: 1.5;
 }
 
@@ -691,12 +678,16 @@ onReachBottom(async () => {
 .practice-button {
   width: 160rpx;
   height: 88rpx;
-  background: linear-gradient(135deg, #00d4aa, #03cc63);
+  background: linear-gradient(
+    135deg,
+    var(--v-color-primary-6),
+    var(--v-color-primary-7)
+  );
   border-radius: 44rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8rpx 24rpx rgba(3, 204, 99, 0.4),
+  box-shadow: 0 8rpx 24rpx rgba(255, 102, 9, 0.4),
     0 0 0 3rpx rgba(255, 255, 255, 0.8),
     inset 0 2rpx 4rpx rgba(255, 255, 255, 0.3);
   transition: all 0.4s ease;
@@ -727,9 +718,13 @@ onReachBottom(async () => {
 }
 
 .practice-button:hover {
-  background: linear-gradient(135deg, #00c4a0, #02b357);
+  background: linear-gradient(
+    135deg,
+    var(--v-color-primary-7),
+    var(--v-color-primary-8)
+  );
   transform: translateY(-6rpx) scale(1.08);
-  box-shadow: 0 12rpx 32rpx rgba(3, 204, 99, 0.5),
+  box-shadow: 0 12rpx 32rpx rgba(255, 102, 9, 0.5),
     0 0 0 4rpx rgba(255, 255, 255, 0.9),
     inset 0 2rpx 4rpx rgba(255, 255, 255, 0.4);
   animation: pulse 2s infinite;
@@ -758,13 +753,13 @@ onReachBottom(async () => {
 @keyframes pulse {
   0%,
   100% {
-    box-shadow: 0 12rpx 32rpx rgba(3, 204, 99, 0.5),
+    box-shadow: 0 12rpx 32rpx rgba(255, 102, 9, 0.5),
       0 0 0 4rpx rgba(255, 255, 255, 0.9),
       inset 0 2rpx 4rpx rgba(255, 255, 255, 0.4);
   }
 
   50% {
-    box-shadow: 0 12rpx 32rpx rgba(3, 204, 99, 0.7),
+    box-shadow: 0 12rpx 32rpx rgba(255, 102, 9, 0.7),
       0 0 0 5rpx rgba(255, 255, 255, 1),
       inset 0 2rpx 4rpx rgba(255, 255, 255, 0.5);
   }
