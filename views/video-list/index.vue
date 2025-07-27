@@ -124,7 +124,6 @@ onReady(async () => {
 //         icon: 'loading',
 //         duration: 1000,
 //     });
-//     console.log('下拉刷新>>>>>>>>>>>>>>');
 //     pageNo.value = 1; // 重置页码
 //     isFirstLoad.value = true; // 重置首次加载状态
 //     hasMore.value = true; // 重置是否有更多数据
@@ -143,7 +142,6 @@ const loadMore = async (toNo?: number) => {
   if (loading.value || !hasMore.value) {
     return; // 如果正在加载或没有更多数据，则不执行加载
   }
-  console.log("加载更多>>>>>>>>>>", pageParams.value);
   const nextPageNo = toNo || pageNo.value + 1;
 
   pageNo.value = nextPageNo;
@@ -160,7 +158,6 @@ const loadMore = async (toNo?: number) => {
   if (nextPageNo === 1) {
     videoList.value = []; // 清空数据
   }
-  console.log("加载更多结果>>>>>>>>>", res);
   hasMore.value = res?.rows?.length >= pageSize; // 判断是否还有更多数据
 
   totalCount.value = res?.total as number;

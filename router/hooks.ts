@@ -1,11 +1,14 @@
-import { onLoad, onReady } from '@dcloudio/uni-app';
-import { paramStrToJson } from '@dimjs/utils';
-import { ref } from 'vue';
-import type { PageRouter, RouterKey } from './constants';
-import { getRouteEventKey } from './main';
+import { onLoad, onReady } from "@dcloudio/uni-app";
+import { paramStrToJson } from "@dimjs/utils";
+import { ref } from "vue";
+import type { PageRouter, RouterKey } from "./constants";
+import { getRouteEventKey } from "./main";
 // type TUsePageInParamsBack<BC extends RouterKey, T extends PageRouter> = (data: T[BC]) => void;
 
-export const usePageInParams = <BC extends RouterKey, T extends PageRouter = PageRouter>() => {
+export const usePageInParams = <
+  BC extends RouterKey,
+  T extends PageRouter = PageRouter
+>() => {
   const pageParams = ref<T[BC] | undefined>(undefined);
   const routes = getCurrentPages(); // 获取当前打开过的页面路由数组
   // 获取当前页面路由，也就是最后一个打开的页面路由
@@ -17,8 +20,7 @@ export const usePageInParams = <BC extends RouterKey, T extends PageRouter = Pag
   /**options 异步赋值 */
   onLoad((urlParams) => {
     //@ts-ignore
-    const { eventID } = urlParams|| curRoute?.$page?.options || {};
-    console.log('usePageInParams onLoad eventID:>> >>>>',urlParams, eventID);
+    const { eventID } = urlParams || curRoute?.$page?.options || {};
     const queryObj = paramStrToJson(curRoute?.$page?.fullPath as string);
 
     const options = {
@@ -29,22 +31,19 @@ export const usePageInParams = <BC extends RouterKey, T extends PageRouter = Pag
     if (!eventID) {
       try {
         /**将参数全部 urldecode */
-        const newOption = Object.keys(options).reduce(
-          (acc, key) => {
-            // @ts-ignore
-            let val = options?.[key] as string;
+        const newOption = Object.keys(options).reduce((acc, key) => {
+          // @ts-ignore
+          let val = options?.[key] as string;
 
-            val = decodeURIComponent(decodeURIComponent(val));
+          val = decodeURIComponent(decodeURIComponent(val));
 
-            // @ts-ignore
-            acc[key] = val;
-            return acc;
-          },
-          {} as unknown as T[BC],
-        );
+          // @ts-ignore
+          acc[key] = val;
+          return acc;
+        }, {} as unknown as T[BC]);
         pageParams.value = newOption;
       } catch (e) {
-        console.log('usePageInParams error:>> ', e);
+        console.log("usePageInParams error:>> ", e);
       }
     } else {
       const evnentKeys = getRouteEventKey(eventID);

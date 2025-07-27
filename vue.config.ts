@@ -1,7 +1,7 @@
 import path = require("path");
 
 export default {
-  baseUrl: './',
+  baseUrl: "./",
   // devServer: {
   //   proxy: {
   //     "/proxy-api": {
@@ -11,8 +11,7 @@ export default {
   //       //   "^/proxy-api": "",
   //       // },
   //       rewrite: (path) => {
-  //         console.log(`Rewriting path>>>>>>>>>>>>>>>>>>>>: ${path}`);
-          
+
   //         return path.replace(/^\/proxy-api/, '');
   //       },
   //       // 打印日志
@@ -20,7 +19,6 @@ export default {
   //       // onProxyRes: (proxyRes, req, res) => {
   //       //   // 打印日志
   //       //   console.log(
-  //       //     `Proxying request>>>>>>>>>>>>>: ${req.method} ${req.url} -> ${proxyRes.statusCode}`
   //       //   );
   //       // }
   //     },

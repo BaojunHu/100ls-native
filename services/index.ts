@@ -64,8 +64,6 @@ export const logout = async (isRelunch?: boolean) => {
 const handleLoginStatus = firstThrottle(async (code: string) => {
   // 判断第一张页面是否是登录页
 
-  console.log(NO_AUTH_API, ">>>>>>>>4444444.  NO_AUTH_API");
-
   const pages = getCurrentPages();
   const currentPage = pages[pages.length - 1];
 

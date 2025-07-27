@@ -16,6 +16,12 @@
             },
             "provider" : "aliyun",
             "type" : "uniCloud"
+        },
+        {
+            "customPlaygroundType" : "device",
+            "packageName" : "com.ss.android.ugc.sicily_cm",
+            "playground" : "standard",
+            "type" : "uni-app:app-android"
         }
     ]
 }

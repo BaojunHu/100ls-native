@@ -2,17 +2,14 @@
 export async function preloadImage(url?: string) {
   if (!url) return;
   // 使用uni.downloadFile进行预加载
-  console.log("预加载图片开始>>>>>: ", url);
   return new Promise((resolve, reject) => {
     uni.downloadFile({
       url,
       success: (res) => {
-        console.log(`预加载图片成功>>>>>: ${url}`);
         resolve(true);
       },
       fail: (err) => {
         // 失败也无需弹窗，仅做预加载
-        reject(`预加载图片失败>>>>>: ${url}, 错误信息: ${err}`);
       },
     });
   });

@@ -189,7 +189,6 @@ export const navigateToWebview = (targetUrl: string, data: PlainObject) => {
   webviewUrl = modifyQueryString(webviewUrl, {
     url: targetUrl,
   });
-  // console.log(webviewUrl,'webviewUrl>>>>>>')
 
   uni.navigateTo({
     url: webviewUrl,

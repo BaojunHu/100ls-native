@@ -429,7 +429,6 @@ const isUrl = (str: string) => {
 };
 
 const handleEmptyClick = () => {
-  console.log("handleEmptyClick>>>>>>>>>>>", props.show);
   if (hisEmptyErrorMsg.value.btnText) {
     navigateTo({
       path: RouterEnum.Login,
