@@ -324,7 +324,7 @@
             稍后再说
           </m-button>
           <m-button
-            type="green"
+            type="primary"
             size="large"
             :handleClick="confirmRedeem"
             class="action-btn primary-btn"
@@ -794,6 +794,7 @@ onMounted(() => {
 onShow(() => {
   setDayNightMode(); // 重新设置日夜模式和状态栏颜色
   fetchUserInfo();
+
   fetchFavorites();
 });
 </script>
@@ -2488,12 +2489,8 @@ onShow(() => {
 }
 
 .benefit-item {
-  background: linear-gradient(
-    45deg,
-    var(--v-color-primary-7),
-    var(--v-color-primary-8)
-  );
-  color: white;
+  border: 1rpx solid var(--v-color-primary-5);
+
   padding: 16rpx 24rpx;
   border-radius: 20rpx;
   white-space: nowrap;
@@ -2503,7 +2500,7 @@ onShow(() => {
 }
 
 .benefit-text {
-  color: white;
+  color: var(--v-color-primary-5);
 }
 
 .modal-footer {

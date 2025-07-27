@@ -110,6 +110,7 @@
 import { ref, onMounted } from "vue";
 import { homeServices } from "@/services/home";
 import { getAuthToken } from "@/tools/user-info";
+import { profileServices } from "@/services/profile";
 
 const editPopup = ref(null);
 
@@ -145,7 +146,7 @@ const loadUserInfo = async () => {
       return;
     }
 
-    const res = await homeServices.getUserInfo(token);
+    const res = await profileServices.getUserInfo(token);
     userInfo.value = {
       memberName: res.memberName,
       englishName: res.englishName || "",
@@ -228,7 +229,7 @@ defineExpose({
 .edit-drawer {
   width: 90vw;
   max-width: 600rpx;
-  height: 65vh;
+  height: 55vh;
   background: var(--v-color-grey-1);
   display: flex;
   flex-direction: column;
@@ -363,7 +364,7 @@ defineExpose({
 
 .input {
   flex: 1;
-  padding: 20rpx 24rpx;
+  padding: 12rpx 24rpx;
   border: 1rpx solid var(--v-color-grey-4);
   border-radius: 8rpx;
   font-size: 26rpx;
@@ -371,6 +372,7 @@ defineExpose({
   color: var(--v-color-grey-9);
   transition: all 0.2s ease;
   outline: none;
+  height: 64rpx;
 
   &:focus {
     border-color: var(--v-color-primary-6);

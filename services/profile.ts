@@ -4,18 +4,7 @@ import type { UserInfo, FavoriteItem } from "../type/service";
 export const profileServices = {
   // 获取用户信息
   getUserInfo: async () => {
-    const a = await http.post<UserInfo>("api/member/getInfo");
-
-    return {
-      memberName: "15570155773",
-      crtTime: "2025-01-24 15:44",
-      vipExpiry: "2025-07-31",
-      englishName: null,
-      avatarImg: null,
-      isVip: 1,
-      coursesAll: 1,
-      housrsLearn: 183,
-    };
+    return await http.post<UserInfo>("api/member/getInfo");
   },
   saveWord: async (param: { word: string }) => {
     return await http.post("api/word/save", param);

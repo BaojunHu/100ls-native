@@ -48,16 +48,6 @@
       }
     },
     {
-      "path": "views/profile/edit",
-      "style": {
-        "navigationBarTitleText": "编辑资料",
-        "app-plus": {
-          "titleNView": false
-        },
-        "navigationBarTextStyle": "black"
-      }
-    },
-    {
       "path": "views/word/index",
       "style": {
         "navigationBarTitleText": "生词本",
