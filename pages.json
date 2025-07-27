@@ -1456,10 +1456,10 @@
     }
   },
   "tabBar": {
-    "color": "#7A7E83",
-    "selectedColor": "#007AFF",
-    "borderStyle": "black",
-    "backgroundColor": "#F8F8F8",
+    "color": "#222222",
+    "selectedColor": "#FF6609",
+    "borderStyle": "#f2f2f2",
+    "backgroundColor": "#f2f2f2",
     "list": [
       {
         "pagePath": "views/home/index",
@@ -1497,9 +1497,9 @@
       // },
       {
         "pagePath": "views/profile/index",
-        "iconPath": "static/star.png",
-        "selectedIconPath": "static/star-active.png",
-        "text": "个人中心"
+        "iconPath": "static/user.png",
+        "selectedIconPath": "static/user-active.png",
+        "text": "我的"
       }
     ]
   },
