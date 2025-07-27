@@ -1,6 +1,4 @@
-import { sleep } from "@flatbiz/utils";
 import { http } from "./index";
-import { createFollowSentenceList, createHomeCoreData, createHomeHistoryData, createHomeLessonListData } from "./mock";
 
 export const homeServices = {
   homeCore: async () => {
@@ -8,7 +6,7 @@ export const homeServices = {
 
     // return createHomeCoreData();
 
-    return await http.post<HomeData>("/home/core");
+    return await http.post<HomeData>("api/home/core");
   },
   history: async (param: {
     // categoryNo: string;
@@ -17,17 +15,17 @@ export const homeServices = {
   }) => {
     // await sleep(200);
     // return createHomeHistoryData();
-    return await http.post<HomeHistoryResponse>("/home/history", param);
+    return await http.post<HomeHistoryResponse>("api/home/history", param);
   },
   videoList: async (param: {
     // catalogueNo: string;
-    categoryNo:string;
+    categoryNo: string;
     pageNo: number;
     pageSize: number;
   }) => {
     // await sleep(2000);
     // return createHomeHistoryData(param);
-    return await http.post<HomeHistoryResponse>("/video/list", param);
+    return await http.post<HomeHistoryResponse>("api/video/list", param);
   },
   lessonList: async (param: {
     // catalogueNo: string;
@@ -42,12 +40,9 @@ export const homeServices = {
     return await http.post<{
       rows: LessonListResponse[];
       total: number;
-    }>("/lesson/list", param);
+    }>("api/lesson/list", param);
   },
-  followSentenceList : async (param: {
-    pageNo: number;
-    pageSize: number;
-  }) => {
+  followSentenceList: async (param: { pageNo: number; pageSize: number }) => {
     // await sleep(200);
     // return createFollowSentenceList() as {
     //   rows: FollowSentenceRows[];
@@ -56,8 +51,8 @@ export const homeServices = {
     return await http.post<{
       rows: FollowSentenceRows[];
       total: number;
-    }>("/follow/sentence/list", param);
-  }
+    }>("api/followSentence/list", param);
+  },
 };
 
 export interface HomeData {
@@ -81,9 +76,9 @@ export interface THomeBannerItem {
   /** 链接地址 */
   link: string;
   /** 链接类型 */
-  linkType: string;
+  linkType: LinkTypeEnum;
 
-  subtitles :TSubtitle[]
+  subtitles: TSubtitle[];
 }
 
 export interface Category {
@@ -123,7 +118,7 @@ export interface HomeHistoryRow {
   /** 链接地址 */
   link: string;
   /** 链接类型 */
-  linkType: "VIDEO" | "ARTICLE" | "EXTERNAL";
+  linkType: LinkTypeEnum;
   /** 封面图片 */
   coverImage: string;
   /** 集数 */
@@ -134,7 +129,7 @@ export interface HomeHistoryRow {
   currLearningIndex: number;
   /** 支持的语言 */
   languages: string[];
-  subtitles :TSubtitle[]
+  subtitles: TSubtitle[];
 }
 
 export type TSubtitle = {
@@ -142,6 +137,13 @@ export type TSubtitle = {
   language: string;
   /** 字幕地址 */
   subtitleLink: string;
+};
+
+export enum LinkTypeEnum {
+  VIDEO = "VIDEO",
+  ARTICLE = "ARTICLE",
+  EXTERNAL = "EXTERNAL",
+  AUDIO = "AUDIO",
 }
 
 export interface LessonListResponse {
@@ -158,7 +160,7 @@ export interface LessonListResponse {
   /** 链接地址 */
   link: string;
   /** 链接类型 */
-  linkType: "VIDEO" | "ARTICLE" | "EXTERNAL";
+  linkType: LinkTypeEnum;
   /** 封面图片 */
   coverImage: string;
   /** 作者头像 */
@@ -170,7 +172,7 @@ export interface LessonListResponse {
   /** 学习人数 */
   learnNumber: number;
 
-  subtitles :TSubtitle[]
+  subtitles: TSubtitle[];
 }
 
 export interface FollowSentenceRows {
@@ -189,4 +191,3 @@ export interface FollowSentenceRows {
   /** 标签列表 */
   tags: string[];
 }
-

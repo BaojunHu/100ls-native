@@ -62,7 +62,8 @@ import { useMRequest } from '@/tools/use-request';
 import Register from './register.vue';
 import { getCurrentInstance, onMounted, ref } from 'vue';
 import { navigateBack } from '@/router/main';
-import { setUserInfo } from '@/tools/user-info';
+import { setAuthToken, setUserInfo } from '@/tools/user-info';
+import { profileServices } from '@/services/profile';
 const loginForm = ref({
   account: '',
   password: '',
@@ -99,7 +100,15 @@ const { runAsync: requestLogin, loading } = useMRequest(memberServices.login, {
   manual: true,
 });
 
-const { proxy } = getCurrentInstance()
+const {runAsync:requestUserInfo} = useMRequest(profileServices.getUserInfo, {
+  manual: true,
+});
+
+// const { proxy } = getCurrentInstance()
+
+
+
+
 const handleLogin = async () => {
 
   const loginFormValue = loginForm.value;
@@ -137,13 +146,11 @@ const handleLogin = async () => {
       title: '登录成功',
       icon: 'success',
     });
-    // uni.showModal({
-    //   content:JSON.stringify(data),
-    // })
+    setAuthToken(data.authToken);
 
-    uni.setStorageSync("authToken", data.authToken);
+    const  userInfo =  await requestUserInfo();
 
-    setUserInfo(data as any);
+    setUserInfo(userInfo);
 
     setTimeout(() => {
       uni.navigateBack()

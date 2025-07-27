@@ -2,10 +2,10 @@ import { http } from "./index";
 
 export const memberServices = {
   login: async (param: TMemberLoginParam) => {
-    return await http.post<TMemberLoginData>("/login", param);
+    return await http.post<TMemberLoginData>("api/login", param);
   },
   register: async (param: TMemberRegisterParam) => {
-    return await http.post('/signup', param);
+    return await http.post('api/signup', param);
 
   },
 };

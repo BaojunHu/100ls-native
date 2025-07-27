@@ -1,263 +1,264 @@
 {
-    "name" : "百听百说",
-    "appid" : "__UNI__92E9902",
-    "description" : "百听白说 100LS 提供专业的语言学习资源，通过听力训练和口语练习，帮助用户快速提高外语水平。适合各个阶段的学习者，轻松掌握英语、日语、法语等多种语言。",
-    "versionName" : "0.0.11",
-    "versionCode" : 11,
-    "transformPx" : false,
-    "app-plus" : {
-        "usingComponents" : true,
-        "nvueCompiler" : "uni-app",
-        "nvueStyleCompiler" : "uni-app",
-        "compilerVersion" : 3,
-        "nvueLaunchMode" : "fast",
-        "splashscreen" : {
-            "alwaysShowBeforeRender" : true,
-            "waiting" : false,
-            "autoclose" : true,
-            "delay" : 0
-        },
-        "modules" : {
-            "Push" : {},
-            "Share" : {},
-            "Speech" : {},
-            "VideoPlayer" : {},
-            "Webview-x5" : {},
-            "UIWebview" : {},
-            "OAuth" : {}
-        },
-        "distribute" : {
-            "android" : {
-                "permissions" : [
-                    "<uses-feature android:name=\"android.hardware.camera\"/>",
-                    "<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
-                    "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
-                    "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
-                    "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>",
-                    "<uses-permission android:name=\"android.permission.ACCESS_MOCK_LOCATION\"/>",
-                    "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
-                    "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
-                    "<uses-permission android:name=\"android.permission.CALL_PHONE\"/>",
-                    "<uses-permission android:name=\"android.permission.CAMERA\"/>",
-                    "<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
-                    "<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>",
-                    "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
-                    "<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
-                    "<uses-permission android:name=\"android.permission.GET_TASKS\"/>",
-                    "<uses-permission android:name=\"android.permission.INTERNET\"/>",
-                    "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
-                    "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
-                    "<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>",
-                    "<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
-                    "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
-                    "<uses-permission android:name=\"android.permission.READ_SMS\"/>",
-                    "<uses-permission android:name=\"android.permission.RECEIVE_BOOT_COMPLETED\"/>",
-                    "<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>",
-                    "<uses-permission android:name=\"android.permission.SEND_SMS\"/>",
-                    "<uses-permission android:name=\"android.permission.SYSTEM_ALERT_WINDOW\"/>",
-                    "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
-                    "<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>",
-                    "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
-                    "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>",
-                    "<uses-permission android:name=\"android.permission.WRITE_SMS\"/>",
-                    "<uses-permission android:name=\"android.permission.RECEIVE_USER_PRESENT\"/>"
-                ]
-            },
-            "ios" : {
-                "UIBackgroundModes" : [ "audio" ],
-                "urlschemewhitelist" : [ "baidumap", "iosamap" ],
-                "dSYMs" : false
-            },
-            "sdkConfigs" : {
-                "speech" : {
-                    "ifly" : {}
-                },
-                "oauth" : {}
-            },
-            "orientation" : [ "portrait-primary" ],
-            "splashscreen" : {
-                "useOriginalMsgbox" : true,
-                "androidStyle" : "default",
-                "android" : {
-                    "xxhdpi" : "/static/AppEnter.png",
-                    "xhdpi" : "/static/AppEnter.png",
-                    "hdpi" : "/static/AppEnter.png"
-                },
-                "iosStyle" : "default",
-                "ios" : {
-                    "iphone" : {
-                        "portrait-896h@3x" : "/static/AppEnter.png",
-                        "landscape-896h@3x" : "/static/AppEnter.png",
-                        "portrait-896h@2x" : "/static/AppEnter.png",
-                        "landscape-896h@2x" : "/static/AppEnter.png",
-                        "iphonex" : "/static/AppEnter.png",
-                        "iphonexl" : "/static/AppEnter.png"
-                    }
-                }
-            },
-            "icons" : {
-                "android" : {
-                    "hdpi" : "/static/logo.png",
-                    "xhdpi" : "/static/logo.png",
-                    "xxhdpi" : "/static/logo.png",
-                    "xxxhdpi" : "/static/logo.png"
-                },
-                "ios" : {
-                    "appstore" : "/static/logo_1024.png",
-                    "iphone" : {
-                        "app@2x" : "/static/logo.png",
-                        "app@3x" : "/static/logo.png",
-                        "spotlight@2x" : "/static/logo.png",
-                        "spotlight@3x" : "/static/logo.png",
-                        "settings@2x" : "/static/logo.png",
-                        "settings@3x" : "/static/logo.png",
-                        "notification@2x" : "/static/logo.png",
-                        "notification@3x" : "/static/logo.png"
-                    },
-                    "ipad" : {
-                        "app" : "/static/logo.png",
-                        "app@2x" : "/static/logo.png",
-                        "proapp@2x" : "/static/logo.png",
-                        "spotlight" : "/static/logo.png",
-                        "spotlight@2x" : "/static/logo.png",
-                        "settings" : "/static/logo.png",
-                        "settings@2x" : "/static/logo.png",
-                        "notification" : "/static/logo.png",
-                        "notification@2x" : "/static/logo.png"
-                    }
-                }
-            }
-        },
-        "uniStatistics" : {
-            "enable" : true
-        }
+  "name": "百听百说",
+  "appid": "__UNI__92E9902",
+  "description": "百听白说 100LS 提供专业的语言学习资源，通过听力训练和口语练习，帮助用户快速提高外语水平。适合各个阶段的学习者，轻松掌握英语、日语、法语等多种语言。",
+  "versionName": "0.0.11",
+  "versionCode": 11,
+  "transformPx": false,
+  "app-plus": {
+    "usingComponents": true,
+    "nvueCompiler": "uni-app",
+    "nvueStyleCompiler": "uni-app",
+    "compilerVersion": 3,
+    "nvueLaunchMode": "fast",
+    "splashscreen": {
+      "alwaysShowBeforeRender": true,
+      "waiting": false,
+      "autoclose": true,
+      "delay": 0
     },
-    "quickapp" : {},
-    "quickapp-native" : {
-        "icon" : "/static/logo.png",
-        "package" : "com.example.demo",
-        "features" : [
-            {
-                "name" : "system.clipboard"
-            }
+    "statusbar": { "immersed": false },
+    "modules": {
+      "Push": {},
+      "Share": {},
+      "Speech": {},
+      "VideoPlayer": {},
+      "Webview-x5": {},
+      "UIWebview": {},
+      "OAuth": {}
+    },
+    "distribute": {
+      "android": {
+        "permissions": [
+          "<uses-feature android:name=\"android.hardware.camera\"/>",
+          "<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
+          "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
+          "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
+          "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>",
+          "<uses-permission android:name=\"android.permission.ACCESS_MOCK_LOCATION\"/>",
+          "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
+          "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
+          "<uses-permission android:name=\"android.permission.CALL_PHONE\"/>",
+          "<uses-permission android:name=\"android.permission.CAMERA\"/>",
+          "<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
+          "<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>",
+          "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
+          "<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
+          "<uses-permission android:name=\"android.permission.GET_TASKS\"/>",
+          "<uses-permission android:name=\"android.permission.INTERNET\"/>",
+          "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
+          "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
+          "<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>",
+          "<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
+          "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
+          "<uses-permission android:name=\"android.permission.READ_SMS\"/>",
+          "<uses-permission android:name=\"android.permission.RECEIVE_BOOT_COMPLETED\"/>",
+          "<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>",
+          "<uses-permission android:name=\"android.permission.SEND_SMS\"/>",
+          "<uses-permission android:name=\"android.permission.SYSTEM_ALERT_WINDOW\"/>",
+          "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
+          "<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>",
+          "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
+          "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>",
+          "<uses-permission android:name=\"android.permission.WRITE_SMS\"/>",
+          "<uses-permission android:name=\"android.permission.RECEIVE_USER_PRESENT\"/>"
         ]
-    },
-    "quickapp-webview" : {
-        "icon" : "/static/logo.png",
-        "package" : "com.example.demo",
-        "minPlatformVersion" : 1070,
-        "versionName" : "1.0.0",
-        "versionCode" : 100
-    },
-    "mp-weixin" : {
-        "appid" : "",
-        "setting" : {
-            "urlCheck" : false
+      },
+      "ios": {
+        "UIBackgroundModes": ["audio"],
+        "urlschemewhitelist": ["baidumap", "iosamap"],
+        "dSYMs": false
+      },
+      "sdkConfigs": {
+        "speech": {
+          "ifly": {}
         },
-        "usingComponents" : true,
-        "permission" : {
-            "scope.userLocation" : {
-                "desc" : "演示定位能力"
-            }
+        "oauth": {}
+      },
+      "orientation": ["portrait-primary"],
+      "splashscreen": {
+        "useOriginalMsgbox": true,
+        "androidStyle": "default",
+        "android": {
+          "xxhdpi": "/static/AppEnter.png",
+          "xhdpi": "/static/AppEnter.png",
+          "hdpi": "/static/AppEnter.png"
         },
-        "uniStatistics" : {
-            "enable" : true
+        "iosStyle": "default",
+        "ios": {
+          "iphone": {
+            "portrait-896h@3x": "/static/AppEnter.png",
+            "landscape-896h@3x": "/static/AppEnter.png",
+            "portrait-896h@2x": "/static/AppEnter.png",
+            "landscape-896h@2x": "/static/AppEnter.png",
+            "iphonex": "/static/AppEnter.png",
+            "iphonexl": "/static/AppEnter.png"
+          }
         }
-    },
-    "mp-alipay" : {
-        "usingComponents" : true,
-        "uniStatistics" : {
-            "enable" : true
-        }
-    },
-    "mp-baidu" : {
-        "usingComponents" : true,
-        "uniStatistics" : {
-            "enable" : true
+      },
+      "icons": {
+        "android": {
+          "hdpi": "/static/logo.png",
+          "xhdpi": "/static/logo.png",
+          "xxhdpi": "/static/logo.png",
+          "xxxhdpi": "/static/logo.png"
         },
-        "dynamicLib" : {
-            "editorLib" : {
-                "provider" : "swan-editor"
-            }
+        "ios": {
+          "appstore": "/static/logo_1024.png",
+          "iphone": {
+            "app@2x": "/static/logo.png",
+            "app@3x": "/static/logo.png",
+            "spotlight@2x": "/static/logo.png",
+            "spotlight@3x": "/static/logo.png",
+            "settings@2x": "/static/logo.png",
+            "settings@3x": "/static/logo.png",
+            "notification@2x": "/static/logo.png",
+            "notification@3x": "/static/logo.png"
+          },
+          "ipad": {
+            "app": "/static/logo.png",
+            "app@2x": "/static/logo.png",
+            "proapp@2x": "/static/logo.png",
+            "spotlight": "/static/logo.png",
+            "spotlight@2x": "/static/logo.png",
+            "settings": "/static/logo.png",
+            "settings@2x": "/static/logo.png",
+            "notification": "/static/logo.png",
+            "notification@2x": "/static/logo.png"
+          }
         }
+      }
     },
-    "mp-toutiao" : {
-        "usingComponents" : true,
-        "uniStatistics" : {
-            "enable" : true
+    "uniStatistics": {
+      "enable": true
+    }
+  },
+  "quickapp": {},
+  "quickapp-native": {
+    "icon": "/static/logo.png",
+    "package": "com.example.demo",
+    "features": [
+      {
+        "name": "system.clipboard"
+      }
+    ]
+  },
+  "quickapp-webview": {
+    "icon": "/static/logo.png",
+    "package": "com.example.demo",
+    "minPlatformVersion": 1070,
+    "versionName": "1.0.0",
+    "versionCode": 100
+  },
+  "mp-weixin": {
+    "appid": "",
+    "setting": {
+      "urlCheck": false
+    },
+    "usingComponents": true,
+    "permission": {
+      "scope.userLocation": {
+        "desc": "演示定位能力"
+      }
+    },
+    "uniStatistics": {
+      "enable": true
+    }
+  },
+  "mp-alipay": {
+    "usingComponents": true,
+    "uniStatistics": {
+      "enable": true
+    }
+  },
+  "mp-baidu": {
+    "usingComponents": true,
+    "uniStatistics": {
+      "enable": true
+    },
+    "dynamicLib": {
+      "editorLib": {
+        "provider": "swan-editor"
+      }
+    }
+  },
+  "mp-toutiao": {
+    "usingComponents": true,
+    "uniStatistics": {
+      "enable": true
+    }
+  },
+  "mp-jd": {
+    "usingComponents": true,
+    "uniStatistics": {
+      "enable": true
+    }
+  },
+  "h5": {
+    "template": "template.h5.html",
+    "router": {
+      "mode": "history",
+      "base": ""
+    },
+    "sdkConfigs": {
+      "maps": {
+        "qqmap": {
+          "key": "TKUBZ-D24AF-GJ4JY-JDVM2-IBYKK-KEBCU"
         }
+      }
     },
-    "mp-jd" : {
-        "usingComponents" : true,
-        "uniStatistics" : {
-            "enable" : true
+    "async": {
+      "timeout": 20000
+    },
+    "uniStatistics": {
+      "enable": true
+    },
+    "devServer": {
+      "proxy": {
+        "/proxy-api": {
+          "target": "http://1.116.101.175:8092/api/",
+          "pathRewrite": {
+            "^/proxy-api": ""
+          },
+          "logLevel": "debug" // 开启详细日志
         }
+      }
     },
-    "h5" : {
-        "template" : "template.h5.html",
-        "router" : {
-            "mode" : "history",
-            "base" : ""
-        },
-        "sdkConfigs" : {
-            "maps" : {
-                "qqmap" : {
-                    "key" : "TKUBZ-D24AF-GJ4JY-JDVM2-IBYKK-KEBCU"
-                }
-            }
-        },
-        "async" : {
-            "timeout" : 20000
-        },
-        "uniStatistics" : {
-            "enable" : true
-        },
-        "devServer" : {
-            "proxy" : {
-                "/proxy-api" : {
-                    "target" : "http://1.116.101.175:8092/api/",
-                    "pathRewrite" : {
-                        "^/proxy-api" : ""
-                    },
-                    "logLevel" : "debug" // 开启详细日志
-                }
-            }
-        },
-        "optimization" : {
-            "treeShaking" : {
-                "enable" : true
-            }
-        }
-    },
-    "vueVersion" : "3",
-    "mp-kuaishou" : {
-        "uniStatistics" : {
-            "enable" : true
-        }
-    },
-    "mp-lark" : {
-        "uniStatistics" : {
-            "enable" : true
-        }
-    },
-    "mp-qq" : {
-        "uniStatistics" : {
-            "enable" : true
-        }
-    },
-    "quickapp-webview-huawei" : {
-        "uniStatistics" : {
-            "enable" : true
-        }
-    },
-    "quickapp-webview-union" : {
-        "uniStatistics" : {
-            "enable" : true
-        }
-    },
-    "uniStatistics" : {
-        "version" : "2",
-        "enable" : true
-    },
-    "locale" : "zh-Hans"
+    "optimization": {
+      "treeShaking": {
+        "enable": true
+      }
+    }
+  },
+  "vueVersion": "3",
+  "mp-kuaishou": {
+    "uniStatistics": {
+      "enable": true
+    }
+  },
+  "mp-lark": {
+    "uniStatistics": {
+      "enable": true
+    }
+  },
+  "mp-qq": {
+    "uniStatistics": {
+      "enable": true
+    }
+  },
+  "quickapp-webview-huawei": {
+    "uniStatistics": {
+      "enable": true
+    }
+  },
+  "quickapp-webview-union": {
+    "uniStatistics": {
+      "enable": true
+    }
+  },
+  "uniStatistics": {
+    "version": "2",
+    "enable": true
+  },
+  "locale": "zh-Hans"
 }

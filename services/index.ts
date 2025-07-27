@@ -22,9 +22,10 @@ interface ApiResponse<T = any> {
 // }
 // export default baseUrl;
 
-export const baseUrl = 'http://1.116.101.175:8092/api';  
-
-
+const baseUrlMap = {
+  api: "http://1.116.101.175:8092/",
+  web: "https://100ls.com.cn/",
+};
 
 const exceptionHandler = (
   res: UniApp.RequestSuccessCallbackResult,
@@ -54,7 +55,7 @@ export const logout = async (isRelunch?: boolean) => {
   if (isRelunch) {
     // 清空所有页面栈
     void uni.reLaunch({
-      url: "/pages/login/index",
+      url: "/views/login/index",
     });
   }
 };
@@ -63,13 +64,14 @@ export const logout = async (isRelunch?: boolean) => {
 const handleLoginStatus = firstThrottle(async (code: string) => {
   // 判断第一张页面是否是登录页
 
+  console.log(NO_AUTH_API, ">>>>>>>>4444444.  NO_AUTH_API");
+
   const pages = getCurrentPages();
   const currentPage = pages[pages.length - 1];
 
   if (RouterEnum.Login.includes(currentPage.route as string)) {
     return false;
   }
-  // void logout();
   navigateTo({
     path: RouterEnum.Login,
   });
@@ -88,13 +90,26 @@ export const checkAuth = <T>(
   const { code } = (response.data || {}) as ApiResponse<T>;
   if (code && ["410", "402"].includes(code)) {
     reject({ code: "410", message: "登录失效" });
+
     // 检查是否是白名单
     if (!NO_AUTH_API.includes(url)) {
       handleLoginStatus(code);
     }
+
     return false;
   }
   return true;
+};
+
+const getFullUrl = (url: string) => {
+  const urlParts = url.split("/");
+  const baseKey = urlParts[0];
+  const baseUrl = baseUrlMap[baseKey] || baseUrlMap["web"];
+
+  // 合并url 和 baseurl 并且避免出现 重复 '/'
+  const fullUrl = baseUrl + urlParts.filter((l) => !!l).join("/");
+
+  return fullUrl;
 };
 
 /**​a
@@ -115,7 +130,7 @@ const request = <T>(
     const authToken = uni.getStorageSync("authToken") || "";
 
     const requestConfig: UniApp.RequestOptions = {
-      url: baseUrl + url,
+      url: getFullUrl(url),
       method,
       data: method === "GET" ? data : { param: data },
       header: {
@@ -214,7 +229,7 @@ const upload = <T>(
     const authToken = uni.getStorageSync("authToken") || "";
 
     uni.uploadFile({
-      url: baseUrl + url,
+      url: getFullUrl(url),
       filePath,
       name,
       formData,

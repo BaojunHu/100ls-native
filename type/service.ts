@@ -16,7 +16,7 @@ import type {
   SortDirectionEnum,
   TitleTypeEnum,
   WantOrderStatusEnum,
-} from './contanst';
+} from "./contanst";
 
 /** 请求参数类型 */
 export type TMemberLoginParam = {
@@ -42,7 +42,7 @@ export type TProductListReq = {
   searchCondDTOS?: TSearchCondDTOS[];
   sortTypes?: TSortTypes[];
   /**产品来源 00 平台 01网点*/
-  productType?: '00' | '01';
+  productType?: "00" | "01";
   /** 产品名称 */
   productName?: string;
 
@@ -267,7 +267,7 @@ export type TUpdateUserInfoParam = {
    * 2-女
    * 3-保密
    * */
-  gender: '0' | '1' | '2' | '3';
+  gender: "0" | "1" | "2" | "3";
   /** 邮箱 (可选) */
   email?: string;
   /** 省 (必填) */
@@ -337,20 +337,20 @@ export type TProductAttributes = {
 
 export enum AttrEnum {
   /**颜色 */
-  COLOR = 'color',
+  COLOR = "color",
   /**尺寸 */
-  SIZE = 'size',
+  SIZE = "size",
   /**材质 */
-  MATERIAL = 'materialType',
+  MATERIAL = "materialType",
   /**款式 */
-  STYLE = 'style',
+  STYLE = "style",
 }
 
 export const AttrEnumMap = {
-  [AttrEnum.COLOR]: '颜色',
-  [AttrEnum.SIZE]: '尺寸',
-  [AttrEnum.MATERIAL]: '材质',
-  [AttrEnum.STYLE]: '款式',
+  [AttrEnum.COLOR]: "颜色",
+  [AttrEnum.SIZE]: "尺寸",
+  [AttrEnum.MATERIAL]: "材质",
+  [AttrEnum.STYLE]: "款式",
 };
 
 export type TAttrs = {
@@ -507,7 +507,10 @@ export type TMsgOrderInfo = {
 /**
  *  更新消息状态的参数类型
  */
-export type TUpdateMsgStatusPrams = { messageNo: string; messageType: 'todo-message' | 'message' };
+export type TUpdateMsgStatusPrams = {
+  messageNo: string;
+  messageType: "todo-message" | "message";
+};
 
 // 定义消息待办项的接口
 export interface TMsgToDoListItem {
@@ -618,7 +621,7 @@ export type TGetUsesrInfoRes = {
    * 2-女
    * 3-保密
    * */
-  gender: '0' | '1' | '2' | '3';
+  gender: "0" | "1" | "2" | "3";
   /** 手机号 */
   phone: string;
   /** 邮箱 */
@@ -787,7 +790,7 @@ export type TOrderListReq = {
   /**订单类型 */
   orderType?: ProductBizTypeEnum;
   /**订单来源 */
-  orderSource?: '00' | '01';
+  orderSource?: "00" | "01";
   /**是否是网点订单 */
   branchOrderFlag?: boolean;
   // /**订单创建时间 */
@@ -798,15 +801,15 @@ export type TOrderListReq = {
 
 export enum PayStatusEnum {
   /** 未支付 */
-  UNPAID = '00',
+  UNPAID = "00",
   /** 待支付 */
-  PAID = '20',
+  PAID = "20",
   /** 支付中 */
-  REFUNDED = '21',
+  REFUNDED = "21",
   /** 已支付 */
-  PAYED = '22',
+  PAYED = "22",
   /** 支付失败 */
-  PAY_FAILED = '23',
+  PAY_FAILED = "23",
 }
 
 export type TOrderListRes = {
@@ -830,9 +833,9 @@ export type TOrderListRes = {
   /** 支付方式 */
   payMethod: PayMethodEnum;
   /** 发票状态 0未开具 1 已开具 */
-  invoiceStatus: '0' | '1';
+  invoiceStatus: "0" | "1";
   /** 合同状态 0未开具 1 签约成功 */
-  contractStatus: '0' | '1';
+  contractStatus: "0" | "1";
   /** 支付状态 */
   payStatus: PayStatusEnum;
   /** 订单类型 */
@@ -878,7 +881,7 @@ export type TOrderListRes = {
   /** 待归还金额 */
   pendingReturnAmount: number;
   /** 订单来源 */
-  orderSource: '00' | '01'; // 00-平台 01- 网点
+  orderSource: "00" | "01"; // 00-平台 01- 网点
   /** 父订单号 */
   parentOrderNo: string;
   /** 网点编号 */
@@ -1098,7 +1101,7 @@ export type TOrderDetailRes = {
   /**订单总金额 */
   totalAmount: number;
   /** 0201-动租续租 0101-静租续租 */
-  orderSubType: '0101' | '0201';
+  orderSubType: "0101" | "0201";
 };
 
 export type TCalcPriceReq = {
@@ -1238,6 +1241,7 @@ export type UserInfo = {
   coursesAll: number;
   housrsLearn: number;
   englishName?: string;
+  vipExpiry: string;
 };
 
 /** 收藏项目类型 */

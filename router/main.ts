@@ -6,7 +6,7 @@ import type {
   RouterKey,
 } from "./constants";
 import { isPlainObject } from "@dimjs/lang";
-import { HomeHistoryResponse, TSubtitle } from "@/services/home";
+import { HomeHistoryResponse, LinkTypeEnum, TSubtitle } from "@/services/home";
 
 // export type NavigateToType<
 //   BC extends keyof ReType & RouterKey,
@@ -42,8 +42,6 @@ type NavigateToParams<P extends RouterKey> = {
   animationDuration?: number;
   events?: object;
 };
-
-
 
 export type NavigateBackType<
   BC extends keyof ReType & RouterKey,
@@ -127,7 +125,7 @@ const navigateTo = <
           uni.$emit(evnentKeys.post, data);
         });
       }
-      
+
       uni.navigateTo({
         url,
         animationType,
@@ -182,14 +180,16 @@ const getRouteEventKey = (id: string) => {
 export const navigateToWebview = (targetUrl: string, data: PlainObject) => {
   let webviewUrl = `/pages/component/web-view-local/web-view-local`;
 
-  targetUrl = modifyQueryString(targetUrl, {
-    data: encodeURIComponent(JSON.stringify(data)),
-  });
+  targetUrl = modifyQueryString(targetUrl, data);
+
+  //  {
+  // data: encodeURIComponent(JSON.stringify(data)),
+  // }
 
   webviewUrl = modifyQueryString(webviewUrl, {
     url: targetUrl,
   });
-  console.log(webviewUrl,'webviewUrl>>>>>>')
+  // console.log(webviewUrl,'webviewUrl>>>>>>')
 
   uni.navigateTo({
     url: webviewUrl,
@@ -198,22 +198,22 @@ export const navigateToWebview = (targetUrl: string, data: PlainObject) => {
 
 export type TVideoPlayerParams = {
   /** 字幕列表 */
-  subtitles: TSubtitle[];
+  // subtitles: TSubtitle[];
 
-  coverImage: string;
+  // coverImage: string;
 
-  link: string;
+  // link: string;
 
-  title: string;
-
+  // title: string;
+  linkType: LinkTypeEnum;
   resourceCode: string;
 };
 
 export const navigateVideoPlayer = (data: TVideoPlayerParams) => {
-  // let targetUrl = 'http://localhost:8083'
-  // let targetUrl = 'http://172.20.10.4:8083'
+  // let targetUrl = "http://localhost:8083";
+  let targetUrl = "http://172.20.10.4:8083";
   // let targetUrl = "/hybrid/html/h5/index.html";
-  let targetUrl = "http://1.116.101.175/spa-app/index.html";
+  // let targetUrl = "http://1.116.101.175/spa-app/index.html";
 
   navigateToWebview(targetUrl, data);
 };
