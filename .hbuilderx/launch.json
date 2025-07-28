@@ -19,7 +19,7 @@
         },
         {
             "customPlaygroundType" : "device",
-            "packageName" : "com.ss.android.ugc.sicily_cm",
+            "packageName" : "cn.com.x100ls",
             "playground" : "standard",
             "type" : "uni-app:app-android"
         }

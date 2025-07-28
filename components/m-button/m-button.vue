@@ -1,26 +1,38 @@
 <template>
-  <view :class="[
-    'm-btn',
-    buttonType,
-    buttonSize,
-    {
-      'm-btn-loading': btnLoading,
-      'm-btn-outline': outline,
-      'm-btn-ghost': ghost,
-      'm-btn-row': row,
-      'm-btn-line': !row,
-      'm-btn-disabled': disabled || btnLoading,
-      'm-btn-circle': circle,
-    },
-  ]" @click="clickDebounceRes.run">
+  <view
+    :class="[
+      'm-btn',
+      buttonType,
+      buttonSize,
+      {
+        'm-btn-loading': btnLoading,
+        'm-btn-outline': outline,
+        'm-btn-ghost': ghost,
+        'm-btn-row': row,
+        'm-btn-line': !row,
+        'm-btn-disabled': disabled || btnLoading,
+        'm-btn-circle': circle,
+      },
+    ]"
+    @click="clickDebounceRes.run"
+  >
     <template v-if="btnLoading">
       <!-- 在这里可以放置 Loading 图标 -->
-      <m-icon type="icon-Loading" :size="32" :color="type === 'default' ? 'grey-9' : 'grey-1'"
-        class="anticon anticon-spin block mr-8" />
+      <m-icon
+        type="icon-Loading"
+        :size="32"
+        :color="type === 'default' ? 'grey-9' : 'grey-1'"
+        class="anticon anticon-spin block mr-8"
+      />
     </template>
     <template v-if="!btnLoading">
-      <m-icon v-if="icon" :type="icon" :size="size === 'small' ? 24 : size === 'large' ? 40 : 36"
-        :color="type === 'default' ? 'grey-9' : 'grey-1'" class="block mr-8 icon-warp" />
+      <m-icon
+        v-if="icon"
+        :type="icon"
+        :size="size === 'small' ? 24 : size === 'large' ? 40 : 36"
+        :color="type === 'default' ? 'grey-9' : 'grey-1'"
+        class="block mr-8 icon-warp"
+      />
       <slot name="icon">
         <!-- 在这里可以放置默认图标显示 -->
       </slot>
@@ -32,14 +44,21 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
-import { useDebounceFn } from 'vue-hooks-plus';
-import type { TIcon } from '../m-icon/icon-map';
+import { ref, watch } from "vue";
+import { useDebounceFn } from "vue-hooks-plus";
+import type { TIcon } from "../m-icon/icon-map";
 
 const props = withDefaults(
   defineProps<{
-    type?: 'primary' | 'default' | 'danger' | 'success' | 'warning' | 'green' | 'text';
-    size?: 'large' | 'default' | 'small';
+    type?:
+      | "primary"
+      | "default"
+      | "danger"
+      | "success"
+      | "warning"
+      | "green"
+      | "text";
+    size?: "large" | "default" | "small";
     loading?: boolean;
     disabled?: boolean;
     icon?: TIcon;
@@ -51,8 +70,8 @@ const props = withDefaults(
     handleClick?: (e: any) => void | Promise<void>;
   }>(),
   {
-    type: 'default',
-    size: 'default',
+    type: "default",
+    size: "default",
     loading: false,
     disabled: false,
     icon: undefined,
@@ -61,23 +80,23 @@ const props = withDefaults(
     row: true,
     inline: false,
     handleClick: undefined,
-  },
+  }
 );
 
-const buttonType = props.type ? `m-btn-${props.type}` : '';
-const buttonSize = props.size ? `m-btn-${props.size}` : '';
+const buttonType = props.type ? `m-btn-${props.type}` : "";
+const buttonSize = props.size ? `m-btn-${props.size}` : "";
 const btnLoading = ref(props.loading);
 
 watch(
   () => props.loading,
   (val) => {
-    console.log('watch  val', val);
+    console.log("watch  val", val);
 
     btnLoading.value = val;
-  },
+  }
 );
 
-const emit = defineEmits(['click']);
+const emit = defineEmits(["click"]);
 
 const handleClickBar = async (e: any) => {
   if (btnLoading.value || props.disabled) {
@@ -92,7 +111,7 @@ const handleClickBar = async (e: any) => {
       btnLoading.value = false;
     }
   } else {
-    emit('click', e);
+    emit("click", e);
     btnLoading.value = false;
   }
 };
@@ -128,7 +147,6 @@ const clickDebounceRes = useDebounceFn(handleClickBar, {
   }
 }
 
-
 .m-btn-primary {
   background-color: var(--v-color-primary-7);
   color: #fff;
@@ -150,9 +168,9 @@ const clickDebounceRes = useDebounceFn(handleClickBar, {
 }
 
 .m-btn-danger {
-  background-color: var(--v-color-error-7);
+  background-color: var(--v-color-danger-7);
   color: #fff;
-  border-color: var(--v-color-error-7);
+  border-color: var(--v-color-danger-7);
 
   .anticon {
     color: #fff;
@@ -184,7 +202,6 @@ const clickDebounceRes = useDebounceFn(handleClickBar, {
   background-color: transparent;
   color: var(--v-color-grey-7);
 }
-
 
 .m-btn-loading {
   cursor: not-allowed;
@@ -237,7 +254,7 @@ const clickDebounceRes = useDebounceFn(handleClickBar, {
   }
 
   &.m-btn-danger {
-    color: var(--v-color-error-7);
+    color: var(--v-color-danger-7);
   }
 
   &.m-btn-success {
@@ -261,7 +278,6 @@ const clickDebounceRes = useDebounceFn(handleClickBar, {
   &::v-deep .icon-warp .bta-icon {
     color: currentColor;
   }
-
 }
 
 .m-btn-ghost {
@@ -269,15 +285,14 @@ const clickDebounceRes = useDebounceFn(handleClickBar, {
   border: 1rpx solid transparent;
   color: currentColor;
 
-
   &.m-btn-primary {
     color: var(--v-color-primary-8);
     background-color: var(--v-color-primary-3);
   }
 
   &.m-btn-danger {
-    color: var(--v-color-error-8);
-    background-color: var(--v-color-error-3);
+    color: var(--v-color-danger-8);
+    background-color: var(--v-color-danger-3);
   }
 
   &.m-btn-success {
@@ -298,7 +313,6 @@ const clickDebounceRes = useDebounceFn(handleClickBar, {
   &::v-deep .icon-warp .bta-icon {
     color: currentColor;
   }
-
 }
 
 .m-btn-circle {

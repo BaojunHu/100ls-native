@@ -61,16 +61,14 @@
 
       <!-- 权益提示 -->
       <view class="benefits-preview">
-        <view class="benefit-tag">🎵 畅听经典</view>
-        <view class="benefit-tag">🔍 语法分析</view>
-        <view class="benefit-tag">⭐ 无限收藏</view>
-        <view class="benefit-tag">🔄 AB复读</view>
-        <view class="benefit-tag">💬 单句循环</view>
+        <view v-for="item in featureCards" :key="item.type" class="benefit-tag">
+          {{ item.emoji }} {{ item.text }}
+        </view>
       </view>
 
       <!-- 关闭按钮 -->
       <view class="close-button" @click="onClose">
-        <text class="close-text">我知道了</text>
+        <text class="close-text">开启旅程</text>
       </view>
     </view>
   </view>
@@ -84,12 +82,19 @@ interface Props {
   show: boolean;
   message?: string;
   subtitle?: string;
+  featureCards?: Array<{
+    type: string;
+    emoji: string;
+    text: string;
+    icon: string;
+  }>;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   show: false,
   message: "激活成功！",
   subtitle: "恭喜您成为VIP会员",
+  featureCards: () => [],
 });
 
 // Emits
@@ -308,8 +313,9 @@ onUnmounted(() => {
 
 .success-icon-container {
   position: relative;
-  margin-bottom: 60rpx;
   animation: success-icon-appear 0.8s ease-out 0.3s both;
+  width: max-content;
+  margin: 0 auto 60rpx;
 }
 
 @keyframes success-icon-appear {
@@ -567,6 +573,21 @@ onUnmounted(() => {
 }
 .benefit-tag:nth-child(5) {
   animation-delay: 0.8s;
+}
+.benefit-tag:nth-child(6) {
+  animation-delay: 1s;
+}
+.benefit-tag:nth-child(7) {
+  animation-delay: 1.2s;
+}
+.benefit-tag:nth-child(8) {
+  animation-delay: 1.4s;
+}
+.benefit-tag:nth-child(9) {
+  animation-delay: 1.6s;
+}
+.benefit-tag:nth-child(10) {
+  animation-delay: 1.8s;
 }
 
 @keyframes benefit-tag-float {

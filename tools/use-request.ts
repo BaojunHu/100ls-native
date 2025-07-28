@@ -1,10 +1,10 @@
-import { sleep } from '@flatbiz/utils';
-import { useRequest } from 'vue-hooks-plus';
+import { sleep } from "@flatbiz/utils";
+import { useRequest } from "vue-hooks-plus";
 import type {
   UseRequestOptions,
   useRequestResult,
   UseRequestService,
-} from 'vue-hooks-plus/lib/useRequest/types';
+} from "vue-hooks-plus/lib/useRequest/types";
 
 interface CustomOptions<R, P extends any[]> extends UseRequestOptions<R, P> {}
 
@@ -20,9 +20,15 @@ export function useMRequest<R, P extends any[]>(
   options?: CustomOptions<R, P> & {
     showLoading?: boolean;
     showErrorMessage?: boolean;
-  },
+  }
 ): useRequestResult<R, P> {
-  const { showLoading = false, onBefore, onFinally, onError, showErrorMessage = true } = options || {};
+  const {
+    showLoading = false,
+    onBefore,
+    onFinally,
+    onError,
+    showErrorMessage = true,
+  } = options || {};
 
   const customOptions: CustomOptions<R, P> = {
     ...options,
@@ -30,7 +36,7 @@ export function useMRequest<R, P extends any[]>(
       if (showLoading) {
         // 显示全屏 loading
         void uni.showLoading({
-          title: 'Loading',
+          title: "Loading",
           mask: true,
         });
       }
@@ -47,8 +53,8 @@ export function useMRequest<R, P extends any[]>(
     onError: (error: Error, params: P) => {
       if (showErrorMessage) {
         void uni.showToast({
-          title: error?.message || '请求失败',
-          icon: 'none',
+          title: error?.message || "请求失败",
+          icon: "none",
           duration: 500,
         });
       }
@@ -59,5 +65,3 @@ export function useMRequest<R, P extends any[]>(
 
   return useRequest<R, P>(service, customOptions);
 }
-
-

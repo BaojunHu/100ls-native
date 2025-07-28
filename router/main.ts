@@ -7,6 +7,7 @@ import type {
 } from "./constants";
 import { isPlainObject } from "@dimjs/lang";
 import { HomeHistoryResponse, LinkTypeEnum, TSubtitle } from "@/services/home";
+import { getEnvironment } from "@/tools/get-environment";
 
 // export type NavigateToType<
 //   BC extends keyof ReType & RouterKey,
@@ -41,6 +42,9 @@ type NavigateToParams<P extends RouterKey> = {
   animationType?: UniApp.NavigateToOptions["animationType"];
   animationDuration?: number;
   events?: object;
+  success?: (res: any) => void;
+  fail?: (res: any) => void;
+  complete?: (res: any) => void;
 };
 
 export type NavigateBackType<
@@ -71,6 +75,9 @@ const navigateTo = <
   animationType,
   animationDuration,
   events,
+  success,
+  fail,
+  complete,
 }: NavigateToParams<BC>) => {
   const eventID = uuid(); // 事件标识
 
@@ -105,16 +112,25 @@ const navigateTo = <
     case "redirectTo":
       void uni.redirectTo({
         url,
+        success,
+        fail,
+        complete,
       });
       break;
     case "reLaunch":
       void uni.reLaunch({
         url,
+        success,
+        fail,
+        complete,
       });
       break;
     case "switchTab":
       void uni.switchTab({
         url,
+        success,
+        fail,
+        complete,
       });
       break;
     default:
@@ -138,6 +154,8 @@ const navigateTo = <
             });
           }
         },
+        fail,
+        complete,
       });
       break;
   }
@@ -209,11 +227,23 @@ export type TVideoPlayerParams = {
 };
 
 export const navigateVideoPlayer = (data: TVideoPlayerParams) => {
-  // let targetUrl = "http://localhost:8083";
-  let targetUrl = "http://172.20.10.4:8083";
-  // let targetUrl = "/hybrid/html/h5/index.html";
+  // const dev = getEnvironment();
   // let targetUrl = "http://1.116.101.175/spa-app/index.html";
 
+  // switch (dev) {
+  //   case "debug":
+  //   case "development":
+  //     targetUrl = "http://192.168.0.137:8083";
+  //     break;
+  //   default:
+  //     targetUrl = "http://1.116.101.175/spa-app/index.html";
+  //     break;
+  // }
+
+  // let targetUrl = "http://localhost:8083";
+  // let targetUrl = "http://172.20.10.4:8083";
+  // let targetUrl = "/hybrid/html/h5/index.html";
+  let targetUrl = "http://1.116.101.175/spa-app/index.html";
   navigateToWebview(targetUrl, data);
 };
 

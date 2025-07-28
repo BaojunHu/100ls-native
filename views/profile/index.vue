@@ -68,7 +68,7 @@
                 }}</view>
                 <m-icon
                   type="icon-edit"
-                  size="36"
+                  :size="36"
                   :color="isNight ? 'grey-1' : 'grey-9'"
                 />
               </view>
@@ -165,7 +165,7 @@
       <scroll-view scroll-y class="enrolled-scroll">
         <view class="enrolled-container">
           <!-- 骨架屏 loading -->
-          <template v-if="isEnrolledLoading">
+          <template v-if="isEnrolledLoading || favoritesLoading">
             <view
               v-for="index in 3"
               :key="index"
@@ -195,15 +195,23 @@
               v-for="item in courses"
               :key="item.resourceCode"
               class="course-item"
-              @click="onCourseTap(item.resourceCode)"
+              @click="onCourseTap(item)"
             >
-              <view
-                class="course-image"
-                :style="`background-image: url(${item.imageUrl});`"
-              ></view>
+              <view class="course-image-container">
+                <view
+                  class="course-image"
+                  :style="`background-image: url(${item.imageUrl});`"
+                ></view>
+                <view class="play-overlay">
+                  <view class="play-icon">▶</view>
+                </view>
+              </view>
               <view class="course-details">
                 <text class="course-name">{{ item.title }}</text>
                 <text class="course-desc">{{ item.shortDesc || "" }}</text>
+              </view>
+              <view class="course-arrow">
+                <text class="arrow-icon">›</text>
               </view>
             </view>
           </template>
@@ -212,134 +220,19 @@
     </view>
 
     <!-- 会员激活中心 -->
-    <view v-if="showRedeemModal" class="modern-modal-wrapper">
-      <view class="modern-modal-backdrop" @click="toggleRedeemModal"></view>
-      <view class="modern-modal-panel">
-        <!-- 头部区域 -->
-        <view class="modal-header">
-          <view class="header-icon">
-            <text class="icon-vip">👑</text>
-          </view>
-          <view class="header-content">
-            <text class="header-title">升级会员</text>
-            <text class="header-subtitle">输入激活码享受专属权益</text>
-          </view>
-          <view class="header-close" @click="toggleRedeemModal">
-            <text class="close-icon">✕</text>
-          </view>
-        </view>
-
-        <!-- 激活码输入区域 -->
-        <view class="activation-section">
-          <view class="section-label">
-            <text class="label-text">激活码</text>
-            <text class="label-tip">请输入4位激活码</text>
-          </view>
-          <view class="code-input-group">
-            <input
-              v-for="(item, index) in 4"
-              :key="index"
-              :class="`code-input-box ${
-                redeemCode.length === index && isCodeFocus ? 'is-input' : ''
-              } ${redeemCode.length >= index + 1 ? 'has-value' : ''} ${
-                redeemError ? 'has-error' : ''
-              }`"
-              placeholder="-"
-              type="text"
-              disabled
-              :value="redeemCode.length >= index + 1 ? redeemCode[index] : ''"
-              @click="onCodeTap"
-            />
-          </view>
-
-          <!-- 客服联系内嵌 -->
-          <view class="support-inline">
-            <text class="support-text">没有激活码？</text>
-            <m-button
-              type="text"
-              size="small"
-              :handleClick="contactCustomerService"
-              class="support-link"
-            >
-              联系客服获取
-            </m-button>
-          </view>
-
-          <!-- 错误提示区域 -->
-          <view
-            v-if="redeemError"
-            :class="`error-message ${redeemError ? 'show-error' : ''}`"
-          >
-            <view class="error-icon">⚠️</view>
-            <text class="error-text">{{ redeemErrorMessage }}</text>
-          </view>
-          <!-- 隐藏的真实输入框 -->
-          <input
-            class="hidden-input"
-            type="text"
-            maxlength="4"
-            :focus="isCodeFocus"
-            @input="onHiddenInput"
-            @blur="onHiddenBlur"
-            v-model="redeemCode"
-          />
-        </view>
-
-        <!-- 快捷操作区域 -->
-        <view class="quick-actions">
-          <view class="action-item" @click="onPasteFromClipboard">
-            <text class="action-icon">📋</text>
-            <text class="action-text">粘贴</text>
-          </view>
-          <view class="action-item" @click="onClearCode">
-            <text class="action-icon">🗑️</text>
-            <text class="action-text">清空</text>
-          </view>
-        </view>
-
-        <!-- 权益展示 -->
-        <view class="benefits-section">
-          <text class="benefits-title">🌟 专属会员特权</text>
-          <scroll-view scroll-x class="benefits-scroll">
-            <view class="benefits-list">
-              <view
-                v-for="item in featureCards"
-                :key="item.type"
-                class="benefit-item"
-              >
-                <text class="benefit-text">{{ item.text }}</text>
-              </view>
-            </view>
-          </scroll-view>
-        </view>
-
-        <!-- 底部操作按钮 -->
-        <view class="modal-footer">
-          <m-button
-            type="default"
-            size="large"
-            :handleClick="toggleRedeemModal"
-            class="action-btn secondary-btn"
-          >
-            稍后再说
-          </m-button>
-          <m-button
-            type="primary"
-            size="large"
-            :handleClick="confirmRedeem"
-            class="action-btn primary-btn"
-          >
-            立即激活
-          </m-button>
-        </view>
-      </view>
-    </view>
+    <RedeemModal
+      :show="showRedeemModal"
+      :featureCards="featureCards"
+      @close="toggleRedeemModal"
+      @success="handleRedeemSuccess"
+    />
 
     <!-- 激活成功动画组件 -->
     <SuccessAnimation
       :show="showSuccessAnimation"
       message="激活成功！"
       subtitle="恭喜您成为VIP会员，现在可以享受所有专属权益"
+      :featureCards="featureCards"
       @animationEnd="onSuccessAnimationEnd"
     />
 
@@ -352,13 +245,16 @@
 import { ref, onMounted } from "vue";
 import { onShow } from "@dcloudio/uni-app";
 import { getAuthToken, getUserInfo, setUserInfo } from "@/tools/user-info";
-import { navigateTo } from "@/router/main";
+import { navigateTo, navigateVideoPlayer } from "@/router/main";
 import { RouterEnum } from "@/router/constants";
 import { profileServices } from "@/services/profile";
 import { useMRequest } from "@/tools/use-request";
 import SuccessAnimation from "./components/success-animation.vue";
 import MButton from "@/components/m-button/m-button.vue";
+import MIcon from "@/components/m-icon/m-icon.vue";
 import EditModal from "./components/edit.vue";
+import RedeemModal from "./components/redeem-modal.vue";
+import { HomeHistoryRow, LinkTypeEnum } from "@/services/home";
 
 // 响应式数据
 const statusBarHeight = ref(0); // 状态栏高度（rpx）
@@ -366,10 +262,6 @@ const scrollHeight = ref(0); // 滚动区域高度（rpx）
 const courses = ref<any[]>([]); // 收藏课程列表
 const isVip = ref(false); // 是否为VIP用户
 const showRedeemModal = ref(false); // 是否显示兑换中心弹窗
-const redeemCode = ref(""); // 激活码输入值
-const isCodeFocus = ref(true); // 是否聚焦激活码输入框
-const redeemError = ref(false); // 是否有激活码错误
-const redeemErrorMessage = ref(""); // 错误信息
 const showSuccessAnimation = ref(false); // 是否显示成功动画
 const userInfo = ref<any>(null); // 用户信息
 const memberName = ref(""); // 用户名
@@ -387,7 +279,7 @@ const featureCards = ref([
   {
     type: "classic",
     emoji: "🎵",
-    text: "畅听经典",
+    text: "全课程点播",
     icon: "classic-icon",
   },
   {
@@ -453,6 +345,12 @@ const setDayNightMode = () => {
 };
 
 // 获取用户信息
+const { runAsync: fetchUserInfoRequest, loading: userInfoLoading } =
+  useMRequest(profileServices.getUserInfo, {
+    manual: true,
+    showErrorMessage: false,
+  });
+
 const fetchUserInfo = async () => {
   const token = getAuthToken();
 
@@ -462,7 +360,7 @@ const fetchUserInfo = async () => {
   }
 
   try {
-    const res = await profileServices.getUserInfo();
+    const res = await fetchUserInfoRequest();
     // 预处理 crtTime，提取年份
     const crtTimeValue = res.crtTime || "";
     const crtYear =
@@ -490,6 +388,17 @@ const fetchUserInfo = async () => {
 };
 
 // 获取收藏列表
+const { runAsync: fetchFavoritesRequest, loading: favoritesLoading } =
+  useMRequest(
+    async (params: { pageNo: number; pageSize: number }) => {
+      return await profileServices.getFavoritesList(params);
+    },
+    {
+      manual: true,
+      showErrorMessage: false,
+    }
+  );
+
 const fetchFavorites = async () => {
   const token = getAuthToken();
   if (!token) {
@@ -499,7 +408,7 @@ const fetchFavorites = async () => {
 
   isEnrolledLoading.value = true;
   try {
-    const data = await profileServices.getFavoritesList({
+    const data = await fetchFavoritesRequest({
       pageNo: 1,
       pageSize: 10,
     });
@@ -552,8 +461,8 @@ const onAvatarTap = () => {
 };
 
 // 点击收藏课程跳转逻辑
-const onCourseTap = (id: string) => {
-  if (!id) {
+const onCourseTap = (item: HomeHistoryRow) => {
+  if (!item.resourceCode) {
     uni.showToast({
       title: "课程ID无效",
       icon: "none",
@@ -561,9 +470,10 @@ const onCourseTap = (id: string) => {
     });
     return;
   }
-  // navigateTo({
-  //   path: `/views/course/detail?id=${id}`,
-  // });
+  navigateVideoPlayer({
+    resourceCode: item.resourceCode,
+    linkType: item.linkType || LinkTypeEnum.VIDEO,
+  });
 };
 
 // 功能卡片点击
@@ -575,20 +485,20 @@ const onFeatureTap = (type: string) => {
     return;
   }
 
-  switch (type) {
-    case "classic":
-    case "grammar":
-    case "translate":
-    case "repeat":
-    case "subtitle":
-      uni.showToast({
-        title: `${type}功能开发中`,
-        icon: "none",
-      });
-      break;
-    default:
-      break;
-  }
+  // switch (type) {
+  //   case "classic":
+  //   case "grammar":
+  //   case "translate":
+  //   case "repeat":
+  //   case "subtitle":
+  //     uni.showToast({
+  //       title: `${type}功能开发中`,
+  //       icon: "none",
+  //     });
+  //     break;
+  //   default:
+  //     break;
+  // }
 };
 
 // 升级按钮点击处理
@@ -620,166 +530,24 @@ const handleEditSaveSuccess = (updatedUserInfo: any) => {
   });
 };
 
+// 处理激活成功
+const handleRedeemSuccess = () => {
+  // 关闭激活弹窗
+  toggleRedeemModal();
+  // 显示成功动画
+  showSuccessAnimation.value = true;
+  // 重新获取用户信息
+  fetchUserInfo();
+};
+
 // 切换兑换中心弹窗显示状态
 const toggleRedeemModal = () => {
   showRedeemModal.value = !showRedeemModal.value;
-  redeemCode.value = ""; // 清空激活码输入
-  isCodeFocus.value = true; // 自动聚焦
-
-  // 清除错误状态
-  clearRedeemError();
-};
-
-// 设置激活码错误状态
-const setRedeemError = (errorMessage: string) => {
-  redeemError.value = true;
-  redeemErrorMessage.value = errorMessage;
-};
-
-// 清除激活码错误状态
-const clearRedeemError = () => {
-  redeemError.value = false;
-  redeemErrorMessage.value = "";
-};
-
-// 处理隐藏输入框的输入
-const onHiddenInput = (e: any) => {
-  const value = e.detail.value;
-  // 只允许输入数字和字母，并转为大写，限制4位
-  const filteredValue = value
-    .replace(/[^a-zA-Z0-9]/g, "")
-    .toUpperCase()
-    .slice(0, 4);
-
-  // 清除错误状态（当用户开始输入新内容时）
-  if (redeemError.value && filteredValue !== redeemCode.value) {
-    clearRedeemError();
-  }
-
-  redeemCode.value = filteredValue;
-};
-
-// 处理隐藏输入框失去焦点
-const onHiddenBlur = () => {
-  isCodeFocus.value = false;
-};
-
-// 处理点击显示框重新聚焦
-const onCodeTap = () => {
-  isCodeFocus.value = true;
-};
-
-// 从剪贴板粘贴激活码
-const onPasteFromClipboard = () => {
-  uni.getClipboardData({
-    success: (res: any) => {
-      const clipboardText = res.data || "";
-      // 去除前后空格
-      const trimmedText = clipboardText.trim();
-      // 只允许数字和字母，并转为大写，限制4位
-      const filteredText = trimmedText
-        .replace(/[^a-zA-Z0-9]/g, "")
-        .toUpperCase()
-        .slice(0, 4);
-
-      if (filteredText.length === 0) {
-        setRedeemError("剪贴板中没有有效的激活码");
-        return;
-      }
-
-      // 清除错误状态
-      clearRedeemError();
-
-      redeemCode.value = filteredText;
-      isCodeFocus.value = true;
-
-      uni.showToast({
-        title: "已粘贴激活码",
-        icon: "success",
-        duration: 1000,
-      });
-    },
-    fail: (err: any) => {
-      console.error("获取剪贴板内容失败:", err);
-      setRedeemError("无法获取剪贴板内容");
-    },
-  });
-};
-
-// 清空激活码输入
-const onClearCode = () => {
-  redeemCode.value = "";
-  isCodeFocus.value = true;
-
-  // 清除错误状态
-  clearRedeemError();
-};
-
-// 确认激活码
-const confirmRedeem = async () => {
-  const token = getAuthToken();
-
-  // 清除之前的错误状态
-  clearRedeemError();
-
-  if (!redeemCode.value || redeemCode.value.length < 4) {
-    setRedeemError("请输入完整的4位激活码");
-    return;
-  }
-
-  // 显示加载提示
-  uni.showLoading({
-    title: "激活中...",
-    mask: true,
-  });
-
-  try {
-    const res = await profileServices.activateCode({
-      code: redeemCode.value,
-    });
-
-    uni.hideLoading();
-
-    if (res.code !== "000") {
-      // 先关闭弹窗
-      isVip.value = true;
-      showRedeemModal.value = false;
-      redeemCode.value = "";
-      isCodeFocus.value = false;
-      redeemError.value = false;
-      redeemErrorMessage.value = "";
-
-      // 刷新用户信息
-      fetchUserInfo();
-
-      // 延迟一下显示成功动画，让弹窗关闭动画完成
-      setTimeout(() => {
-        showSuccessAnimation.value = true;
-      }, 300);
-    } else {
-      // 显示详细的错误信息
-      let errorMessage = res.message || "无效的激活码";
-      setRedeemError(errorMessage);
-    }
-  } catch (err) {
-    uni.hideLoading();
-    console.error("激活码请求失败:", err);
-    setRedeemError("网络连接失败，请检查网络后重试");
-  }
 };
 
 // 成功动画结束回调
 const onSuccessAnimationEnd = () => {
   showSuccessAnimation.value = false;
-};
-
-// 联系客服
-const contactCustomerService = () => {
-  uni.showToast({
-    title: "正在联系客服...",
-    icon: "none",
-    duration: 2000,
-  });
 };
 
 // 页面加载时初始化
@@ -794,7 +562,6 @@ onMounted(() => {
 onShow(() => {
   setDayNightMode(); // 重新设置日夜模式和状态栏颜色
   fetchUserInfo();
-
   fetchFavorites();
 });
 </script>
@@ -803,7 +570,8 @@ onShow(() => {
 /* 页面整体样式 */
 .page {
   background-color: var(--v-color-grey-3);
-  min-height: 100vh;
+  // min-height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   font-family: "PingFang SC", "Helvetica Neue", Arial, sans-serif;
@@ -1937,57 +1705,156 @@ onShow(() => {
 
 /* 收藏课程 */
 .enrolled-section {
-  padding: 0 24rpx 24rpx;
+  display: flex;
+  flex-direction: column;
+  padding: 24rpx 24rpx 0 24rpx;
   flex: 1;
-  background-color: var(--v-color-grey-1);
-  border-radius: 16rpx 16rpx 0 0;
+  background: linear-gradient(
+    135deg,
+    var(--v-color-grey-1) 0%,
+    rgba(255, 102, 9, 0.02) 100%
+  );
+  border-radius: 24rpx 24rpx 0 0;
   margin-top: 8rpx;
+  box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.enrolled-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4rpx;
+  background: linear-gradient(
+    90deg,
+    var(--v-color-primary-7),
+    var(--v-color-primary-8),
+    var(--v-color-primary-7)
+  );
 }
 
 .enrolled-title {
   font-size: 32rpx;
   font-weight: 700;
-  padding: 24rpx 0 16rpx;
+  padding: 32rpx 0 20rpx;
   line-height: 1.2;
   color: var(--v-color-primary-7);
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.enrolled-title::before {
+  content: "📚";
+  font-size: 28rpx;
 }
 
 .enrolled-scroll {
-  background-color: var(--v-color-grey-1);
-  border-radius: 8rpx;
-  max-height: 400rpx;
+  background: transparent;
+  border-radius: 12rpx;
+  flex: 1;
+  height: 100%;
   min-height: 200rpx;
+  padding: 8rpx 0;
 }
 
 .enrolled-container {
-  padding-bottom: 12rpx;
+  padding-bottom: 16rpx;
 }
 
 .course-item {
   display: flex;
   align-items: center;
-  gap: 16rpx;
-  padding: 12rpx 8rpx;
-  border-radius: 8rpx;
-  transition: all 0.2s ease;
-  margin-bottom: 8rpx;
+  gap: 20rpx;
+  padding: 20rpx 16rpx;
+  border-radius: 16rpx;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 12rpx;
+  background: linear-gradient(
+    135deg,
+    var(--v-color-grey-1) 0%,
+    rgba(255, 102, 9, 0.02) 100%
+  );
+  border: 1rpx solid rgba(255, 102, 9, 0.08);
+  position: relative;
+  overflow: hidden;
 }
 
-.course-item:hover {
-  background-color: rgba(255, 102, 9, 0.03);
-  transform: translateX(4rpx);
-  border-left: 3rpx solid var(--v-color-primary-7);
+.course-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    rgba(255, 102, 9, 0.03) 50%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.course-item:active {
+  transform: translateY(2rpx) scale(0.98);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 102, 9, 0.05) 0%,
+    rgba(255, 102, 9, 0.08) 100%
+  );
+  border-color: rgba(255, 102, 9, 0.2);
+  box-shadow: 0 4rpx 16rpx rgba(255, 102, 9, 0.15),
+    0 2rpx 8rpx rgba(255, 102, 9, 0.1);
+}
+
+.course-item:active::before {
+  opacity: 1;
 }
 
 .course-image {
-  width: 120rpx;
-  height: 72rpx;
-  min-width: 120rpx;
+  width: 140rpx;
+  height: 84rpx;
+  min-width: 140rpx;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  border-radius: 6rpx;
-  box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.06);
+  border-radius: 12rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1), 0 2rpx 6rpx rgba(0, 0, 0, 0.06);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.course-image::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.course-item:active .course-image {
+  transform: scale(1.05);
+  box-shadow: 0 6rpx 20rpx rgba(0, 0, 0, 0.15), 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+}
+
+.course-item:active .course-image::before {
+  opacity: 1;
 }
 
 .course-details {
@@ -1995,28 +1862,158 @@ onShow(() => {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 4rpx;
+  gap: 8rpx;
   min-width: 0;
   overflow: hidden;
+  position: relative;
+  z-index: 1;
 }
 
 .course-name {
-  font-size: 26rpx;
+  font-size: 28rpx;
   font-weight: 600;
   color: var(--v-color-grey-9);
-  line-height: 1.3;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.course-desc {
-  font-size: 22rpx;
-  color: var(--v-color-grey-7);
   line-height: 1.4;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  transition: color 0.3s ease;
+  text-shadow: 0 1rpx 2rpx rgba(0, 0, 0, 0.05);
+}
+
+.course-desc {
+  font-size: 24rpx;
+  color: var(--v-color-grey-7);
+  line-height: 1.5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 0.3s ease;
+  opacity: 0.85;
+}
+
+.course-item:active .course-name {
+  color: var(--v-color-primary-7);
+}
+
+.course-item:active .course-desc {
+  color: var(--v-color-primary-6);
+  opacity: 1;
+}
+
+/* 课程图片容器 */
+.course-image-container {
+  position: relative;
+  width: 140rpx;
+  height: 84rpx;
+  min-width: 140rpx;
+  border-radius: 12rpx;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* 播放覆盖层 */
+.play-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(2rpx);
+}
+
+.play-icon {
+  width: 32rpx;
+  height: 32rpx;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--v-color-primary-7);
+  font-size: 16rpx;
+  font-weight: bold;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.2);
+  transform: scale(0.8);
+  transition: all 0.3s ease;
+}
+
+.course-item:active .play-overlay {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.course-item:active .play-icon {
+  transform: scale(1);
+  background: var(--v-color-primary-7);
+  color: white;
+  box-shadow: 0 4rpx 12rpx rgba(255, 102, 9, 0.4);
+}
+
+/* 箭头指示器 */
+.course-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40rpx;
+  height: 40rpx;
+  opacity: 0.3;
+  transition: all 0.3s ease;
+}
+
+.arrow-icon {
+  font-size: 32rpx;
+  color: var(--v-color-grey-6);
+  font-weight: 300;
+  transition: all 0.3s ease;
+}
+
+.course-item:active .course-arrow {
+  opacity: 1;
+  transform: translateX(4rpx);
+}
+
+.course-item:active .arrow-icon {
+  color: var(--v-color-primary-7);
+  font-weight: 500;
+}
+
+/* 课程项动画效果 */
+@keyframes courseItemFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.course-item {
+  animation: courseItemFadeIn 0.6s ease-out;
+}
+
+.course-item:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.course-item:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.course-item:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.course-item:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.course-item:nth-child(5) {
+  animation-delay: 0.5s;
 }
 
 /* 优化后的骨架屏样式 */
@@ -2150,372 +2147,6 @@ onShow(() => {
   font-size: 26rpx;
   color: var(--v-color-grey-6);
   margin-top: 8rpx;
-}
-
-/* 现代化模态框样式 */
-.modern-modal-wrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 32rpx;
-  animation: modalFadeIn 0.3s ease-out;
-}
-
-.modern-modal-backdrop {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
-  backdrop-filter: blur(8rpx);
-}
-
-.modern-modal-panel {
-  background: linear-gradient(
-    145deg,
-    var(--v-color-grey-1),
-    var(--v-color-grey-2)
-  );
-  border-radius: 24rpx;
-  width: 100%;
-  max-width: 600rpx;
-  position: relative;
-  z-index: 1001;
-  box-shadow: 0 20rpx 60rpx rgba(0, 0, 0, 0.15), 0 8rpx 24rpx rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  animation: modalSlideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-/* 动画效果 */
-@keyframes modalFadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes modalSlideUp {
-  from {
-    opacity: 0;
-    transform: translateY(60rpx) scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-.modal-header {
-  display: flex;
-  align-items: center;
-  padding: 32rpx 32rpx 24rpx;
-  background: linear-gradient(
-    135deg,
-    var(--v-color-primary-7),
-    var(--v-color-primary-8)
-  );
-  color: white;
-  position: relative;
-}
-
-.modal-header::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 4rpx;
-  background: linear-gradient(
-    90deg,
-    var(--v-color-primary-7),
-    var(--v-color-primary-8),
-    var(--v-color-primary-7)
-  );
-}
-
-.header-icon {
-  width: 56rpx;
-  height: 56rpx;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 16rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 16rpx;
-}
-
-.icon-vip {
-  font-size: 28rpx;
-}
-
-.header-content {
-  flex: 1;
-}
-
-.header-title {
-  display: block;
-  font-size: 32rpx;
-  font-weight: 600;
-  margin-bottom: 4rpx;
-}
-
-.header-subtitle {
-  display: block;
-  font-size: 24rpx;
-  opacity: 0.9;
-}
-
-.header-close {
-  width: 48rpx;
-  height: 48rpx;
-  border-radius: 12rpx;
-  background: rgba(255, 255, 255, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-}
-
-.header-close:active {
-  background: rgba(255, 255, 255, 0.3);
-  transform: scale(0.95);
-}
-
-.close-icon {
-  font-size: 24rpx;
-  font-weight: 500;
-}
-
-.activation-section {
-  padding: 40rpx;
-}
-
-.section-label {
-  margin-bottom: 30rpx;
-}
-
-.label-text {
-  font-size: 32rpx;
-  font-weight: 500;
-  color: var(--v-color-grey-9);
-  display: block;
-  margin-bottom: 8rpx;
-}
-
-.label-tip {
-  font-size: 24rpx;
-  color: var(--v-color-grey-7);
-  display: block;
-}
-
-.code-input-group {
-  display: flex;
-  gap: 20rpx;
-  margin-bottom: 30rpx;
-}
-
-.code-input-box {
-  flex: 1;
-  height: 100rpx;
-  border: 2rpx solid var(--v-color-grey-5);
-  border-radius: 16rpx;
-  text-align: center;
-  font-size: 36rpx;
-  font-weight: bold;
-  color: var(--v-color-grey-9);
-  background: var(--v-color-grey-2);
-  transition: all 0.3s ease;
-}
-
-.code-input-box.is-input {
-  border-color: var(--v-color-primary-7);
-  background: white;
-  box-shadow: 0 0 0 6rpx rgba(255, 102, 9, 0.1);
-}
-
-.code-input-box.has-value {
-  border-color: var(--v-color-primary-7);
-  background: white;
-  color: var(--v-color-primary-7);
-}
-
-.code-input-box.has-error {
-  border-color: var(--v-color-error-7);
-  background: var(--v-color-error-1);
-  color: var(--v-color-error-7);
-}
-
-.support-inline {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 30rpx;
-}
-
-.support-text {
-  font-size: 26rpx;
-  color: var(--v-color-grey-7);
-  margin-right: 20rpx;
-}
-
-.support-link {
-  background: none !important;
-  border: none !important;
-  color: var(--v-color-primary-7) !important;
-  font-size: 26rpx !important;
-  text-decoration: underline !important;
-  padding: 0 !important;
-  height: auto !important;
-}
-
-.error-message {
-  display: flex;
-  align-items: center;
-  background: var(--v-color-error-1);
-  border: 1rpx solid var(--v-color-error-3);
-  border-radius: 12rpx;
-  padding: 20rpx;
-  margin-bottom: 30rpx;
-  opacity: 0;
-  transform: translateY(-20rpx);
-  transition: all 0.3s ease;
-}
-
-.error-message.show-error {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.error-icon {
-  margin-right: 12rpx;
-  font-size: 32rpx;
-}
-
-.error-text {
-  font-size: 26rpx;
-  color: var(--v-color-error-7);
-  flex: 1;
-}
-
-.hidden-input {
-  position: absolute;
-  left: -9999rpx;
-  opacity: 0;
-}
-
-.quick-actions {
-  display: flex;
-  gap: 20rpx;
-  margin-bottom: 40rpx;
-}
-
-.action-item {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 30rpx;
-  background: var(--v-color-grey-2);
-  border-radius: 16rpx;
-  transition: all 0.3s ease;
-}
-
-.action-item:active {
-  transform: scale(0.95);
-  background: var(--v-color-grey-4);
-}
-
-.action-icon {
-  font-size: 36rpx;
-  margin-bottom: 12rpx;
-}
-
-.action-text {
-  font-size: 24rpx;
-  color: var(--v-color-grey-7);
-}
-
-.benefits-section {
-  padding: 28rpx 32rpx;
-  background: linear-gradient(
-    135deg,
-    var(--v-color-grey-2),
-    var(--v-color-grey-3)
-  );
-  position: relative;
-  overflow: hidden;
-}
-
-.benefits-section::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2rpx;
-  background: linear-gradient(
-    90deg,
-    var(--v-color-primary-7),
-    var(--v-color-primary-8),
-    var(--v-color-primary-7)
-  );
-}
-
-.benefits-title {
-  font-size: 28rpx;
-  font-weight: 500;
-  color: var(--v-color-grey-9);
-  display: block;
-  margin-bottom: 20rpx;
-}
-
-.benefits-scroll {
-  width: 100%;
-}
-
-.benefits-list {
-  display: flex;
-  width: max-content;
-  gap: 20rpx;
-}
-
-.benefit-item {
-  border: 1rpx solid var(--v-color-primary-5);
-
-  padding: 16rpx 24rpx;
-  border-radius: 20rpx;
-  white-space: nowrap;
-  font-size: 24rpx;
-  font-weight: 500;
-  box-shadow: 0 4rpx 12rpx rgba(255, 102, 9, 0.3);
-}
-
-.benefit-text {
-  color: var(--v-color-primary-5);
-}
-
-.modal-footer {
-  display: flex;
-  gap: 20rpx;
-  padding: 40rpx;
-  border-top: 1rpx solid var(--v-color-grey-4);
-}
-
-.action-btn {
-  flex: 1 !important;
-  height: 88rpx !important;
-  border-radius: 20rpx !important;
-  font-size: 32rpx !important;
-  font-weight: 500 !important;
 }
 
 /* 白天模式样式适配 */

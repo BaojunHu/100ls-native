@@ -5,6 +5,7 @@
       style="width: 100vw; height: 100vh"
       :src="url"
       @message="getMessage"
+      @error="handleWebViewError"
       :ref="webviewRef"
     ></web-view>
   </view>
@@ -42,7 +43,7 @@ const isLoading = ref(true);
 const isLoadFailed = ref(false);
 const url = ref("");
 const timeoutTimer = ref(null);
-const TIMEOUT_DURATION = 30000; // 30秒超时
+const TIMEOUT_DURATION = 60000; // 30秒超时
 
 // #ifndef APP
 isLoading.value = false;
@@ -54,7 +55,12 @@ const getMessage = (event) => {
   const action = event?.detail?.data?.[0]?.action;
 
   if (action === "loaded") {
+    console.log("WebView 加载完成，开始注入数据");
     handleOnLoad();
+  } else if (action === "error") {
+    console.error("WebView 加载失败:", event?.detail?.data?.[0]);
+    isLoadFailed.value = true;
+    isLoading.value = false;
   } else if (action === "back") {
     uni.navigateBack();
   } else if (action === "rotateWindow") {
@@ -68,17 +74,31 @@ const getMessage = (event) => {
 };
 
 const handleNavigate = (options) => {
+  // uni.showModal({
+  //   title: "navigateTo++++++++++-------",
+  //   content: JSON.stringify(options),
+  // });
   navigateTo(options);
+  // uni.switchTab({
+  //   url: "/views/profile/index",
+  // });
+};
+
+const handleWebViewError = (event) => {
+  console.error("WebView 加载错误:", event);
+  isLoadFailed.value = true;
+  isLoading.value = false;
+  clearTimeoutTimer();
 };
 
 const startTimeout = () => {
   // 清除之前的定时器
   if (timeoutTimer.value) {
-    window.clearTimeout(timeoutTimer.value);
+    clearTimeout(timeoutTimer.value);
   }
 
   // 设置30秒超时
-  timeoutTimer.value = window.setTimeout(() => {
+  timeoutTimer.value = setTimeout(() => {
     if (isLoading.value) {
       isLoading.value = false;
       isLoadFailed.value = true;
@@ -88,7 +108,7 @@ const startTimeout = () => {
 
 const clearTimeoutTimer = () => {
   if (timeoutTimer.value) {
-    window.clearTimeout(timeoutTimer.value);
+    clearTimeout(timeoutTimer.value);
     timeoutTimer.value = null;
   }
 };
@@ -111,36 +131,116 @@ const handleOnLoad = () => {
   isLoading.value = false;
   isLoadFailed.value = false;
 
-  const clientInfo = {
-    ...(uni.getSystemInfoSync() || {}),
-    // appVersion:
-  };
-  const appRouterMap = RouterEnum;
-
-  // 获取 WebView 上下文（兼容多平台）
-  // #ifdef APP-PLUS
-  // 在 Vue 3 Composition API 中，使用 getCurrentPages 获取当前页面实例
-  const pages = getCurrentPages();
-  const currentPage = pages[pages.length - 1];
-  const currentWebview = currentPage.$getAppWebview();
-
-  // 获取 WebView 子组件实例
-  const webInstance = currentWebview?.children?.()?.[0];
-  webviewRef.value = webInstance;
-
-  const authToken = getAuthToken();
-  const userInfo = getUserInfo();
-  // #endif
-
-  const appData = {
-    clientInfo: clientInfo,
-    appRouterMap: appRouterMap,
-    authToken,
-    userInfo: userInfo,
-  };
-  // 向 H5 的 window 注入变量
-  webviewRef.value?.evalJS(`window.appData = ${JSON.stringify(appData)}; `);
+  // // 延迟执行数据注入，确保 WebView 完全加载
+  // setTimeout(() => {
+  //   injectDataToWebView();
+  // }, 100); // 延迟 100ms 确保 WebView 完全加载
 };
+
+// 数据注入函数，支持重试机制
+// const injectDataToWebView = (retryCount = 0) => {
+//   const maxRetries = 3;
+
+//   try {
+//     const clientInfo = {
+//       ...(uni.getSystemInfoSync() || {}),
+//       // appVersion:
+//     };
+//     const appRouterMap = RouterEnum;
+
+//     // 获取 WebView 上下文（兼容多平台）
+//     // #ifdef APP-PLUS
+//     // 在 Vue 3 Composition API 中，使用 getCurrentPages 获取当前页面实例
+//     const pages = getCurrentPages();
+//     const currentPage = pages[pages.length - 1];
+//     const currentWebview = currentPage.$getAppWebview();
+
+//     // 获取 WebView 子组件实例
+//     const webInstance = currentWebview?.children?.()?.[0];
+//     webviewRef.value = webInstance;
+//     // #endif
+
+//     const authToken = getAuthToken();
+//     const userInfo = getUserInfo();
+
+//     const appData = {
+//       clientInfo: clientInfo,
+//       appRouterMap: appRouterMap,
+//       authToken,
+//       userInfo: userInfo,
+//     };
+
+//     // 安全地注入数据到 WebView
+//     if (webviewRef.value && webviewRef.value.evalJS) {
+//       try {
+//         // 先检查 WebView 是否已经准备好
+//         const checkReadyScript = `
+//           if (typeof window !== 'undefined' && document.readyState === 'complete') {
+//             window.appData = ${JSON.stringify(appData)};
+//             console.log('WebView 数据注入成功');
+//             true;
+//           } else {
+//             console.log('WebView 还未完全准备好，延迟注入');
+//             false;
+//           }
+//         `;
+
+//         webviewRef.value.evalJS(checkReadyScript);
+//         console.log("WebView 数据注入成功");
+//       } catch (evalError) {
+//         console.error("WebView evalJS 执行失败:", evalError);
+
+//         // 如果还有重试次数，延迟重试
+//         if (retryCount < maxRetries) {
+//           console.log(
+//             `数据注入失败，${500}ms 后重试 (${retryCount + 1}/${maxRetries})`
+//           );
+//           setTimeout(() => {
+//             injectDataToWebView(retryCount + 1);
+//           }, 500);
+//         } else {
+//           console.error("WebView 数据注入最终失败，已达到最大重试次数");
+//           // 尝试其他方式注入数据
+//           if (webviewRef.value.postMessage) {
+//             webviewRef.value.postMessage({
+//               data: {
+//                 type: "appData",
+//                 payload: appData,
+//               },
+//             });
+//           }
+//         }
+//       }
+//     } else {
+//       console.warn("WebView 实例不可用，无法注入数据");
+
+//       // 如果还有重试次数，延迟重试
+//       if (retryCount < maxRetries) {
+//         console.log(
+//           `WebView 实例不可用，${500}ms 后重试 (${
+//             retryCount + 1
+//           }/${maxRetries})`
+//         );
+//         setTimeout(() => {
+//           injectDataToWebView(retryCount + 1);
+//         }, 500);
+//       }
+//     }
+//   } catch (error) {
+//     console.error("WebView 数据注入过程中发生错误:", error);
+//     // 即使数据注入失败，也不应该影响页面显示
+
+//     // 如果还有重试次数，延迟重试
+//     if (retryCount < maxRetries) {
+//       console.log(
+//         `数据注入出错，${500}ms 后重试 (${retryCount + 1}/${maxRetries})`
+//       );
+//       setTimeout(() => {
+//         injectDataToWebView(retryCount + 1);
+//       }, 500);
+//     }
+//   }
+// };
 
 onLoad((options) => {
   const targetUrl = decodeURIComponent(options.url);
